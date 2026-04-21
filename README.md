@@ -1,2 +1,3 @@
 # wms-teste
-WMS — Controle de Prateleiras (refatorado em módulos ES6)
+
+WMS — Controle de Prateleiras refatorado em HTML, CSS e módulos ES6.
