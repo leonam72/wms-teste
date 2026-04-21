@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WMS — Controle de Prateleiras</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">WMS<span> // CONTROLE DE PRATELEIRAS</span></div>
+  <div class="header-actions">
+    <button class="btn btn-accent" onclick="openAddProductModal()">+ PRODUTO</button>
+    <button class="btn" onclick="openSettingsModal()">⚙ CONFIG</button>
+  </div>
+</header>
+
+<div id="depot-tabs-bar"></div>
+<div class="main">
+
+  <!-- ══ NAV RAIL ══ -->
+  <nav class="nav-rail">
+    <button class="nav-btn active" id="nav-depot"    onclick="showPage('depot')"    title="Depósito">🏭<span class="nav-label">DEPOT</span></button>
+    <button class="nav-btn"        id="nav-depots"   onclick="showPage('depots')"   title="Depósitos">🏢<span class="nav-label">DEPÓS.</span></button>
+    <button class="nav-btn"        id="nav-products" onclick="showPage('products')" title="Produtos">📦<span class="nav-label">PROD</span></button>
+    <div class="nav-sep"></div>
+    <button class="nav-btn"        id="nav-floorplan" onclick="showPage('floorplan')" title="Planta Baixa">🗺<span class="nav-label">PLANTA</span></button>
+    <button class="nav-btn"        id="nav-history"  onclick="showPage('history')"  title="Histórico">📋<span class="nav-label">HIST</span></button>
+  </nav>
+
+  <!-- ══ SIDEBAR ══ -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-resizer" id="sidebar-resizer"></div>
+
+    <div class="sidebar-tabs">
+      <div class="tab active" id="tab-products" onclick="switchTab('products-tab')">PRODUTOS</div>
+      <div class="tab" id="tab-shelves"  onclick="switchTab('shelves-tab')">PRATELEIRAS</div>
+    </div>
+
+    <!-- PRODUCTS TAB -->
+    <div class="tab-content active" id="products-tab">
+      <div class="product-search">
+        <input type="text" id="product-search-input" placeholder="BUSCAR PRODUTO..." oninput="renderProductTable()">
+      </div>
+      <div class="sb-filter-row" id="sb-filter-row">
+        <div class="sb-chip active" id="sbf-all"      onclick="setSbFilter('')">TODOS</div>
+        <div class="sb-chip danger" id="sbf-expired"  onclick="setSbFilter('expired')">VENC.</div>
+        <div class="sb-chip warn"   id="sbf-expiring" onclick="setSbFilter('expiring')">A VENCER</div>
+        <div class="sb-chip green"  id="sbf-multi"    onclick="setSbFilter('multi')">MULTI-LOC</div>
+        <div class="sb-chip"        id="sbf-none"     onclick="setSbFilter('none')">SEM VAL.</div>
+        <div class="sb-chip"        id="sbf-missing"  onclick="setSbFilter('missing')" title="Produtos sem localização definida">AUSENTES</div>
+      </div>
+      <div style="overflow-y:auto; flex:1; min-height:0;">
+        <table class="ptable" id="sidebar-ptable">
+          <thead>
+            <tr>
+              <th draggable="true" onclick="setSbSort('code')"  id="sbth-code">CÓD</th>
+              <th draggable="true" onclick="setSbSort('name')"  id="sbth-name">NOME</th>
+              <th draggable="true" onclick="setSbSort('qty')"   id="sbth-qty"  style="text-align:right">QTD</th>
+              <th draggable="true" onclick="setSbSort('status')" id="sbth-status" style="text-align:center">ST</th>
+            </tr>
+          </thead>
+          <tbody id="product-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SHELVES TAB -->
+    <div class="tab-content" id="shelves-tab">
+      <div class="shelf-mgmt">
+        <!-- add form (hidden by default) -->
+        <div id="add-shelf-panel" style="display:none">
+          <div class="add-shelf-form">
+            <div class="section-title">NOVA PRATELEIRA</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>NOME (letras, ex: A, B)</label>
+                <input type="text" id="new-shelf-name" placeholder="A" maxlength="4">
+              </div>
+              <div class="form-group">
+                <label>ANDARES</label>
+                <input type="number" id="new-shelf-floors" value="6" min="1" max="20">
+              </div>
+              <div class="form-group">
+                <label>GAVETAS</label>
+                <input type="number" id="new-shelf-drawers" value="4" min="1" max="12">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>CAP. MÁX (KG) por gaveta</label>
+                <input type="number" id="new-shelf-maxkg" value="50" min="1" max="10000">
+              </div>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-accent" onclick="addShelf()" style="flex:1">✓ CRIAR PRATELEIRA</button>
+              <button class="btn" onclick="toggleAddShelfPanel()">CANCELAR</button>
+            </div>
+          </div>
+        </div>
+        <!-- edit form (hidden by default) -->
+        <div id="edit-shelf-panel" style="display:none">
+          <div class="add-shelf-form">
+            <div class="section-title">EDITAR PRATELEIRA <span id="edit-shelf-id-label" style="color:var(--accent)"></span></div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>ANDARES</label>
+                <input type="number" id="edit-shelf-floors" min="1" max="20">
+              </div>
+              <div class="form-group">
+                <label>GAVETAS</label>
+                <input type="number" id="edit-shelf-drawers" min="1" max="12">
+              </div>
+              <div class="form-group">
+                <label>CAP. MÁX KG/gav.</label>
+                <input type="number" id="edit-shelf-maxkg" min="1" max="10000">
+              </div>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-accent" onclick="saveEditShelf()" style="flex:1">💾 SALVAR</button>
+              <button class="btn" onclick="closeEditShelfPanel()">CANCELAR</button>
+            </div>
+          </div>
+        </div>
+        <!-- shelf list header -->
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+          <div class="section-title" style="margin:0">PRATELEIRAS</div>
+          <button class="btn btn-accent" onclick="toggleAddShelfPanel()" id="btn-add-shelf" style="font-size:10px;padding:3px 10px">+ NOVA</button>
+        </div>
+        <div id="shelf-list"></div>
+      </div>
+    </div>
+
+
+
+  </div><!-- /sidebar -->
+
+  <!-- ══ PAGES CONTAINER ══ -->
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;overflow:hidden">
+
+    <!-- PAGE: DEPOT -->
+    <div class="page active" id="page-depot">
+      <div class="page-inner" style="padding:0">
+        <div style="padding:20px 24px;overflow-y:auto;flex:1;min-height:0">
+          <div id="alerts-bar"></div>
+          <div class="stats-bar" id="stats-bar"></div>
+          <div class="workspace-header">
+            <div class="ws-title"><strong>DEPÓSITO</strong> — Vista Geral</div>
+          </div>
+          <div class="search-bar">
+            <div style="display:flex;gap:4px;align-items:center">
+              <button class="scope-btn active" id="scope-product" onclick="setScope('product')" title="Buscar por código ou nome">PRODUTO</button>
+              <button class="scope-btn" id="scope-address" onclick="setScope('address')" title="Buscar por endereço">ENDEREÇO</button>
+            </div>
+            <div class="filter-sep"></div>
+            <div class="search-input-wrap" style="max-width:240px">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="grid-search" placeholder="Buscar..." oninput="applyFilters()">
+              <span class="search-clear" onclick="clearSearch()">✕</span>
+            </div>
+            <div class="filter-sep"></div>
+            <div class="filter-chips">
+              <span class="search-scope">STATUS:</span>
+              <div class="chip"        id="chip-occupied" onclick="toggleChip('occupied')">OCUPADAS</div>
+              <div class="chip"        id="chip-empty"    onclick="toggleChip('empty')">VAZIAS</div>
+              <div class="chip danger" id="chip-expired"  onclick="toggleChip('expired')">VENCIDAS</div>
+              <div class="chip warn"   id="chip-expiring" onclick="toggleChip('expiring')">A VENCER</div>
+              <div class="chip green"  id="chip-multi"    onclick="toggleChip('multi')">MULTI-SKU</div>
+              <div class="chip"        id="chip-selected" onclick="toggleChip('selected')">SELECIONADO</div>
+            </div>
+            <div class="filter-sep"></div>
+            <div class="result-count" id="filter-result-count">—</div>
+            <button class="chip" onclick="clearAllFilters()" style="margin-left:auto">✕ LIMPAR</button>
+          </div>
+          <div class="shelves-grid" id="shelves-grid"></div>
+        </div>
+      </div>
+    </div><!-- /page-depot -->
+
+    <!-- PAGE: PRODUCTS OVERVIEW -->
+    <div class="page" id="page-products">
+      <div style="padding:20px 24px;overflow-y:auto;flex:1;min-height:0">
+        <div class="po-header">
+          <div class="ws-title"><strong>PRODUTOS</strong> — Visão Geral</div>
+          <div class="po-filters">
+            <input type="text" class="po-search" id="po-search" placeholder="Buscar código ou nome..." oninput="renderProductsPage()">
+            <select class="po-select" id="po-filter-status" onchange="renderProductsPage()">
+              <option value="">Todos os status</option>
+              <option value="expired">Vencidos</option>
+              <option value="expiring">A vencer (30d)</option>
+              <option value="ok">Dentro do prazo</option>
+              <option value="none">Sem validade</option>
+            </select>
+            <select class="po-select" id="po-filter-shelf" onchange="renderProductsPage()">
+              <option value="">Todas prateleiras</option>
+            </select>
+            <div style="position:relative">
+              <button class="po-select" onclick="poToggleColMenu()" style="cursor:pointer;height:100%">⚙ Colunas</button>
+              <div class="po-col-menu" id="po-col-menu"></div>
+            </div>
+          </div>
+        </div>
+        <div class="po-kpi-grid" id="po-kpi-grid"></div>
+        <table class="po-table" id="po-table-el">
+          <thead id="po-thead"></thead>
+          <tbody id="po-tbody"></tbody>
+        </table>
+      </div>
+    </div><!-- /page-products -->
+
+    <!-- PAGE: HISTORY -->
+    <div class="page" id="page-history">
+      <div style="padding:20px 24px;overflow-y:auto;flex:1;min-height:0">
+        <div class="po-header">
+          <div class="ws-title"><strong>HISTÓRICO</strong> — Movimentações</div>
+          <button class="btn btn-danger" onclick="clearHistory()" style="font-size:11px">LIMPAR HISTÓRICO</button>
+        </div>
+        <div id="page-history-list"></div>
+      </div>
+
+    <!-- PAGE: DEPOTS OVERVIEW -->
+    <div class="page" id="page-depots">
+      <div style="padding:20px 24px;overflow-y:auto;flex:1;min-height:0">
+        <div class="po-header">
+          <div class="ws-title"><strong>DEPÓSITOS</strong> — Visão Geral</div>
+          <button class="btn btn-accent" onclick="openDepotModal(null)" style="font-size:11px">+ NOVO DEPÓSITO</button>
+        </div>
+        <div class="do-grid" id="do-grid"></div>
+      </div>
+    </div><!-- /page-depots -->
+
+    </div><!-- /page-history -->
+
+
+    <!-- PAGE: FLOOR PLAN -->
+    <div class="page" id="page-floorplan" style="flex-direction:column;overflow:hidden">
+      <div class="fp-toolbar" id="fp-toolbar">
+        <div class="ws-title" style="margin:0;flex-shrink:0"><strong>PLANTA BAIXA</strong></div>
+        <div class="fp-tool-sep"></div>
+        <!-- VIEW MODE: only edit button visible -->
+        <div id="fp-view-tools" style="display:flex;gap:8px;align-items:center;flex:1;flex-wrap:wrap">
+          <!-- search -->
+          <div class="fp-search-wrap">
+            <span class="fp-search-icon">🔍</span>
+            <input type="text" id="fp-search" class="fp-search-input"
+              placeholder="Buscar produto, código, validade, gaveta..."
+              oninput="fpSearch(this.value)">
+            <span class="fp-search-clear" onclick="fpClearSearch()">✕</span>
+          </div>
+          <!-- filter chips -->
+          <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center">
+            <div class="fp-tool-btn" id="fpsf-all"      onclick="fpSetFilter('')"         style="font-size:9px;padding:3px 8px">TODOS</div>
+            <div class="fp-tool-btn active" id="fpsf-active" style="display:none;font-size:9px;padding:3px 8px;background:var(--accent);color:#fff" onclick="fpSetFilter('')">✕ LIMPAR</div>
+            <div class="fp-tool-btn" id="fpsf-expired"  onclick="fpSetFilter('expired')"  style="font-size:9px;padding:3px 8px;border-color:var(--danger);color:var(--danger)">VENCIDOS</div>
+            <div class="fp-tool-btn" id="fpsf-expiring" onclick="fpSetFilter('expiring')" style="font-size:9px;padding:3px 8px;border-color:var(--warn);color:var(--warn)">A VENCER</div>
+            <div class="fp-tool-btn" id="fpsf-empty"    onclick="fpSetFilter('empty')"    style="font-size:9px;padding:3px 8px">VAZIAS</div>
+            <div class="fp-tool-btn" id="fpsf-full"     onclick="fpSetFilter('full')"     style="font-size:9px;padding:3px 8px">CHEIAS</div>
+          </div>
+          <span class="fp-search-count" id="fp-search-count"></span>
+          <div style="margin-left:auto">
+            <button class="fp-tool-btn" onclick="fpEnterEditMode()">✏ EDITAR PLANTA</button>
+          </div>
+        </div>
+        <!-- EDIT MODE: full toolbar (hidden by default) -->
+        <div id="fp-edit-tools" style="display:none;gap:6px;align-items:center;flex-wrap:wrap">
+          <span class="fp-edit-badge">MODO EDIÇÃO</span>
+          <div class="fp-tool-sep"></div>
+          <button class="fp-tool-btn" id="fp-undo-btn" onclick="fpUndo()" title="Desfazer (Ctrl+Z)" style="opacity:.35" disabled>↩ DESFAZER</button>
+          <button class="fp-tool-btn" id="fp-redo-btn" onclick="fpRedo()" title="Refazer (Ctrl+Y)" style="opacity:.35" disabled>↪ REFAZER</button>
+          <div class="fp-tool-sep"></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3)">ADICIONAR:</span>
+          <button class="fp-tool-btn" id="fptool-textbox" onclick="fpSelectTool('textbox')" title="Caixa de texto livre">📝 TEXTO</button>
+          <button class="fp-tool-btn" id="fptool-street"  onclick="fpSelectTool('street')"  title="Corredor / rua">🛤 RUA</button>
+          <button class="fp-tool-btn" id="fptool-blocked" onclick="fpSelectTool('blocked')" title="Área bloqueada">🚫 BLOQUEADO</button>
+          <button class="fp-tool-btn" id="fptool-zone"    onclick="fpSelectTool('zone')"    title="Zona nomeada">📐 ZONA</button>
+          <button class="fp-tool-btn" id="fptool-entry"   onclick="fpSelectTool('entry')"   title="Entrada/saída">🚪 ENTRADA/SAÍDA</button>
+          <div class="fp-tool-sep"></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3)">GRADE:</span>
+          <button class="fp-tool-btn" id="fp-snap-btn" onclick="fpToggleSnap()">⊞ SNAP: OFF</button>
+          <div class="fp-tool-sep"></div>
+          <div id="fp-align-bar">
+            <span class="fp-sel-count" id="fp-sel-count">0 sel.</span>
+            <button class="fp-align-btn" onclick="fpAlign('left')"   title="Alinhar esquerda">⬅ ESQ</button>
+            <button class="fp-align-btn" onclick="fpAlign('right')"  title="Alinhar direita">DIR ➡</button>
+            <button class="fp-align-btn" onclick="fpAlign('top')"    title="Alinhar topo">⬆ TOPO</button>
+            <button class="fp-align-btn" onclick="fpAlign('bottom')" title="Alinhar base">BASE ⬇</button>
+            <button class="fp-align-btn" onclick="fpAlign('cx')"     title="Centralizar H">↔ CTR H</button>
+            <button class="fp-align-btn" onclick="fpAlign('cy')"     title="Centralizar V">↕ CTR V</button>
+            <button class="fp-align-btn" onclick="fpAlign('distH')"  title="Distribuir H">⇔ DIST H</button>
+            <button class="fp-align-btn" onclick="fpAlign('distV')"  title="Distribuir V">⇕ DIST V</button>
+            <button class="fp-align-btn" style="border-color:var(--danger);color:var(--danger)" onclick="fpDeleteSelected()" title="Excluir selecionados">✕ EXCLUIR</button>
+          </div>
+          <div class="fp-tool-sep"></div>
+          <button class="fp-tool-btn danger" onclick="fpResetLayout()">↺ RESETAR</button>
+          <button class="fp-tool-btn active" onclick="fpExitEditMode()">💾 SALVAR E SAIR</button>
+        </div>
+      </div>
+      <div style="position:relative;flex:1;min-height:0;display:flex;flex-direction:column;">
+        <div class="fp-canvas" id="fp-canvas">
+          <div id="fp-canvas-inner"><div id="fp-lasso"></div></div>
+        </div>
+        <div class="fp-zoom-bar">
+          <button class="fp-zoom-btn" onclick="fpZoom(-0.15)" title="Zoom out">−</button>
+          <span class="fp-zoom-pct" id="fp-zoom-pct">100%</span>
+          <button class="fp-zoom-btn" onclick="fpZoom(+0.15)" title="Zoom in">+</button>
+          <button class="fp-zoom-btn" onclick="fpZoomReset()" title="Reset zoom" style="font-size:11px;width:36px">⊙ FIT</button>
+        </div>
+      </div>
+    </div><!-- /page-floorplan -->
+
+  </div><!-- /pages container -->
+
+</div><!-- /main -->
+
+<!-- DRAWER MODAL -->
+<div class="modal-overlay" id="drawer-modal" style="z-index:1010">
+  <div class="modal" style="width:560px">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="drawer-modal-title">GAVETA</div>
+        <div class="modal-loc" id="drawer-modal-loc"></div>
+      </div>
+      <button class="close-btn" onclick="closeDrawerModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div class="section-title" style="margin:0;border:none">PRODUTOS NESTA GAVETA</div>
+        <div id="drawer-cap-info" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3)"></div>
+      </div>
+      <div id="drawer-cap-bar-wrap" class="cap-bar-wrap" style="margin-bottom:8px">
+        <div id="drawer-cap-bar" class="cap-bar low" style="width:0%"></div>
+      </div>
+      <div class="drawer-products" id="drawer-products-list"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeDrawerModal()">FECHAR</button>
+      <button class="btn" onclick="saveDrawerChanges()" style="border-color:var(--accent3);color:var(--accent3)">💾 SALVAR</button>
+      <button class="btn btn-accent" onclick="openProductForm(null)">+ ADICIONAR PRODUTO</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT FORM MODAL (add + edit) -->
+<div class="modal-overlay" id="product-form-modal" style="z-index:1020">
+  <div class="modal pf-modal">
+    <div class="modal-header">
+      <div class="modal-title" id="pf-title">PRODUTO</div>
+      <button class="close-btn" onclick="closeProductForm()">×</button>
+    </div>
+    <div class="modal-body" style="gap:10px;overflow-y:auto;max-height:72vh">
+      <!-- TABS -->
+      <div class="pf-tabs">
+        <div class="pf-tab active" onclick="pfSwitchTab('basic')">BÁSICO</div>
+        <div class="pf-tab" onclick="pfSwitchTab('details')">DETALHES</div>
+        <div class="pf-tab" onclick="pfSwitchTab('expiry')">VALIDADE</div>
+      </div>
+
+      <!-- TAB: BASIC -->
+      <div class="pf-tab-panel active" id="pftab-basic">
+        <div class="form-row">
+          <div class="form-group">
+            <label>CÓDIGO *</label>
+            <input type="text" id="pf-code" placeholder="P001">
+          </div>
+          <div class="form-group" style="flex:2">
+            <label>NOME DO PRODUTO *</label>
+            <input type="text" id="pf-name" placeholder="Nome do produto">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>EAN / GTIN</label>
+            <input type="text" id="pf-ean" placeholder="7891234567890">
+          </div>
+          <div class="form-group">
+            <label>SKU INTERNO</label>
+            <input type="text" id="pf-sku" placeholder="SKU-001">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>CATEGORIA</label>
+            <input type="text" id="pf-category" placeholder="Eletrônicos, Alimentos...">
+          </div>
+          <div class="form-group">
+            <label>FORNECEDOR</label>
+            <input type="text" id="pf-supplier" placeholder="Fornecedor Ltda">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>PESO (KG)</label>
+            <input type="number" id="pf-kg" placeholder="0.00" step="0.01">
+          </div>
+          <div class="form-group">
+            <label>UNIDADE</label>
+            <select id="pf-unit" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:7px 10px;width:100%;outline:none">
+              <option value="un">Unidade (un)</option>
+              <option value="cx">Caixa (cx)</option>
+              <option value="kg">Quilograma (kg)</option>
+              <option value="lt">Litro (lt)</option>
+              <option value="mt">Metro (mt)</option>
+              <option value="pc">Peça (pc)</option>
+              <option value="pr">Par (pr)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>QUANTIDADE</label>
+            <input type="number" id="pf-qty" placeholder="1" min="1" step="1" value="1">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>DATA ENTRADA</label>
+            <input type="date" id="pf-entry">
+          </div>
+          <div class="form-group">
+            <label>LOTE / BATCH</label>
+            <input type="text" id="pf-lot" placeholder="LOTE-2025-001">
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: DETAILS -->
+      <div class="pf-tab-panel" id="pftab-details">
+        <div class="form-row">
+          <div class="form-group">
+            <label>TEMPERATURA MÁX (°C)</label>
+            <input type="number" id="pf-temp-max" placeholder="25" step="0.5">
+          </div>
+          <div class="form-group">
+            <label>TEMPERATURA MÍN (°C)</label>
+            <input type="number" id="pf-temp-min" placeholder="-18" step="0.5">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>ANVISA / REG. SANITÁRIO</label>
+            <input type="text" id="pf-anvisa" placeholder="25351.123456/2024">
+          </div>
+          <div class="form-group">
+            <label>NCM</label>
+            <input type="text" id="pf-ncm" placeholder="8544.49.00">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>CUSTO UNITÁRIO (R$)</label>
+            <input type="number" id="pf-cost" placeholder="0.00" step="0.01">
+          </div>
+          <div class="form-group">
+            <label>PREÇO VENDA (R$)</label>
+            <input type="number" id="pf-price" placeholder="0.00" step="0.01">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex:1">
+            <label>PERECÍVEL</label>
+            <select id="pf-perishable" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:7px 10px;width:100%;outline:none">
+              <option value="no">Não perecível</option>
+              <option value="yes">Perecível</option>
+              <option value="frozen">Congelado / Refrigerado</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1">
+            <label>CONTROLE DE VALIDADE</label>
+            <select id="pf-expiry-control" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:7px 10px;width:100%;outline:none" onchange="pfUpdateExpiryTab()">
+              <option value="yes">Ativo — controlar validade</option>
+              <option value="no">Desativado — sem validade</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>OBSERVAÇÕES</label>
+          <input type="text" id="pf-notes" placeholder="Armazenar em local seco, produto frágil...">
+        </div>
+      </div>
+
+      <!-- TAB: EXPIRY -->
+      <div class="pf-tab-panel" id="pftab-expiry">
+        <div id="pf-expiry-disabled-msg" style="display:none;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text3);border:1px dashed var(--border);">
+          Controle de validade desativado para este produto. Ative na aba DETALHES.
+        </div>
+        <div id="pf-expiry-active">
+          <div class="form-group">
+            <label>VALIDADES <span style="font-weight:400;color:var(--text3);font-size:10px">— 💾 ou Enter para adicionar</span></label>
+            <div style="display:flex;gap:6px;align-items:center;margin-top:4px">
+              <input type="date" id="pf-expiry-input" style="flex:1;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:7px 10px;outline:none;">
+              <button class="save-date-btn" onclick="pfAddExpiry()" title="Adicionar validade">💾</button>
+            </div>
+            <div class="exp-chip-list" id="pf-expiry-chips">
+              <span class="exp-chip-empty">Nenhuma validade adicionada</span>
+            </div>
+          </div>
+          <div id="pf-expiry-days-info" style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2)"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" id="pf-footer">
+      <button class="btn" onclick="closeProductForm()">CANCELAR</button>
+      <button class="btn btn-accent" id="pf-save-btn" onclick="saveProductForm()">SALVAR</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PRODUCT MODAL -->
+<div class="modal-overlay" id="add-product-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">CADASTRAR PRODUTO</div>
+      <button class="close-btn" onclick="document.getElementById('add-product-modal').classList.remove('open')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>CÓDIGO</label>
+          <input type="text" id="gp-code" placeholder="P001">
+        </div>
+        <div class="form-group" style="flex:2">
+          <label>NOME</label>
+          <input type="text" id="gp-name" placeholder="Nome do produto">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>PESO UNITÁRIO (KG)</label>
+          <input type="number" id="gp-kg" placeholder="0.00" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>LOCAL (ex: A1.G2)</label>
+          <input type="text" id="gp-location" placeholder="A1.G2">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>DATA ENTRADA</label>
+          <input type="date" id="gp-entry">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>VALIDADES <span style="font-weight:400;color:var(--text3);font-size:10px">— clique no disquete para adicionar</span></label>
+        <div style="display:flex;gap:6px;align-items:center;margin-top:4px">
+          <input type="date" id="gp-expiry-input" style="flex:1;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:7px 10px;outline:none;">
+          <button class="save-date-btn" onclick="gpAddExpiry()" title="Salvar data">💾</button>
+        </div>
+        <div class="exp-chip-list" id="gp-expiry-chips">
+          <span class="exp-chip-empty">Nenhuma validade adicionada</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="document.getElementById('add-product-modal').classList.remove('open')">CANCELAR</button>
+      <button class="btn btn-accent" onclick="addGlobalProduct()">CADASTRAR</button>
+    </div>
+  </div>
+</div>
+
+
+<script src="js/01-confirm.js"></script>
+<script src="js/02-state.js"></script>
+<script src="js/03-history.js"></script>
+<script src="js/04-expiry-alerts.js"></script>
+<script src="js/05-product-detail.js"></script>
+<script src="js/06-floorplan.js"></script>
+<script src="js/07-columns.js"></script>
+<script src="js/08-products-page.js"></script>
+<script src="js/09-history-page.js"></script>
+<script src="js/10-product-form.js"></script>
+<script src="js/11-sidebar-resize.js"></script>
+<script src="js/12-search-filter.js"></script>
+<script src="js/13-init.js"></script>
+<script src="js/14-shelf-grid.js"></script>
+<script src="js/15-stats-shelflist.js"></script>
+<script src="js/16-drawer-modal.js"></script>
+<script src="js/17-add-product.js"></script>
+<script src="js/18-tabs-modals.js"></script>
+<script src="js/19-seed.js"></script>
+<script src="js/20-focus-drag.js"></script>
+<script src="js/21-move-mode.js"></script>
+<script src="js/22-settings.js"></script>
+
+
+
+
+<!-- MOVE PRODUCT MODAL -->
+<!-- move-modal replaced by move-mode flow -->
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal modal-wide">
+    <div class="modal-header">
+      <div class="modal-title">⚙ CONFIGURAÇÕES</div>
+      <button class="close-btn" onclick="closeSettingsModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="stabs">
+        <div class="stab active" id="stab-import" onclick="switchStab('import')">IMPORTAR CSV</div>
+        <div class="stab" id="stab-export" onclick="switchStab('export')">EXPORTAR</div>
+        <div class="stab" id="stab-danger" onclick="switchStab('danger')">DADOS</div>
+      </div>
+
+      <!-- IMPORT -->
+      <div class="stab-panel active" id="spanel-import">
+        <div class="settings-section">
+          <div class="section-title">FORMATO DO CSV</div>
+          <div style="font-size:11px;color:var(--text2);margin-bottom:10px;line-height:1.7;font-family:'IBM Plex Mono',monospace;">
+            Colunas obrigatórias: <strong>location, code, name, kg, entry, exit</strong><br>
+            Exemplo de local: <strong>A1.G2</strong> (Prateleira A · Andar 1 · Gaveta 2)
+          </div>
+          <button class="btn" onclick="downloadSampleCSV()" style="margin-bottom:14px">⬇ BAIXAR CSV DE EXEMPLO</button>
+        </div>
+        <div class="settings-section">
+          <div class="section-title">UPLOAD DO ARQUIVO</div>
+          <div class="csv-drop-zone" id="csv-drop-zone" onclick="document.getElementById('csv-file-input').click()">
+            <input type="file" id="csv-file-input" accept=".csv" onchange="handleCSVFile(this.files[0])">
+            <div class="drop-icon">📂</div>
+            <div class="drop-label">Clique ou arraste um arquivo .CSV aqui</div>
+            <div class="drop-sub">Dados existentes serão <strong>mesclados</strong> (não substituídos)</div>
+          </div>
+          <div id="csv-preview-box" style="display:none" class="csv-preview"><pre id="csv-preview-text"></pre></div>
+          <div id="import-result-box" style="display:none" class="import-result"></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <button class="btn" id="btn-preview-import" style="display:none" onclick="previewImport()">VISUALIZAR</button>
+          <button class="btn btn-accent" id="btn-confirm-import" style="display:none" onclick="confirmImport()">CONFIRMAR IMPORTAÇÃO</button>
+        </div>
+      </div>
+
+      <!-- EXPORT -->
+      <div class="stab-panel" id="spanel-export">
+        <div class="settings-section">
+          <div class="section-title">OPÇÕES DE EXPORTAÇÃO</div>
+          <div class="export-grid">
+            <div class="export-card">
+              <div class="export-card-title">📦 PRODUTOS POR GAVETA</div>
+              <div class="export-card-desc">Exporta todos os produtos com localização, código, nome, peso e datas.</div>
+              <button class="btn btn-accent" onclick="exportProductsCSV()">EXPORTAR CSV</button>
+            </div>
+            <div class="export-card">
+              <div class="export-card-title">🗄 ESTRUTURA DE PRATELEIRAS</div>
+              <div class="export-card-desc">Exporta a configuração das prateleiras (nome, andares, gavetas).</div>
+              <button class="btn btn-accent" onclick="exportShelvesCSV()">EXPORTAR CSV</button>
+            </div>
+            <div class="export-card">
+              <div class="export-card-title">📊 RESUMO POR SKU</div>
+              <div class="export-card-desc">Exporta tabela consolidada por produto com totais de quantidade e KG.</div>
+              <button class="btn btn-accent" onclick="exportSummaryCSV()">EXPORTAR CSV</button>
+            </div>
+            <div class="export-card">
+              <div class="export-card-title">💾 BACKUP COMPLETO</div>
+              <div class="export-card-desc">Exporta JSON com todos os dados para importação futura completa.</div>
+              <button class="btn" onclick="exportFullJSON()">EXPORTAR JSON</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DADOS -->
+      <div class="stab-panel" id="spanel-danger">
+        <div class="settings-section">
+          <div class="section-title">IMPORTAR BACKUP JSON</div>
+          <div style="font-size:11px;color:var(--text2);margin-bottom:10px;">Restaura um backup completo exportado anteriormente. <strong>Substitui todos os dados atuais.</strong></div>
+          <div class="csv-drop-zone" onclick="document.getElementById('json-file-input').click()">
+            <input type="file" id="json-file-input" accept=".json" onchange="handleJSONFile(this.files[0])">
+            <div class="drop-icon">🗃</div>
+            <div class="drop-label">Clique para selecionar arquivo .JSON</div>
+          </div>
+          <div id="json-result-box" style="display:none;margin-top:8px" class="import-result"></div>
+        </div>
+        <div class="settings-section">
+          <div class="section-title">ZONA DE PERIGO</div>
+          <div class="danger-zone">
+            <div class="danger-zone-text">Apagar todos os produtos e prateleiras permanentemente.</div>
+            <button class="btn btn-danger" onclick="clearAllData()">LIMPAR TUDO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- EXPIRY DETAIL MODAL -->
+<div class="modal-overlay" id="expiry-modal">
+  <div class="modal" style="width:680px;max-width:96vw">
+    <div class="modal-header">
+      <div class="modal-title" id="expiry-modal-title">VALIDADES</div>
+      <button class="close-btn" onclick="document.getElementById('expiry-modal').classList.remove('open')">×</button>
+    </div>
+    <div class="modal-body" style="padding:0">
+      <table class="exp-table">
+        <thead>
+          <tr>
+            <th>CÓDIGO</th>
+            <th>PRODUTO</th>
+            <th>LOCAL</th>
+            <th>STATUS</th>
+            <th>VALIDADE(S)</th>
+          </tr>
+        </thead>
+        <tbody id="expiry-modal-tbody"></tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="document.getElementById('expiry-modal').classList.remove('open')">FECHAR</button>
+    </div>
+  </div>
+</div>
+
+<!-- DATE EDIT MODAL -->
+<div class="modal-overlay" id="date-edit-modal" style="z-index:1030">
+  <div class="modal date-modal">
+    <div class="modal-header">
+      <div class="modal-title" id="date-edit-title">EDITAR VALIDADE</div>
+      <button class="close-btn" onclick="closeDateEditModal()">×</button>
+    </div>
+    <div class="date-modal-body">
+      <div class="form-group">
+        <label>DATA DE VALIDADE</label>
+        <div class="date-input-row" style="margin-top:4px">
+          <input type="date" id="date-edit-input">
+          <button class="save-date-btn" onclick="saveDateEdit()" title="Salvar">💾</button>
+        </div>
+      </div>
+      <button class="delete-date-btn" onclick="deleteDateEdit()">✕ EXCLUIR ESTA DATA</button>
+    </div>
+  </div>
+</div>
+
+<!-- FLOOR PLAN SHELF DETAIL MODAL -->
+<div class="modal-overlay" id="fp-shelf-modal" style="z-index:999">
+  <div class="modal fp-shelf-modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="fp-modal-title">PRATELEIRA</div>
+        <div class="modal-loc" id="fp-modal-subtitle"></div>
+      </div>
+      <button class="close-btn" onclick="closeFpModal()">×</button>
+    </div>
+    <div class="modal-body" style="padding:0;overflow-y:auto;max-height:70vh">
+      <div id="fp-modal-body"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeFpModal()">FECHAR</button>
+      <button class="btn" onclick="saveDrawerChanges()" style="border-color:var(--accent3);color:var(--accent3)">💾 SALVAR</button>
+      <button class="btn btn-accent" id="fp-add-btn" onclick="fpOpenAddProduct()">+ ADICIONAR PRODUTO</button>
+    </div>
+  </div>
+</div>
+
+<div id="dnd-ghost"></div>
+<!-- MOVE MODE BANNER -->
+<div id="move-mode-banner" onclick="cancelMoveMode()">
+  🔀 MODO MOVER PRODUTO — <span id="move-banner-text">Selecione a gaveta destino</span> &nbsp;·&nbsp; ESC para cancelar
+</div>
+
+<!-- MOVE CONFIRM MODAL -->
+<div class="modal-overlay" id="move-confirm-modal" style="z-index:2010">
+  <div class="modal confirm-move-modal">
+    <div class="modal-header">
+      <div class="modal-title">CONFIRMAR TRANSFERÊNCIA</div>
+      <button class="close-btn" onclick="cancelMoveMode()">×</button>
+    </div>
+    <div class="modal-body" style="gap:12px">
+      <div class="cm-summary">
+        <div class="cm-row">
+          <span class="cm-label">PRODUTO</span>
+          <span class="cm-value" id="cm-product"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0;margin:8px 0">
+          <div style="flex:1">
+            <div style="font-size:9px;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-bottom:3px">DE</div>
+            <div class="cm-value" id="cm-from"></div>
+          </div>
+          <div class="cm-arrow">→</div>
+          <div style="flex:1">
+            <div style="font-size:9px;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-bottom:3px">PARA</div>
+            <div class="cm-value" id="cm-to" style="color:var(--accent3)"></div>
+          </div>
+        </div>
+      </div>
+      <div id="cm-expiry-section" style="display:none">
+        <div class="section-title" style="margin-bottom:8px">ESCOLHER VALIDADES A MOVER</div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:6px">Selecione quais datas de validade serão transferidas:</div>
+        <div class="cm-expiry-list" id="cm-expiry-list"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="cancelMoveMode()">CANCELAR</button>
+      <button class="btn btn-accent" onclick="executeMoveConfirmed()">✓ CONFIRMAR TRANSFERÊNCIA</button>
+    </div>
+  </div>
+</div>
+
+<div id="fp-collision-toast" class="fp-collision-toast">⛔ Sobreposição não permitida</div>
+<!-- DND MOVE MODAL -->
+<div class="modal-overlay" id="dnd-move-modal" style="z-index:1012">
+  <div class="modal" style="width:460px">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">📦 MOVER PRODUTOS (Arrastar)</div>
+        <div class="modal-loc">
+          De: <strong id="dnd-move-from"></strong> &nbsp;→&nbsp; Para: <strong id="dnd-move-to" style="color:var(--accent3)"></strong>
+        </div>
+      </div>
+      <button class="close-btn" onclick="closeDndMoveModal()">×</button>
+    </div>
+    <div class="modal-body" style="padding:0">
+      <div style="padding:10px 14px;font-size:11px;color:var(--text2);font-family:'IBM Plex Mono',monospace;border-bottom:1px solid var(--border)">
+        Selecione os produtos a mover:
+      </div>
+      <div id="dnd-product-list" style="max-height:320px;overflow-y:auto"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeDndMoveModal()">CANCELAR</button>
+      <button class="btn btn-accent" onclick="confirmDndMove()">✓ MOVER SELECIONADOS</button>
+    </div>
+  </div>
+</div>
+
+<!-- DEPOT CREATE/EDIT MODAL -->
+<div class="modal-overlay" id="depot-modal" style="z-index:1025">
+  <div class="modal depot-modal">
+    <div class="modal-header">
+      <div class="modal-title" id="depot-modal-title">NOVO DEPÓSITO</div>
+      <button class="close-btn" onclick="closeDepotModal()">×</button>
+    </div>
+    <div class="modal-body" style="gap:12px">
+      <div class="form-row">
+        <div class="form-group" style="flex:2">
+          <label>NOME DO DEPÓSITO *</label>
+          <input type="text" id="dm-name" placeholder="Depósito Central">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex:3">
+          <label>ENDEREÇO</label>
+          <input type="text" id="dm-address" placeholder="Rua das Flores, 123">
+        </div>
+        <div class="form-group" style="flex:2">
+          <label>CIDADE</label>
+          <input type="text" id="dm-city" placeholder="São Paulo, SP">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>RESPONSÁVEL</label>
+          <input type="text" id="dm-manager" placeholder="João Silva">
+        </div>
+        <div class="form-group">
+          <label>TELEFONE</label>
+          <input type="text" id="dm-phone" placeholder="(11) 9999-9999">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>OBSERVAÇÕES</label>
+        <input type="text" id="dm-notes" placeholder="Área refrigerada, acesso restrito...">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeDepotModal()">CANCELAR</button>
+      <button class="btn btn-accent" onclick="saveDepotModal()">✓ SALVAR</button>
+    </div>
+  </div>
+</div>
+
+<!-- UNIFIED CONFIRM MODAL -->
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-box">
+    <div class="confirm-head">
+      <span class="confirm-icon" id="confirm-icon">⚠</span>
+      <span class="confirm-title" id="confirm-title">CONFIRMAR AÇÃO</span>
+    </div>
+    <div class="confirm-body">
+      <div class="confirm-desc" id="confirm-desc"></div>
+      <div class="confirm-summary" id="confirm-summary" style="display:none"></div>
+    </div>
+    <div class="confirm-footer">
+      <button class="confirm-btn-cancel" id="confirm-cancel-btn" onclick="confirmResolve(false)">CANCELAR</button>
+      <button class="confirm-btn-ok" id="confirm-ok-btn" onclick="confirmResolve(true)">CONFIRMAR</button>
+    </div>
+  </div>
+</div>
+
+<div id="fp-place-preview" style="position:fixed;pointer-events:none;z-index:9998;display:none;box-sizing:border-box;opacity:0.55;border:2px dashed var(--accent);font-family:IBM Plex Mono,monospace;font-size:11px;font-weight:700;align-items:flex-end;padding:4px 7px;"></div>
+<!-- PRODUCT DETAIL MODAL -->
+<div class="modal-overlay" id="prod-detail-modal" style="z-index:1022">
+  <div class="modal" style="width:620px;max-width:96vw">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="pdm-title">PRODUTO</div>
+        <div class="modal-loc" id="pdm-subtitle" style="font-size:12px;margin-top:2px"></div>
+      </div>
+      <button class="close-btn" onclick="document.getElementById('prod-detail-modal').classList.remove('open')">×</button>
+    </div>
+    <div class="modal-body" style="padding:0;overflow-y:auto;max-height:75vh">
+      <div id="pdm-body"></div>
+    </div>
+  </div>
+</div>
+<!-- DRAWER TOOLTIP -->
+<div id="drawer-tooltip" style="position:fixed;z-index:9000;pointer-events:none;background:var(--surface);border:1px solid var(--border);box-shadow:0 4px 16px rgba(0,0,0,.2);padding:8px 12px;max-width:260px;display:none;font-family:'IBM Plex Mono',monospace;font-size:11px;"></div>
+
+</body>
