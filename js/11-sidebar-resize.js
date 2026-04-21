@@ -3,41 +3,43 @@
 // ╚══════════════════════════════════════════════════════════════════╝
 
 // ══ SIDEBAR RESIZE ═══════════════════════════════════════════════════
-(function() {
-  const MIN = 180, MAX = () => Math.floor(window.innerWidth * 0.6);
-  let dragging = false, startX = 0, startW = 0;
-  const sidebar  = document.getElementById('sidebar');
-  const resizer  = document.getElementById('sidebar-resizer');
-  if (!sidebar || !resizer) return;
+const _sbResizeMin = 180;
+const _sbResizeMax = () => Math.floor(window.innerWidth * 0.6);
+let   _sbDragging  = false;
+let   _sbStartX    = 0;
+let   _sbStartW    = 0;
 
-  resizer.addEventListener('mousedown', e => {
-    dragging = true;
-    startX   = e.clientX;
-    startW   = sidebar.offsetWidth;
-    resizer.classList.add('dragging');
-    document.body.style.cursor    = 'col-resize';
+const _sbSidebar  = document.getElementById('sidebar');
+const _sbResizer  = document.getElementById('sidebar-resizer');
+
+if (_sbSidebar && _sbResizer) {
+  _sbResizer.addEventListener('mousedown', e => {
+    _sbDragging = true;
+    _sbStartX   = e.clientX;
+    _sbStartW   = _sbSidebar.offsetWidth;
+    _sbResizer.classList.add('dragging');
+    document.body.style.cursor     = 'col-resize';
     document.body.style.userSelect = 'none';
     e.preventDefault();
   });
 
   document.addEventListener('mousemove', e => {
-    if (!dragging) return;
-    const delta = e.clientX - startX;
-    const newW  = Math.min(Math.max(startW + delta, MIN), MAX());
-    sidebar.style.width = newW + 'px';
+    if (!_sbDragging) return;
+    const delta = e.clientX - _sbStartX;
+    const newW  = Math.min(Math.max(_sbStartW + delta, _sbResizeMin), _sbResizeMax());
+    _sbSidebar.style.width = newW + 'px';
   });
 
   document.addEventListener('mouseup', () => {
-    if (!dragging) return;
-    dragging = false;
-    resizer.classList.remove('dragging');
+    if (!_sbDragging) return;
+    _sbDragging = false;
+    _sbResizer.classList.remove('dragging');
     document.body.style.cursor     = '';
     document.body.style.userSelect = '';
   });
 
   // double-click resets to default
-  resizer.addEventListener('dblclick', () => {
-    sidebar.style.width = '320px';
+  _sbResizer.addEventListener('dblclick', () => {
+    _sbSidebar.style.width = '320px';
   });
-})();
-
+}
