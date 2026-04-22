@@ -25,12 +25,21 @@ Use estas referências para consultar a lógica bruta original e portá-la para 
 - **Integração NFe XML:** Parser robusto para entrada automática de estoque via upload de nota fiscal.
 - **QR Inventory:** Geração de etiquetas dinâmicas para cada gaveta vinculada ao ID do banco.
 
+## 4. Extrações de Elite (Projetos Legados)
+| Ideia Resumida | Localização Completa do Arquivo Extraído | Linhas Exatas da Função |
+| :--- | :--- | :--- |
+| **Alocação (Melhorada)** | `docs/wms que falhou/mais tentativa/backend/app/services/inventory_service.py` | L10 - L65 |
+| **Sugestão de Picking FEFO** | `docs/wms-neo/backend/app/services/separation_service.py` | L33 - L68 |
+| **Parser Robusto de XML NF-e** | `docs/WMS-PRO/backend/app/core/nfe_parser.py` | L56 - L115 |
+| **Mapa Tático Interativo (Matrix UI)** | `docs/wms-neo/frontend/static/js/pages/MapPage.js` | L56 - L120 |
+| **Recebimento e Conferência Cega** | `docs/wms-neo/frontend/static/js/pages/ReceivingPage.js` | L80 - L145 |
+| **Rate Limit de Segurança** | `docs/WMS-PRO/backend/app/core/rate_limit.py` | L10 - L45 |
+| **Movimentação com Auditoria** | `docs/wms-neo/backend/app/services/inventory_service.py` | L60 - L110 |
+| **Smart Guides (Planta Baixa)** | `docs/ideias visuais/editor_de_planta_baixa_inteligente/code.html` | L34 - L50 |
+| **Mini-mapa de Navegação** | `docs/ideias visuais/editor_de_planta_baixa_inteligente/code.html` | L197 - L210 |
+| **KPIs com Tendência (Analytics)** | `docs/ideias visuais/analytics_e_produtividade/code.html` | L120 - L150 |
+| **Cronômetro de Doca Ativo** | `docs/ideias visuais/gest_o_de_docas_com_cron_metro_ativo/code.html` | L140 - L160 |
 
-## 3. Roteiro para "Páginas Novas"
-1.  **Dashboard de Recebimento (NFe):**
-    - Referência: `wms-neo/frontend/static/js/pages/ReceivingPage.js`
-    - Ação: Criar tela de upload de XML usando o parser Python como base para o JS.
-2.  **Gestão de Lotes (Audit):**
     - Referência: `wms-neo/backend/app/services/audit_service.py`
     - Ação: Criar tela de timeline para rastreabilidade total.
 
