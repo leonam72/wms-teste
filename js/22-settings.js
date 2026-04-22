@@ -5,7 +5,7 @@
 // ——— SETTINGS MODAL ———
 let csvParsedData = null;
 
-function openSettingsModal() {
+const openSettingsModal = () => {
   document.getElementById('settings-modal').classList.add('open');
   csvParsedData = null;
   document.getElementById('csv-preview-box').style.display = 'none';
@@ -13,9 +13,9 @@ function openSettingsModal() {
   document.getElementById('btn-preview-import').style.display = 'none';
   document.getElementById('btn-confirm-import').style.display = 'none';
 }
-function closeSettingsModal() { document.getElementById('settings-modal').classList.remove('open'); }
+const closeSettingsModal = () => { document.getElementById('settings-modal').classList.remove('open'); }
 
-function switchStab(name) {
+const switchStab = (name) => {
   document.querySelectorAll('.stab').forEach(e => e.classList.remove('active'));
   document.querySelectorAll('.stab-panel').forEach(e => e.classList.remove('active'));
   document.getElementById('stab-' + name).classList.add('active');
@@ -26,7 +26,7 @@ function switchStab(name) {
 
 
 // ——— SAMPLE CSV ———
-function downloadSampleCSV() {
+const downloadSampleCSV = () => {
   const rows = [
     'location,code,name,kg,entry,exit',
     'A1.G1,P001,Parafuso M6,0.50,2025-01-10,',
@@ -41,7 +41,7 @@ function downloadSampleCSV() {
 }
 
 // ——— CSV IMPORT ———
-function handleCSVFile(file) {
+const handleCSVFile = (file) => {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = e => {
@@ -56,7 +56,7 @@ function handleCSVFile(file) {
   reader.readAsText(file);
 }
 
-function parseCSV(text) {
+const parseCSV = (text) => {
   const lines = text.trim().split('\n').filter(l => l.trim());
   const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
   const required = ['location','code','name','kg','entry','exit'];
@@ -77,7 +77,7 @@ function parseCSV(text) {
   }).filter(r => r.location && r.code && r.name);
 }
 
-function previewImport() {
+const previewImport = () => {
   const resultBox = document.getElementById('import-result-box');
   resultBox.style.display = 'block';
   try {
@@ -98,7 +98,7 @@ function previewImport() {
   }
 }
 
-async function confirmImport() {
+const confirmImport = async () => {
   const resultBox = document.getElementById('import-result-box');
   try {
     const rows = parseCSV(csvParsedData);
@@ -129,7 +129,7 @@ async function confirmImport() {
 }
 
 // ——— EXPORTS ———
-function exportProductsCSV() {
+const exportProductsCSV = () => {
   const rows = ['location,code,name,kg,entry,exit'];
   Object.entries(products).forEach(([loc, prods]) => {
     prods.forEach(p => rows.push([loc, p.code, p.name, p.kg, p.entry, p.exit].join(',')));
@@ -137,13 +137,13 @@ function exportProductsCSV() {
   downloadFile('wms_produtos.csv', rows.join('\n'), 'text/csv');
 }
 
-function exportShelvesCSV() {
+const exportShelvesCSV = () => {
   const rows = ['id,floors,drawers'];
   shelves.forEach(s => rows.push([s.id, s.floors, s.drawers].join(',')));
   downloadFile('wms_prateleiras.csv', rows.join('\n'), 'text/csv');
 }
 
-function exportSummaryCSV() {
+const exportSummaryCSV = () => {
   const rows = ['code,name,qty,total_kg,locations'];
   getAllProducts().forEach(p => {
     rows.push([p.code, p.name, p.qty, p.kg.toFixed(2), '"' + p.locations.join(';') + '"'].join(','));
@@ -151,12 +151,12 @@ function exportSummaryCSV() {
   downloadFile('wms_resumo.csv', rows.join('\n'), 'text/csv');
 }
 
-function exportFullJSON() {
+const exportFullJSON = () => {
   const data = JSON.stringify({ shelves, products }, null, 2);
   downloadFile('wms_backup.json', data, 'application/json');
 }
 
-function handleJSONFile(file) {
+const handleJSONFile = (file) => {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = e => {
@@ -181,7 +181,7 @@ function handleJSONFile(file) {
   reader.readAsText(file);
 }
 
-async function clearAllData() {
+const clearAllData = async () => {
   const okAll = await showConfirm({ title:'APAGAR TODOS OS DADOS', icon:'💀', desc:'ATENÇÃO: Esta ação apaga TODOS os depósitos, prateleiras e produtos permanentemente. Não pode ser desfeita!', okLabel:'APAGAR TUDO', okStyle:'danger' }); if(!okAll) return;
   shelves = []; products = {};
   renderAll();
@@ -189,7 +189,7 @@ async function clearAllData() {
 }
 
 // ——— DOWNLOAD HELPER ———
-function downloadFile(filename, content, type) {
+const downloadFile = (filename, content, type) => {
   const blob = new Blob([content], { type });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);

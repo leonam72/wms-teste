@@ -7,7 +7,7 @@
 let pfEditIdx = null;    // null = add mode, number = edit mode
 let pfExpiries = [];     // working expiry list for this form
 
-function openProductForm(idx) {
+const openProductForm = (idx) => {
   pfEditIdx = idx;
   pfExpiries = [];
   pfSwitchTab('basic');
@@ -70,13 +70,13 @@ function openProductForm(idx) {
   document.getElementById('product-form-modal').classList.add('open');
 }
 
-function closeProductForm() {
+const closeProductForm = () => {
   document.getElementById('product-form-modal').classList.remove('open');
   pfEditIdx = null;
   pfExpiries = [];
 }
 
-function pfAddExpiry() {
+const pfAddExpiry = () => {
   const pfIn = document.getElementById('pf-expiry-input');
   const val = pfIn ? pfIn.value : '';
   if (!val) return;
@@ -86,7 +86,7 @@ function pfAddExpiry() {
   renderPfChips();
 }
 
-function renderPfChips() {
+const renderPfChips = () => {
   const c = document.getElementById('pf-expiry-chips');
   if (!c) return;
   if (!pfExpiries.length) {
@@ -101,7 +101,7 @@ function renderPfChips() {
   }).join('');
 }
 
-function pfEditExpiry(idx) {
+const pfEditExpiry = (idx) => {
   dateEditCtx = {
     type: 'pfForm', dateIdx: idx, list: [...pfExpiries],
     save: (newList) => { pfExpiries = newList; renderPfChips(); }
@@ -111,7 +111,7 @@ function pfEditExpiry(idx) {
   document.getElementById('date-edit-modal').classList.add('open');
 }
 
-async function saveProductForm() {
+const saveProductForm = async () => {
   const code  = (document.getElementById('pf-code')?.value || '').trim().toUpperCase();
   const name  = (document.getElementById('pf-name')?.value || '').trim();
   const kg    = parseFloat(document.getElementById('pf-kg')?.value) || 0;
@@ -141,7 +141,7 @@ async function saveProductForm() {
   if (!products[currentDrawerKey]) products[currentDrawerKey] = [];
 
   if (pfEditIdx !== null) {
-    const okEdit = await showConfirm({ title:'EDITAR PRODUTO', icon:'✏', desc:'Salvar as alterações neste produto?', summary:{'CÓDIGO':code,'NOME':name,'PESO':kg+'kg','GAVETA':currentDrawerKey}, okLabel:'SALVAR', okStyle:'accent' }); if(!okEdit) return;
+    const okEdit = await showConfirm({ title:'EDITAR PRODUTO', icon:'✏', desc:'Sallet as alterações neste produto?', summary:{'CÓDIGO':code,'NOME':name,'PESO':kg+'kg','GAVETA':currentDrawerKey}, okLabel:'SALVAR', okStyle:'accent' }); if(!okEdit) return;
     const p = products[currentDrawerKey][pfEditIdx];
     products[currentDrawerKey][pfEditIdx] = { ...p, code, name, kg, entry, expiries: finalExpiries, ...extFields };
     logHistory('✏', `Editado: ${code} — ${name}`, `${currentDrawerKey}`);
@@ -156,7 +156,7 @@ async function saveProductForm() {
   renderAll();
 }
 
-async function pfDeleteProduct() {
+const pfDeleteProduct = async () => {
   if (pfEditIdx === null) return;
   const p = products[currentDrawerKey][pfEditIdx];
   const okDel = await showConfirm({ title:'EXCLUIR PRODUTO', icon:'🗑', desc:'Remover este produto permanentemente desta gaveta?', summary:{'CÓDIGO':p.code,'NOME':p.name,'GAVETA':currentDrawerKey,'PESO':(p.kg||0)+'kg'}, okLabel:'EXCLUIR' }); if(!okDel) return;
@@ -168,7 +168,7 @@ async function pfDeleteProduct() {
 }
 
 // ══ SAVE DRAWER CHANGES ═══════════════════════════════════════════════
-function saveDrawerChanges() {
+const saveDrawerChanges = () => {
   if (!currentDrawerKey) return;
   logHistory('💾', `Gaveta salva: ${currentDrawerKey}`, `${(products[currentDrawerKey]||[]).length} produto(s)`);
   const btn = document.querySelector('.modal-footer .btn[onclick="saveDrawerChanges()"]');
@@ -185,7 +185,7 @@ let dndSrcIdx  = null;   // product index (null = whole drawer, future)
 let dndOverKey = null;
 const dndGhost = () => document.getElementById('dnd-ghost');
 
-function dndInit(drawerEl, key) {
+const dndInit = (drawerEl, key) => {
   // Make the whole drawer div draggable
   drawerEl.setAttribute('draggable', 'true');
 
@@ -242,7 +242,7 @@ function dndInit(drawerEl, key) {
   });
 }
 
-function dndSwapDrawers(srcKey, dstKey) {
+const dndSwapDrawers = (srcKey, dstKey) => {
   const srcProds = products[srcKey] || [];
   const dstProds = products[dstKey] || [];
   if (srcProds.length === 0) return; // nothing to move
@@ -273,7 +273,7 @@ function dndSwapDrawers(srcKey, dstKey) {
 let dndSrcKey_pending = null;
 let dndDstKey_pending = null;
 
-function openDndMoveModal() {
+const openDndMoveModal = () => {
   const src = dndSrcKey_pending, dst = dndDstKey_pending;
   if (!src || !dst) return;
   const srcProds = products[src] || [];
@@ -300,7 +300,7 @@ function openDndMoveModal() {
   document.getElementById('dnd-move-modal').classList.add('open');
 }
 
-function confirmDndMove() {
+const confirmDndMove = () => {
   const src = dndSrcKey_pending, dst = dndDstKey_pending;
   if (!src || !dst) return;
   const srcProds = [...(products[src] || [])];
@@ -327,7 +327,7 @@ function confirmDndMove() {
   renderAll();
 }
 
-function closeDndMoveModal() {
+const closeDndMoveModal = () => {
   document.getElementById('dnd-move-modal').classList.remove('open');
   dndSrcKey_pending = null; dndDstKey_pending = null;
 }

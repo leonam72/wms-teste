@@ -3,7 +3,7 @@
 // ╚══════════════════════════════════════════════════════════════════╝
 
 // ——— STATS ———
-function renderStats() {
+const renderStats = () => {
   const prods = getAllProducts();
   const totalKg = prods.reduce((s, p) => s + p.kg, 0);
   let occupied = 0, total = 0;
@@ -29,7 +29,7 @@ function renderStats() {
 }
 
 // ——— SHELF LIST ———
-function renderShelfList() {
+const renderShelfList = () => {
   const el = document.getElementById('shelf-list');
   if (!shelves.length) { el.innerHTML = '<div class="empty-msg">Nenhuma prateleira</div>'; return; }
   el.innerHTML = shelves.map(s => {
@@ -61,7 +61,7 @@ function renderShelfList() {
 
 
 // ── Shelf panel toggle ────────────────────────────────────────────────
-function toggleAddShelfPanel() {
+const toggleAddShelfPanel = () => {
   const panel = document.getElementById('add-shelf-panel');
   const editPanel = document.getElementById('edit-shelf-panel');
   const btn = document.getElementById('btn-add-shelf');
@@ -81,7 +81,7 @@ function toggleAddShelfPanel() {
 }
 
 let _editShelfId = null;
-function openEditShelfPanel(shelfId) {
+const openEditShelfPanel = (shelfId) => {
   const shelf = shelves.find(s => s.id === shelfId); if (!shelf) return;
   _editShelfId = shelfId;
   const addPanel = document.getElementById('add-shelf-panel');
@@ -100,13 +100,13 @@ function openEditShelfPanel(shelfId) {
   panel?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function closeEditShelfPanel() {
+const closeEditShelfPanel = () => {
   const panel = document.getElementById('edit-shelf-panel');
   if (panel) panel.style.display = 'none';
   _editShelfId = null;
 }
 
-async function saveEditShelf() {
+const saveEditShelf = async () => {
   if (!_editShelfId) return;
   const shelf = shelves.find(s => s.id === _editShelfId); if (!shelf) return;
   const floors  = parseInt(document.getElementById('edit-shelf-floors')?.value) || shelf.floors;
@@ -114,7 +114,7 @@ async function saveEditShelf() {
   const maxKg   = parseFloat(document.getElementById('edit-shelf-maxkg')?.value) || shelf.maxKg || 50;
   const ok = await showConfirm({
     title: 'EDITAR PRATELEIRA ' + _editShelfId, icon: '✏',
-    desc: 'Salvar alterações nas propriedades da prateleira?',
+    desc: 'Sallet alterações nas propriedades da prateleira?',
     summary: { 'ANDARES': floors, 'GAVETAS': drawers, 'CAP. MÁX': maxKg + ' kg/gav.' },
     okLabel: 'SALVAR', okStyle: 'accent'
   });
@@ -129,7 +129,7 @@ async function saveEditShelf() {
 }
 
 // ——— SCROLL TO SHELF ———
-function selectShelf(id) {
+const selectShelf = (id) => {
   selectedShelfId = selectedShelfId === id ? null : id;
   renderShelfList();
 

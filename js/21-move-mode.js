@@ -7,7 +7,7 @@
 let mvState = null;
 // { prodIdx, srcKey, product, destKey }
 
-function openMoveModal(prodIdx) {
+const openMoveModal = (prodIdx) => {
   const p = (products[currentDrawerKey] || [])[prodIdx];
   if (!p) return;
 
@@ -27,7 +27,7 @@ function openMoveModal(prodIdx) {
   applyMoveHighlights();
 }
 
-function applyMoveHighlights() {
+const applyMoveHighlights = () => {
   if (!mvState) return;
   const src = mvState.srcKey;
   // highlight in depot grid
@@ -53,7 +53,7 @@ function applyMoveHighlights() {
   }
 }
 
-function mvSelectDest(destKey) {
+const mvSelectDest = (destKey) => {
   if (!mvState) return;
   mvState.destKey = destKey;
   const p = mvState.product;
@@ -84,7 +84,7 @@ function mvSelectDest(destKey) {
   document.getElementById('move-confirm-modal').classList.add('open');
 }
 
-function executeMoveConfirmed() {
+const executeMoveConfirmed = () => {
   if (!mvState || !mvState.destKey) return;
   const { prodIdx, srcKey, destKey, product: p } = mvState;
 
@@ -121,7 +121,7 @@ function executeMoveConfirmed() {
   renderAll();
 }
 
-function cancelMoveMode() {
+const cancelMoveMode = () => {
   // close confirm modal
   document.getElementById('move-confirm-modal').classList.remove('open');
   // remove banner

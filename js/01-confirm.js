@@ -5,7 +5,7 @@
 // ══ UNIFIED CONFIRMATION SYSTEM ══════════════════════════════════════
 let _confirmResolve = null;
 
-function showConfirm({ title, desc, summary, icon='⚠', okLabel='CONFIRMAR', okStyle='danger' }) {
+const showConfirm = ({ title, desc, summary, icon='⚠', okLabel='CONFIRMAR', okStyle='danger' }) => {
   return new Promise(resolve => {
     _confirmResolve = resolve;
     document.getElementById('confirm-title').textContent = title;
@@ -27,9 +27,10 @@ function showConfirm({ title, desc, summary, icon='⚠', okLabel='CONFIRMAR', ok
   });
 }
 
-function confirmResolve(result) {
+const confirmResolve = (result) => {
   document.getElementById('confirm-overlay').classList.remove('open');
   if (_confirmResolve) { _confirmResolve(result); _confirmResolve = null; }
 }
 
 
+const sanitized = (str) => String(str).replace(/[<>]/g, '');

@@ -3,13 +3,13 @@
 // ╚══════════════════════════════════════════════════════════════════╝
 
 // ——— HISTORY ———
-function logHistory(icon, action, detail) {
+const logHistory = (icon, action, detail) => {
   history.unshift({ ts: new Date().toISOString(), icon, action, detail });
   if (history.length > 200) history.pop();
 
 }
 
-function renderHistory() {
+const renderHistory = () => {
   const el = document.getElementById('page-history-list');
   if (!el) return;
   if (!history.length) { el.innerHTML = '<div class="empty-msg" style="padding:12px;font-size:11px">Nenhuma movimentação</div>'; return; }
@@ -27,7 +27,7 @@ function renderHistory() {
   }).join('');
 }
 
-async function clearHistory() {
+const clearHistory = async () => {
   const okCH = await showConfirm({ title:'LIMPAR HISTÓRICO', icon:'🗑', desc:'Apagar todas as movimentações registradas? Esta ação não pode ser desfeita.', okLabel:'LIMPAR' }); if(!okCH) return;
   history = [];
   renderHistory();

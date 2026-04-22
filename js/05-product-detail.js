@@ -3,7 +3,7 @@
 // ╚══════════════════════════════════════════════════════════════════╝
 
 // ══ PRODUCT DETAIL MODAL ═════════════════════════════════════════════
-function openProductDetail(code) {
+const openProductDetail = (code) => {
   const allProds = productsAll[activeDepotId] || products;
   const instances = [];
   Object.entries(allProds).forEach(([key, prods]) => {
@@ -63,14 +63,14 @@ function openProductDetail(code) {
   body.innerHTML = h2;
   document.getElementById('prod-detail-modal').classList.add('open');
 }
-function closePdmAndNavigate(key, code) {
+const closePdmAndNavigate = (key, code) => {
   document.getElementById('prod-detail-modal').classList.remove('open');
   navigateToDrawer(key, code);
 }
 
 // ══ DRAWER TOOLTIP ════════════════════════════════════════════════════
 let _dttTimer = null;
-function showDrawerTooltip(ev, key) {
+const showDrawerTooltip = (ev, key) => {
   clearTimeout(_dttTimer);
   _dttTimer = setTimeout(() => {
     const tip = document.getElementById('drawer-tooltip');
@@ -96,17 +96,17 @@ function showDrawerTooltip(ev, key) {
     tip.style.display = 'block';
   }, 300);
 }
-function hideDrawerTooltip() {
+const hideDrawerTooltip = () => {
   clearTimeout(_dttTimer);
   const tip = document.getElementById('drawer-tooltip');
   if (tip) tip.style.display = 'none';
 }
 
 // ══ KPI ACTIVE STATE ═══════════════════════════════════════════════════
-function updatePoKpiActiveState() {
+const updatePoKpiActiveState = () => {
   document.querySelectorAll('.po-kpi').forEach(el => el.classList.remove('active'));
 }
-function setPoKpiFilter(key) {
+const setPoKpiFilter = (key) => {
   poKpiFilter = poKpiFilter === key ? '' : key;
   renderProductsPage();
 }
@@ -114,7 +114,7 @@ function setPoKpiFilter(key) {
 
 
 // ── Product form tabs ─────────────────────────────────────────────────
-function pfSwitchTab(tab) {
+const pfSwitchTab = (tab) => {
   ['basic','details','expiry'].forEach((t,i) => {
     const tabEl = document.querySelectorAll('.pf-tab')[i];
     if (tabEl) tabEl.classList.toggle('active', t===tab);
@@ -123,7 +123,7 @@ function pfSwitchTab(tab) {
   });
 }
 
-function pfUpdateExpiryTab() {
+const pfUpdateExpiryTab = () => {
   const ctrl = document.getElementById('pf-expiry-control')?.value;
   const dis  = document.getElementById('pf-expiry-disabled-msg');
   const act  = document.getElementById('pf-expiry-active');
@@ -131,7 +131,7 @@ function pfUpdateExpiryTab() {
   if (act) act.style.display = ctrl==='no' ? 'none'  : 'block';
 }
 
-function pfUpdateDaysInfo() {
+const pfUpdateDaysInfo = () => {
   const info = document.getElementById('pf-expiry-days-info');
   if (!info || !pfExpiries.length) { if(info) info.innerHTML=''; return; }
   const lines = [...pfExpiries].sort().map(d => {
@@ -147,7 +147,7 @@ function pfUpdateDaysInfo() {
 // ── Depot modal save ──────────────────────────────────────────────────
 let depotModalEditId = null;
 
-async function saveDepotModal() {
+const saveDepotModal = async () => {
   const name = document.getElementById('dm-name')?.value.trim();
   if (!name) { alert('Nome é obrigatório.'); return; }
   const data = {
@@ -159,7 +159,7 @@ async function saveDepotModal() {
     notes:   document.getElementById('dm-notes')?.value.trim()   || '',
   };
   if (depotModalEditId) {
-    const ok = await showConfirm({ title:'EDITAR DEPÓSITO', icon:'✏', desc:'Salvar alterações neste depósito?', summary:{NOME:name, CIDADE:data.city||'—', 'RESPONS.':data.manager||'—'}, okLabel:'SALVAR', okStyle:'accent' });
+    const ok = await showConfirm({ title:'EDITAR DEPÓSITO', icon:'✏', desc:'Sallet alterações neste depósito?', summary:{NOME:name, CIDADE:data.city||'—', 'RESPONS.':data.manager||'—'}, okLabel:'SALVAR', okStyle:'accent' });
     if (!ok) return;
     const d = depots.find(d2 => d2.id === depotModalEditId);
     if (d) Object.assign(d, data);

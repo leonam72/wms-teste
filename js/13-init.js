@@ -3,14 +3,14 @@
 // ╚══════════════════════════════════════════════════════════════════╝
 
 // ——— INIT ———
-function init() {
+const init = () => {
   const today = new Date().toISOString().slice(0, 10);
   const gpEntry = document.getElementById('gp-entry'); if (gpEntry) gpEntry.value = today;
   renderDepotTabs();
   renderAll();
 }
 
-function renderAll() {
+const renderAll = () => {
   // keep shims in sync with active depot
   shelves  = shelvesAll[activeDepotId]  || [];
   products = productsAll[activeDepotId] || {};
@@ -30,7 +30,7 @@ function renderAll() {
   }
 }
 
-function syncSbChips() {
+const syncSbChips = () => {
   ['all','expired','expiring','multi','none','missing'].forEach(k => {
     const el = document.getElementById('sbf-' + k);
     if (el) el.classList.toggle('active', (k === 'all' && sbFilter === '') || k === sbFilter);
@@ -38,11 +38,11 @@ function syncSbChips() {
 }
 
 // ——— KEY HELPERS ———
-function drawerKey(shelfId, floor, drawer) {
+const drawerKey = (shelfId, floor, drawer) => {
   return `${shelfId}${floor}.G${drawer}`;
 }
 
-function parseKey(key) {
+const parseKey = (key) => {
   const m = key.match(/^([A-Z]+)(\d+)\.G(\d+)$/);
   if (!m) return null;
   return { shelf: m[1], floor: parseInt(m[2]), drawer: parseInt(m[3]) };

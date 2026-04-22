@@ -3,7 +3,7 @@
 // ╚══════════════════════════════════════════════════════════════════╝
 
 // ══ PAGE HISTORY ═════════════════════════════════════════════════════
-function renderPageHistory() {
+const renderPageHistory = () => {
   const el = document.getElementById('page-history-list');
   if (!el) return;
   if (!history.length) { el.innerHTML = '<div class="empty-msg">Nenhuma movimentação registrada</div>'; return; }

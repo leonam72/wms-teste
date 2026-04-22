@@ -3,11 +3,11 @@
 // ╚══════════════════════════════════════════════════════════════════╝
 
 // ——— GLOBAL ADD PRODUCT ———
-function openAddProductModal() {
+const openAddProductModal = () => {
   document.getElementById('add-product-modal').classList.add('open');
 }
 
-async function addGlobalProduct() {
+const addGlobalProduct = async () => {
   const code = document.getElementById('gp-code').value.trim().toUpperCase();
   const name = document.getElementById('gp-name').value.trim();
   const kg = parseFloat(document.getElementById('gp-kg').value) || 0;

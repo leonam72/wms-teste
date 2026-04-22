@@ -1,0 +1,28 @@
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /style.css HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/01-confirm.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/02-state.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/05-product-detail.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/03-history.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/04-expiry-alerts.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/06-floorplan.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/07-columns.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/08-products-page.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/09-history-page.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/10-product-form.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/11-sidebar-resize.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/12-search-filter.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/13-init.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/14-shelf-grid.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/15-stats-shelflist.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/16-drawer-modal.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/20-focus-drag.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/17-add-product.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/18-tabs-modals.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/19-seed.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/21-move-mode.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /js/22-settings.js HTTP/1.1" 200 -
+127.0.0.1 - - [21/Apr/2026 01:13:34] code 404, message File not found
+127.0.0.1 - - [21/Apr/2026 01:13:34] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [21/Apr/2026 01:13:42] code 404, message File not found
+127.0.0.1 - - [21/Apr/2026 01:13:42] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -

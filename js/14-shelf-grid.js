@@ -3,7 +3,7 @@
 // ╚══════════════════════════════════════════════════════════════════╝
 
 // ——— SHELF GRID ———
-function renderShelfGrid() {
+const renderShelfGrid = () => {
   const grid = document.getElementById('shelves-grid');
   grid.innerHTML = '';
   shelves.forEach(shelf => {
@@ -135,7 +135,7 @@ function renderShelfGrid() {
 }
 
 // ——— PRODUCT TABLE ———
-function getAllProducts() {
+const getAllProducts = () => {
   const map = {};
   Object.entries(products).forEach(([key, prods]) => {
     prods.forEach(p => {
@@ -154,7 +154,7 @@ let selectedShelfId = null;     // '' | 'expired' | 'expiring' | 'multi' | 'none
 let sbSortCol = 'code';
 let sbSortDir = 1;
 
-function setSbFilter(f) {
+const setSbFilter = (f) => {
   sbFilter = sbFilter === f ? '' : f;
   // sync chip active states
   ['all','expired','expiring','multi','none','missing'].forEach(k => {
@@ -164,7 +164,7 @@ function setSbFilter(f) {
   renderProductTable();
 }
 
-function setSbSort(col) {
+const setSbSort = (col) => {
   if (sbSortCol === col) sbSortDir = -sbSortDir;
   else { sbSortCol = col; sbSortDir = 1; }
   // update header indicators
@@ -177,7 +177,7 @@ function setSbSort(col) {
   renderProductTable();
 }
 
-function getAllProductsDetail2() {
+const getAllProductsDetail2 = () => {
   // Like getAllProductsDetail but also enriches with status/nearest for sidebar
   const map = {};
   Object.entries(products).forEach(([key, prods]) => {
@@ -201,7 +201,7 @@ function getAllProductsDetail2() {
   });
 }
 
-function renderProductTable() {
+const renderProductTable = () => {
   if (focusedDrawerKey) { renderFocusPanel(); return; }
 
   const q = (document.getElementById('product-search-input')?.value || '').toLowerCase();
@@ -254,7 +254,7 @@ function renderProductTable() {
   }).join('');
 }
 
-function renderFocusPanel() {
+const renderFocusPanel = () => {
   // focus panel elements no longer in sidebar HTML — skip gracefully
   const prods = products[focusedDrawerKey] || [];
   const list = document.getElementById('focus-prod-list');
@@ -287,7 +287,7 @@ function renderFocusPanel() {
   }).join('');
 }
 
-function selectProduct(code) {
+const selectProduct = (code) => {
   selectedProductCode = selectedProductCode === code ? null : code;
   renderAll();
   if (selectedProductCode) {

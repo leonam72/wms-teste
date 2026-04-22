@@ -5,7 +5,7 @@
 // ══ PRODUCTS OVERVIEW PAGE ════════════════════════════════════════════
 
 // ── Column toggle ──────────────────────────────────────────────────
-function poToggleColMenu() {
+const poToggleColMenu = () => {
   const m = document.getElementById('po-col-menu'); if(!m) return;
   if (!m.innerHTML) {
     m.innerHTML = Object.keys(poColumns).map(k =>
@@ -14,7 +14,7 @@ function poToggleColMenu() {
   }
   m.classList.toggle('open');
 }
-function poToggleCol(k) {
+const poToggleCol = (k) => {
   poColumns[k] = document.getElementById('pocol-'+k)?.checked ? 1 : 0;
   renderProductsPage();
 }
@@ -24,19 +24,19 @@ document.addEventListener('click', e => {
 });
 
 
-function poSort(col) {
+const poSort = (col) => {
   if (poSortColRef === col) poSortDirRef = -poSortDirRef;
   else { poSortColRef = col; poSortDirRef = 1; }
   renderProductsPage();
 }
 
-function poRenderHeaders() {
+const poRenderHeaders = () => {
   const thead = document.getElementById('po-thead'); if(!thead) return;
   const cols = Object.keys(poColumns).filter(k=>poColumns[k]);
   thead.innerHTML = '<tr>'+cols.map(k=>`<th draggable="true" onclick="poSort('${k}')">${PO_COL_LABELS[k]}</th>`).join('')+'</tr>';
 }
 
-function poRenderRow(p) {
+const poRenderRow = (p) => {
   const nearest = p.nearest;
   const days    = nearest ? daysUntil(nearest) : null;
   const daysStr = days===null ? '—' : days < 0 ? `<span style="color:var(--danger);font-weight:700">${Math.abs(days)}d VENC.</span>`
@@ -89,7 +89,7 @@ const PO_COL_LABELS = {
   ean:'EAN', cost:'CUSTO', price:'PREÇO', locations:'LOCALIZAÇÕES'
 }; // active KPI filter key
 
-function getAllProductsDetail() {
+const getAllProductsDetail = () => {
   const map = {};
   Object.entries(products).forEach(([key, prods]) => {
     prods.forEach(p => {
@@ -114,7 +114,7 @@ function getAllProductsDetail() {
   });
 }
 
-function renderProductsPage() {
+const renderProductsPage = () => {
   poRenderHeaders();
   const q  = (document.getElementById('po-search')?.value || '').toLowerCase();
   const fs = document.getElementById('po-filter-status')?.value || '';

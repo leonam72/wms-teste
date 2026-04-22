@@ -3,7 +3,7 @@
 // ╚══════════════════════════════════════════════════════════════════╝
 
 // ——— TABS ———
-function switchTab(id) {
+const switchTab = (id) => {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -14,7 +14,7 @@ function switchTab(id) {
 
 // ——— CLOSE MODALS ON OVERLAY CLICK ———
 // modal overlay click handlers — deferred so DOM is ready
-function attachModalListeners() {
+const attachModalListeners = () => {
   const em = document.getElementById('expiry-modal');
   if (em) em.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('open'); });
   const dm = document.getElementById('drawer-modal');

@@ -6,7 +6,7 @@
 let searchScope   = 'product'; // 'product' | 'address'
 let activeChips   = new Set();   // 'occupied'|'empty'|'expired'|'expiring'|'multi'|'selected'
 
-function setScope(scope) {
+const setScope = (scope) => {
   searchScope = scope;
   document.getElementById('scope-product').classList.toggle('active', scope === 'product');
   document.getElementById('scope-address').classList.toggle('active', scope === 'address');
@@ -14,26 +14,26 @@ function setScope(scope) {
   applyFilters();
 }
 
-function toggleChip(name) {
+const toggleChip = (name) => {
   activeChips.has(name) ? activeChips.delete(name) : activeChips.add(name);
   const el = document.getElementById('chip-' + name);
   if (el) el.classList.toggle('active', activeChips.has(name));
   applyFilters();
 }
 
-function clearSearch() {
+const clearSearch = () => {
   document.getElementById('grid-search').value = '';
   applyFilters();
 }
 
-function clearAllFilters() {
+const clearAllFilters = () => {
   document.getElementById('grid-search').value = '';
   activeChips.clear();
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   applyFilters();
 }
 
-function applyFilters() {
+const applyFilters = () => {
   const q    = (document.getElementById('grid-search')?.value || '').trim().toLowerCase();
   const chips = activeChips;
 
@@ -113,7 +113,7 @@ function applyFilters() {
 }
 
 // ——— NAVIGATE TO DRAWER ———
-function navigateToDrawer(key, code) {
+const navigateToDrawer = (key, code) => {
   // close any open modals
   ['expiry-modal','prod-detail-modal'].forEach(id => {
     document.getElementById(id)?.classList.remove('open');

@@ -3,7 +3,7 @@
 // ╚══════════════════════════════════════════════════════════════════╝
 
 // ——— DRAWER FOCUS MODE ———
-function setFocusedDrawer(key) {
+const setFocusedDrawer = (key) => {
   // clear old active outline
   document.querySelectorAll('.drawer.active-drawer').forEach(d => d.classList.remove('active-drawer'));
   focusedDrawerKey = key;
@@ -18,7 +18,7 @@ function setFocusedDrawer(key) {
   });
 }
 
-function clearFocus() {
+const clearFocus = () => {
   focusedDrawerKey = null;
   document.querySelectorAll('.drawer.active-drawer').forEach(d => d.classList.remove('active-drawer'));
   renderProductTable();
@@ -28,7 +28,7 @@ function clearFocus() {
 let dragIdx = null;
 let dragFromKey = null;
 
-function onDragStart(e, idx, fromKey) {
+const onDragStart = (e, idx, fromKey) => {
   dragIdx = idx;
   dragFromKey = fromKey;
   e.dataTransfer.effectAllowed = 'move';
@@ -42,7 +42,7 @@ function onDragStart(e, idx, fromKey) {
   });
 }
 
-function onDragEnd(e) {
+const onDragEnd = (e) => {
   e.currentTarget && e.currentTarget.classList.remove('dragging');
   document.querySelectorAll('.drawer').forEach(d => {
     d.classList.remove('drop-target');
@@ -52,17 +52,17 @@ function onDragEnd(e) {
   });
 }
 
-function onDrawerDragOver(e) {
+const onDrawerDragOver = (e) => {
   e.preventDefault();
   e.dataTransfer.dropEffect = 'move';
   this.classList.add('drop-target');
 }
 
-function onDrawerDragLeave(e) {
+const onDrawerDragLeave = (e) => {
   this.classList.remove('drop-target');
 }
 
-function onDrawerDrop(e) {
+const onDrawerDrop = (e) => {
   e.preventDefault();
   this.classList.remove('drop-target');
   const destKey = this.dataset.key;

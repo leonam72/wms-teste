@@ -17,14 +17,14 @@ let fpUndoStack = [];   // array of {layout, objects, objSeq} snapshots
 let fpRedoStack = [];   // redo stack
 const FP_MAX_HISTORY = 50;
 
-function fpHistoryPush() {
+const fpHistoryPush = () => {
   fpUndoStack.push(JSON.parse(JSON.stringify({layout:fpLayout, objects:fpObjects, objSeq:fpObjIdSeq})));
   if (fpUndoStack.length > FP_MAX_HISTORY) fpUndoStack.shift();
   fpRedoStack = [];
   fpUpdateUndoButtons();
 }
 
-function fpUndo() {
+const fpUndo = () => {
   if (!fpUndoStack.length) return;
   fpRedoStack.push(JSON.parse(JSON.stringify({layout:fpLayout, objects:fpObjects, objSeq:fpObjIdSeq})));
   const prev = fpUndoStack.pop();
@@ -35,7 +35,7 @@ function fpUndo() {
   renderFloorPlan();
 }
 
-function fpRedo() {
+const fpRedo = () => {
   if (!fpRedoStack.length) return;
   fpUndoStack.push(JSON.parse(JSON.stringify({layout:fpLayout, objects:fpObjects, objSeq:fpObjIdSeq})));
   const next = fpRedoStack.pop();
@@ -46,7 +46,7 @@ function fpRedo() {
   renderFloorPlan();
 }
 
-function fpUpdateUndoButtons() {
+const fpUpdateUndoButtons = () => {
   const undoBtn = document.getElementById('fp-undo-btn');
   const redoBtn = document.getElementById('fp-redo-btn');
   if (undoBtn) { undoBtn.disabled = fpUndoStack.length === 0; undoBtn.style.opacity = fpUndoStack.length?'1':'.35'; }
@@ -73,18 +73,18 @@ let fpActiveTool = null;
 const FP_OBJ_Z = { street:1, zone:2, textbox:3, blocked:5, entry:5 };
 const SHELF_Z  = 4;
 
-function fpIsBlocker(obj) { return obj.type==='blocked' || obj.type==='entry' || obj.type==='street'; }
-function fpIsUnder(obj)   { return obj.type==='zone' || obj.type==='street' || obj.type==='textbox'; }
+const fpIsBlocker = (obj) => { return obj.type==='blocked' || obj.type==='entry' || obj.type==='street'; }
+const fpIsUnder = (obj)   { return obj.type==='zone' || obj.type==='street' || obj.type==='textbox'; }
 
 // ─── Sizing helpers ───────────────────────────────────────────────────
-function fpCardH(shelf) { return 100; }
-function fpSnap(v) { return fpSnapOn ? Math.round(v/FP_GRID)*FP_GRID : v; }
+const fpCardH = (shelf) => { return 100; }
+const fpSnap = (v) => { return fpSnapOn ? Math.round(v/FP_GRID)*FP_GRID : v; }
 
 // ─── Canvas helper (escopo global) ───────────────────────────────────
-function _fpCanvas() { return document.getElementById('fp-canvas'); }
+const _fpCanvas = () => { return document.getElementById('fp-canvas'); }
 
 // ─── Coordinate helpers ───────────────────────────────────────────────
-function fpS2W(sx, sy) {
+const fpS2W = (sx, sy) => {
   const c = _fpCanvas();
   if (!c) return {x:0,y:0};
   const r = c.getBoundingClientRect();
@@ -92,10 +92,10 @@ function fpS2W(sx, sy) {
 }
 
 // ─── Collision ────────────────────────────────────────────────────────
-function fpRects(a, b) {
+const fpRects = (a, b) => {
   return a.x+a.w > b.x && b.x+b.w > a.x && a.y+a.h > b.y && b.y+b.h > a.y;
 }
-function fpCollidesShelf(shelfId, tx, ty, shList) {
+const fpCollidesShelf = (shelfId, tx, ty, shList) => {
   const shelf = shList.find(s=>s.id===shelfId); if (!shelf) return false;
   const sr = {x:tx, y:ty, w:FP_CARD_W, h:fpCardH(shelf)};
   for (const o of fpObjects)
@@ -107,14 +107,14 @@ function fpCollidesShelf(shelfId, tx, ty, shList) {
   }
   return false;
 }
-function fpCollides(shelfId, tx, ty) {
+const fpCollides = (shelfId, tx, ty) => {
   const did = fpGetViewDepotId();
   const sl  = did ? (shelvesAll[did]||[]) : Object.values(shelvesAll).flat();
   return fpCollidesShelf(shelfId, tx, ty, sl);
 }
 
 // ─── Zoom & transform ─────────────────────────────────────────────────
-function fpApplyTransform() {
+const fpApplyTransform = () => {
   const inner = document.getElementById('fp-canvas-inner');
   if (inner) {
     const W = 6000, H = 4000;
@@ -126,7 +126,7 @@ function fpApplyTransform() {
   const p = document.getElementById('fp-zoom-pct');
   if (p) p.textContent = Math.round(fpScale*100)+'%';
 }
-function fpZoom(delta, cx, cy) {
+const fpZoom = (delta, cx, cy) => {
   const c = _fpCanvas(); if (!c) return;
   const ns = Math.max(0.15, Math.min(3, fpScale+delta)); if (ns===fpScale) return;
   const r = c.getBoundingClientRect();
@@ -141,14 +141,14 @@ function fpZoom(delta, cx, cy) {
     c.scrollTop  = wy * fpScale - py;
   });
 }
-function fpZoomReset() {
+const fpZoomReset = () => {
   const c = _fpCanvas(); if (!c) return;
   fpScale=1; fpApplyTransform();
   requestAnimationFrame(() => { c.scrollLeft=0; c.scrollTop=0; });
 }
 
 // ─── Edit mode ────────────────────────────────────────────────────────
-function fpEnterEditMode() {
+const fpEnterEditMode = () => {
   fpEditMode = true;
   fpUndoStack = []; fpRedoStack = [];
   fpSnapshot = JSON.parse(JSON.stringify({layout:fpLayout, objects:fpObjects, objSeq:fpObjIdSeq}));
@@ -157,7 +157,7 @@ function fpEnterEditMode() {
   _fpCanvas()?.classList.add('edit-mode');
   renderFloorPlan();
 }
-function fpExitEditMode() {
+const fpExitEditMode = () => {
   fpCancelTool();
   fpEditMode = false; fpDrag = null; fpResizing = null;
   document.getElementById('fp-view-tools').style.display = 'flex';
@@ -167,7 +167,7 @@ function fpExitEditMode() {
   fpSnapshot = JSON.parse(JSON.stringify({layout:fpLayout, objects:fpObjects, objSeq:fpObjIdSeq}));
   renderFloorPlan();
 }
-function fpToggleSnap() {
+const fpToggleSnap = () => {
   fpSnapOn = !fpSnapOn;
   const b = document.getElementById('fp-snap-btn');
   if (b) { b.textContent='⊞ SNAP:'+(fpSnapOn?'ON':'OFF'); b.classList.toggle('active',fpSnapOn); }
@@ -183,7 +183,7 @@ const FP_OBJ_DEF = {
   entry:   {w:100,h:50, text:'🚪 ENTRADA/SAÍDA', style:'entry' },
 };
 
-function fpSelectTool(type) {
+const fpSelectTool = (type) => {
   if (fpActiveTool===type) { fpCancelTool(); return; }
   fpActiveTool = type;
   Object.keys(FP_OBJ_DEF).forEach(t => {
@@ -194,7 +194,7 @@ function fpSelectTool(type) {
   _fpUpdatePreview(type);
 }
 
-function fpCancelTool() {
+const fpCancelTool = () => {
   fpActiveTool = null;
   Object.keys(FP_OBJ_DEF).forEach(t => document.getElementById('fptool-'+t)?.classList.remove('placing-active'));
   _fpCanvas()?.classList.remove('placing');
@@ -202,7 +202,7 @@ function fpCancelTool() {
   if (prev) prev.style.display = 'none';
 }
 
-function _fpUpdatePreview(type) {
+const _fpUpdatePreview = (type) => {
   const prev = document.getElementById('fp-place-preview');
   if (!prev) return;
   const d = FP_OBJ_DEF[type];
@@ -217,7 +217,7 @@ function _fpUpdatePreview(type) {
   prev.textContent  = d.text;
 }
 
-function fpMovePreview(sx, sy) {
+const fpMovePreview = (sx, sy) => {
   if (!fpActiveTool) return;
   const prev = document.getElementById('fp-place-preview');
   if (!prev) return;
@@ -237,7 +237,7 @@ function fpMovePreview(sx, sy) {
   prev.style.display = 'flex';
 }
 
-function fpPlaceObject(wx, wy) {
+const fpPlaceObject = (wx, wy) => {
   if (!fpActiveTool || !fpEditMode) return;
   fpHistoryPush();
   const type = fpActiveTool;
@@ -252,7 +252,7 @@ function fpPlaceObject(wx, wy) {
 }
 
 // ─── Auto-place helper ────────────────────────────────────────────────
-function fpAutoPlace(shelf) {
+const fpAutoPlace = (shelf) => {
   const did = fpGetViewDepotId();
   const sl  = did ? (shelvesAll[did]||[]) : Object.values(shelvesAll).flat();
   for (let r=0; r<20; r++) for (let c=0; c<10; c++) {
@@ -263,7 +263,7 @@ function fpAutoPlace(shelf) {
 }
 
 // ─── Rename helper (view + edit mode) ────────────────────────────────
-function fpRenameObject(objId) {
+const fpRenameObject = (objId) => {
   const obj = fpObjects.find(o=>o.id===objId); if (!obj) return;
   const t = prompt('Renomear:', obj.text);
   if (t !== null) {
@@ -275,7 +275,7 @@ function fpRenameObject(objId) {
 }
 
 // ─── Main render ──────────────────────────────────────────────────────
-function renderFloorPlan() {
+const renderFloorPlan = () => {
   const inner = document.getElementById('fp-canvas-inner');
   if (!inner) return;
 
@@ -449,19 +449,19 @@ function renderFloorPlan() {
 }
 
 // ─── Multi-select helpers ─────────────────────────────────────────────
-function fpSelKey(kind, id) { return kind+'::'+id; }
-function fpSelAdd(kind, id) { fpSelection.add(fpSelKey(kind,id)); }
-function fpSelRemove(kind, id) { fpSelection.delete(fpSelKey(kind,id)); }
-function fpSelHas(kind, id) { return fpSelection.has(fpSelKey(kind,id)); }
-function fpSelClear() { fpSelection.clear(); fpUpdateAlignBar(); }
-function fpSelAll() {
+const fpSelKey = (kind, id) => { return kind+'::'+id; }
+const fpSelAdd = (kind, id) => { fpSelection.add(fpSelKey(kind,id)); }
+const fpSelRemove = (kind, id) => { fpSelection.delete(fpSelKey(kind,id)); }
+const fpSelHas = (kind, id) => { return fpSelection.has(fpSelKey(kind,id)); }
+const fpSelClear = () => { fpSelection.clear(); fpUpdateAlignBar(); }
+const fpSelAll = () => {
   fpSelection.clear();
   shelves.forEach(s => fpSelAdd('shelf', s.id));
   fpObjects.forEach(o => fpSelAdd('obj', o.id));
   fpUpdateAlignBar(); renderFloorPlan();
 }
 
-function fpUpdateAlignBar() {
+const fpUpdateAlignBar = () => {
   const bar = document.getElementById('fp-align-bar');
   const cnt = document.getElementById('fp-sel-count');
   const n   = fpSelection.size;
@@ -469,7 +469,7 @@ function fpUpdateAlignBar() {
   if (cnt) cnt.textContent = n + ' sel.';
 }
 
-function fpToggleSelect(kind, id, ctrlKey) {
+const fpToggleSelect = (kind, id, ctrlKey) => {
   if (!ctrlKey) {
     const wasAlreadySingle = fpSelection.size===1 && fpSelHas(kind,id);
     fpSelection.clear();
@@ -482,7 +482,7 @@ function fpToggleSelect(kind, id, ctrlKey) {
   _fpApplySelectionClass();
 }
 
-function _fpApplySelectionClass() {
+const _fpApplySelectionClass = () => {
   document.querySelectorAll('.fp-selected-item').forEach(el => el.classList.remove('fp-selected-item'));
   fpSelection.forEach(key => {
     const [kind, id] = key.split('::');
@@ -494,7 +494,7 @@ function _fpApplySelectionClass() {
 }
 
 // ─── Lasso select ─────────────────────────────────────────────────────
-function fpLassoUpdate(wx, wy) {
+const fpLassoUpdate = (wx, wy) => {
   if (!fpLasso) return;
   const lx = Math.min(fpLasso.startX, wx);
   const ly = Math.min(fpLasso.startY, wy);
@@ -509,7 +509,7 @@ function fpLassoUpdate(wx, wy) {
   }
 }
 
-function fpLassoCommit(ctrlKey) {
+const fpLassoCommit = (ctrlKey) => {
   const el = document.getElementById('fp-lasso');
   if (el) el.style.display = 'none';
   if (!fpLasso) return;
@@ -533,7 +533,7 @@ function fpLassoCommit(ctrlKey) {
 }
 
 // ─── Align selected items ─────────────────────────────────────────────
-function fpAlign(mode) {
+const fpAlign = (mode) => {
   if (fpSelection.size < 2 && !['left','right','top','bottom','cx','cy'].includes(mode)) return;
   if (fpSelection.size < 1) return;
   fpHistoryPush();
@@ -586,7 +586,7 @@ function fpAlign(mode) {
   renderFloorPlan();
 }
 
-function fpDeleteSelected() {
+const fpDeleteSelected = () => {
   if (!fpSelection.size) return;
   const shelfIds = [], objIds = [];
   fpSelection.forEach(key => {
@@ -744,7 +744,7 @@ document.addEventListener('keydown', ev => {
 });
 
 // ─── Shelf detail modal ───────────────────────────────────────────────
-function openFpModal(shelfId) {
+const openFpModal = (shelfId) => {
   if (fpEditMode) return;
   const shelf = shelves.find(s=>s.id===shelfId); if (!shelf) return;
   fpFocusedShelf = shelfId; renderFloorPlan();
@@ -755,7 +755,7 @@ function openFpModal(shelfId) {
   document.getElementById('fp-shelf-modal').classList.add('open');
   if (mvState) setTimeout(applyMoveHighlights, 50);
 }
-function closeFpModal() {
+const closeFpModal = () => {
   document.getElementById('fp-shelf-modal').classList.remove('open');
   fpFocusedShelf = null; renderFloorPlan();
 }

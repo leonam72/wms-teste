@@ -3,7 +3,7 @@
 // ╚══════════════════════════════════════════════════════════════════╝
 
 // ——— ADD SHELF ———
-function addShelf() {
+const addShelf = () => {
   const name = document.getElementById('new-shelf-name').value.trim().toUpperCase();
   const floors = parseInt(document.getElementById('new-shelf-floors').value);
   const drawers = parseInt(document.getElementById('new-shelf-drawers').value);
@@ -16,7 +16,7 @@ function addShelf() {
   renderAll();
 }
 
-async function removeShelf(id) {
+const removeShelf = async (id) => {
   const shelf = shelves.find(s => s.id === id);
   if (!shelf) return;
   // verify truly empty
@@ -33,7 +33,7 @@ async function removeShelf(id) {
 }
 
 // ——— DRAWER MODAL ———
-function openDrawerModal(key) {
+const openDrawerModal = (key) => {
   currentDrawerKey = key;
   document.getElementById('drawer-modal-title').textContent = `GAVETA — ${key}`;
   const p = parseKey(key);
@@ -42,14 +42,14 @@ function openDrawerModal(key) {
   document.getElementById('drawer-modal').classList.add('open');
 }
 
-function closeDrawerModal() {
+const closeDrawerModal = () => {
   document.getElementById('drawer-modal').classList.remove('open');
   currentDrawerKey = null;
   dpExpiries = [];
   pfExpiries = [];
 }
 
-function renderDrawerProducts() {
+const renderDrawerProducts = () => {
   const list = document.getElementById('drawer-products-list');
   const prods = products[currentDrawerKey] || [];
 
@@ -131,7 +131,7 @@ function renderDrawerProducts() {
   }).join('');
 }
 
-function openDateEditForProduct(prodIdx, dateIdx) {
+const openDateEditForProduct = (prodIdx, dateIdx) => {
   const p = (products[currentDrawerKey] || [])[prodIdx];
   if (!p) return;
   const expiries = getExpiries(p).filter(Boolean).sort();
@@ -153,12 +153,12 @@ function openDateEditForProduct(prodIdx, dateIdx) {
 }
 
 // dp-* helpers now delegate to unified pf- form
-function dpAddExpiry()    { pfAddExpiry(); }
-function renderDpChips()  { renderPfChips(); }
-function dpEditExpiry(i)  { pfEditExpiry(i); }
-function addProductToDrawer() { openProductForm(null); }
+const dpAddExpiry = ()    { pfAddExpiry(); }
+const renderDpChips = ()  { renderPfChips(); }
+const dpEditExpiry = (i)  { pfEditExpiry(i); }
+const addProductToDrawer = () => { openProductForm(null); }
 
-async function removeProductFromDrawer(idx) {
+const removeProductFromDrawer = async (idx) => {
   const p = products[currentDrawerKey][idx];
   const okRm = await showConfirm({ title:'REMOVER PRODUTO', icon:'🗑', desc:'Remover este produto da gaveta?', summary:{'CÓDIGO':p.code,'NOME':p.name,'GAVETA':currentDrawerKey}, okLabel:'REMOVER' }); if(!okRm) return;
   logHistory('📤', `Saída: ${p.code} — ${p.name}`, `Removido de ${currentDrawerKey}`);

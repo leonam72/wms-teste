@@ -25,7 +25,7 @@ let productsAll = { dep1: {} };
 let shelves = shelvesAll['dep1'];
 let products = productsAll['dep1'];
 
-function switchDepot(depotId) {
+const switchDepot = (depotId) => {
   if (!shelvesAll[depotId])  { shelvesAll[depotId]  = []; }
   if (!productsAll[depotId]) { productsAll[depotId] = {}; }
   activeDepotId = depotId;
@@ -38,9 +38,9 @@ function switchDepot(depotId) {
   renderDepotTabs();
 }
 
-function addDepot(name) { openDepotModal(null); }
+const addDepot = (name) => { openDepotModal(null); }
 
-async function removeDepot(id) {
+const removeDepot = async (id) => {
   if (depots.length <= 1) { alert('Não é possível remover o único depósito.'); return; }
   const depot = depots.find(d => d.id === id);
   const slist = shelvesAll[id] || [];
@@ -68,9 +68,9 @@ async function removeDepot(id) {
   else { renderDepotTabs(); renderDepotsPage(); }
 }
 
-function renameDepot(id) { openDepotModal(id); }
+const renameDepot = (id) => { openDepotModal(id); }
 
-function renderDepotTabs() {
+const renderDepotTabs = () => {
   const bar = document.getElementById('depot-tabs-bar');
   if (!bar) return;
   bar.innerHTML = depots.map(d => `

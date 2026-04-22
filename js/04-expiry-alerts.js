@@ -6,18 +6,18 @@
 // Each product has p.expiries = ['2025-04-01', '2025-06-01', ...]
 // For backwards compat, p.exit (single string) is also accepted.
 
-function getExpiries(p) {
+const getExpiries = (p) => {
   if (p.expiries && p.expiries.length) return p.expiries;
   if (p.exit) return [p.exit];
   return [];
 }
 
-function nearestExpiry(p) {
+const nearestExpiry = (p) => {
   const list = getExpiries(p).filter(Boolean).sort();
   return list[0] || null;
 }
 
-function expiryStatus(dateStr) {
+const expiryStatus = (dateStr) => {
   if (!dateStr) return 'ok';
   const today = new Date(); today.setHours(0,0,0,0);
   const d = new Date(dateStr + 'T00:00:00');
@@ -27,11 +27,11 @@ function expiryStatus(dateStr) {
   return 'ok';
 }
 
-function productExpiryStatus(p) {
+const productExpiryStatus = (p) => {
   return expiryStatus(nearestExpiry(p));
 }
 
-function drawerExpiryStatus(prods) {
+const drawerExpiryStatus = (prods) => {
   let worst = 'ok';
   prods.forEach(p => {
     const s = productExpiryStatus(p);
@@ -41,20 +41,20 @@ function drawerExpiryStatus(prods) {
   return worst;
 }
 
-function daysUntil(dateStr) {
+const daysUntil = (dateStr) => {
   if (!dateStr) return null;
   const today = new Date(); today.setHours(0,0,0,0);
   return Math.floor((new Date(dateStr + 'T00:00:00') - today) / 86400000);
 }
 
-function fmtDate(d) {
+const fmtDate = (d) => {
   if (!d) return '—';
   const [y,m,day] = d.split('-');
   return `${day}/${m}/${y}`;
 }
 
 // ——— ALERTS BAR ———
-function renderAlerts() {
+const renderAlerts = () => {
   const expired = [], expiring = [];
   Object.entries(products).forEach(([key, prods]) => {
     prods.forEach(p => {
@@ -70,7 +70,7 @@ function renderAlerts() {
   bar.innerHTML = h;
 }
 
-function openExpiryModal(filter) {
+const openExpiryModal = (filter) => {
   const rows = [];
   Object.entries(products).forEach(([key, prods]) => {
     prods.forEach(p => {
@@ -118,7 +118,7 @@ function openExpiryModal(filter) {
 }
 
 
-function handleWorkspaceClick(e) {
+const handleWorkspaceClick = (e) => {
   // if click lands on workspace bg (not a drawer), clear focus
   if (!e.target.closest('.drawer')) {
     clearFocus();
@@ -129,7 +129,7 @@ function handleWorkspaceClick(e) {
 
 
 // ── Expiry chip helpers for global add form ──
-function gpAddExpiry() {
+const gpAddExpiry = () => {
   const val = document.getElementById('gp-expiry-input').value;
   if (!val) return;
   if (gpExpiries.includes(val)) { document.getElementById('gp-expiry-input').value = ''; return; }
@@ -139,7 +139,7 @@ function gpAddExpiry() {
   renderGpChips();
 }
 
-function renderGpChips() {
+const renderGpChips = () => {
   const container = document.getElementById('gp-expiry-chips');
   if (!gpExpiries.length) {
     container.innerHTML = '<span class="exp-chip-empty">Nenhuma validade adicionada</span>';
@@ -153,7 +153,7 @@ function renderGpChips() {
   }).join('');
 }
 
-function gpEditExpiry(idx) {
+const gpEditExpiry = (idx) => {
   dateEditCtx = {
     type: 'gpForm',
     dateIdx: idx,
@@ -166,12 +166,12 @@ function gpEditExpiry(idx) {
 }
 
 // ── Date edit modal actions ──
-function closeDateEditModal() {
+const closeDateEditModal = () => {
   document.getElementById('date-edit-modal').classList.remove('open');
   dateEditCtx = null;
 }
 
-function saveDateEdit() {
+const saveDateEdit = () => {
   if (!dateEditCtx) return;
   const val = document.getElementById('date-edit-input').value;
   if (!val) return;
@@ -182,7 +182,7 @@ function saveDateEdit() {
   closeDateEditModal();
 }
 
-function deleteDateEdit() {
+const deleteDateEdit = () => {
   if (!dateEditCtx) return;
   const list = [...dateEditCtx.list];
   list.splice(dateEditCtx.dateIdx, 1);

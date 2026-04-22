@@ -46,13 +46,13 @@ document.addEventListener('drop', ev => {
 
 document.addEventListener('dragend', () => _cdDone());
 
-function _cdDone() {
+const _cdDone = () => {
   if (_cdSrc) { _cdSrc.th.classList.remove('col-drag-src'); _cdSrc = null; }
   document.querySelectorAll('th.col-drag-over').forEach(t => t.classList.remove('col-drag-over'));
 }
 
 // ── Products page column reorder ─────────────────────────────────────
-function poReorderCol(from, to) {
+const poReorderCol = (from, to) => {
   const allKeys = Object.keys(poColumns);
   const visKeys = allKeys.filter(k =>  poColumns[k]);
   const hidKeys = allKeys.filter(k => !poColumns[k]);
@@ -68,7 +68,7 @@ function poReorderCol(from, to) {
 // ── Sidebar ptable column reorder ────────────────────────────────────
 const sbColOrder = ['code', 'name', 'qty', 'status']; // mutable order
 
-function sbReorderCol(from, to) {
+const sbReorderCol = (from, to) => {
   if (from < 0 || to < 0 || from >= sbColOrder.length || to >= sbColOrder.length || from === to) return;
   const moved = sbColOrder.splice(from, 1)[0];
   sbColOrder.splice(to, 0, moved);
@@ -76,7 +76,7 @@ function sbReorderCol(from, to) {
 }
 
 // ══ PAGE NAVIGATION ══════════════════════════════════════════════════
-function showPage(name) {
+const showPage = (name) => {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   const page = document.getElementById('page-' + name);
