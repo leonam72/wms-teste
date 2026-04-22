@@ -1,0 +1,108 @@
+.sidebar {
+  width: 320px;
+  min-width: 180px;
+  max-width: 55vw;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  position: relative;
+}
+
+.sidebar-resizer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: col-resize;
+  z-index: 10;
+}
+
+.sidebar-resizer:hover {
+  background: var(--accent);
+}
+
+.sidebar-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  cursor: pointer;
+  text-align: center;
+  color: var(--text2);
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
+  white-space: nowrap;
+}
+
+.tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-search {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.product-search input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  padding: 8px 12px;
+  outline: none;
+}
+
+.placeholder-msg {
+  padding: 20px;
+  font-size: 11px;
+  color: var(--text3);
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.shelf-mgmt {
+  padding: 12px;
+}
+
+.section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text2);
+}

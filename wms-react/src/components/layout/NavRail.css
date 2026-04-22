@@ -1,0 +1,54 @@
+.nav-rail {
+  width: 64px;
+  background: var(--surface2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  transition: all .15s;
+  color: var(--text2);
+}
+
+.nav-btn:hover {
+  background: var(--highlight);
+  color: var(--accent);
+}
+
+.nav-btn.active {
+  background: var(--surface);
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+.nav-icon {
+  font-size: 18px;
+}
+
+.nav-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+
+.nav-sep {
+  width: 32px;
+  height: 1px;
+  background: var(--border);
+  margin: 10px 0;
+}

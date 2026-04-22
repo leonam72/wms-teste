@@ -1,0 +1,65 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.main-layout {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.workspace {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.workspace-content {
+  padding: 20px 24px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.workspace-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.ws-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  color: var(--text2);
+}
+
+.ws-title strong {
+  color: var(--text);
+  font-size: 18px;
+}
+
+.page {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.placeholder-msg {
+  padding: 40px;
+  border: 1px dashed var(--border);
+  color: var(--text3);
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+}

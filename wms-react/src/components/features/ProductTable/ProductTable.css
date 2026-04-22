@@ -1,0 +1,59 @@
+table.ptable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+table.ptable thead th {
+  padding: 8px 10px;
+  text-align: left;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--text3);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 1;
+}
+
+table.ptable tbody tr {
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background .12s;
+}
+
+table.ptable tbody tr:hover {
+  background: var(--surface2);
+}
+
+table.ptable td {
+  padding: 8px 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+.td-code {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.td-qty {
+  text-align: right;
+}
+
+.td-status {
+  text-align: center;
+}
+
+.empty-row {
+  padding: 20px;
+  text-align: center;
+  color: var(--text3);
+  font-style: italic;
+}
