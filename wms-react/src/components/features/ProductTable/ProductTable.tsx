@@ -6,11 +6,16 @@ import './ProductTable.css';
 
 interface ProductTableProps {
   searchTerm: string;
+  onProductClick: (product: Product, location: string) => void;
 }
 
-const ProductTable: React.FC<ProductTableProps> = ({ searchTerm }) => {
+const EMPTY_PRODUCTS = {};
+const EMPTY_SHELVES: any[] = [];
+const EMPTY_FPOBJECTS: any[] = [];
+
+const ProductTable: React.FC<ProductTableProps> = ({ searchTerm, onProductClick }) => {
   const activeDepotId = useWMSStore((state) => state.activeDepotId);
-  const productsAll = useWMSStore((state) => state.productsAll[activeDepotId] || {});
+  const productsAll = useWMSStore((state) => state.productsAll[activeDepotId] || EMPTY_PRODUCTS);
 
   const flattenedProducts = useMemo(() => {
     const list: (Product & { location: string })[] = [];
@@ -50,7 +55,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ searchTerm }) => {
       <tbody>
         {flattenedProducts.length > 0 ? (
           flattenedProducts.map((p, idx) => (
-            <tr key={`${p.code}-${p.location}-${idx}`}>
+            <tr key={`${p.code}-${p.location}-${idx}`} onClick={() => onProductClick(p, p.location)}>
               <td className="td-code">{p.code}</td>
               <td className="td-name" title={p.name}>{p.name}</td>
               <td className="td-qty">{p.qty}</td>

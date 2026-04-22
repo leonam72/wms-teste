@@ -41,7 +41,9 @@ export type HistoryItem = {
   detail: string;
 }
 
-export type PageID = 'depot' | 'depots' | 'products' | 'floorplan' | 'history';
+export type PageID = 'depot' | 'depots' | 'products' | 'floorplan' | 'history' | 'receiving' | 'quality' | 'logistics-v2';
+
+export type FilterType = 'occupied' | 'empty' | 'expired' | 'expiring' | 'multi' | 'selected' | 'low_stock' | 'no_expiry' | null;
 
 export interface FPObject {
   id: string;
@@ -64,4 +66,9 @@ export interface AppState {
   // FloorPlan State
   fpObjects: Record<string, FPObject[]>;
   fpZoom: number;
+  // Move Mode State
+  moveContext: {
+    fromKey: string;
+    product: Product;
+  } | null;
 }

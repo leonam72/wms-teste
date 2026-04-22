@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe>
+        <infNFe Id="NFe35021581331861797498375729772370556471195840" versao="4.00">
+            <ide>
+                <cUF>35</cUF>
+                <nNF>11547</nNF>
+                <dhEmi>2025-05-26T06:02:22-03:00</dhEmi>
+                <mod>55</mod>
+            </ide>
+            <emit><CNPJ>23456789000102</CNPJ><xNome>DOCA FORNECEDORA</xNome></emit>
+            <det nItem="1">
+                <prod>
+                    <cProd>SKU614</cProd>
+                    <xProd>Iogurte Natural 200ml</xProd>
+                    <qCom>50.0000</qCom>
+                    <uCom>UN</uCom>
+                    <rastro>
+                        <nLote>LOT922</nLote>
+                        <qLote>100.0000</qLote>
+                        <dFab>2025-05-26</dFab>
+                        <dVal>2025-06-25</dVal>
+                    </rastro>
+                </prod>
+            </det>
+        </infNFe>
+    </NFe>
+</nfeProc>

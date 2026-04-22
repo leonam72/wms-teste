@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inbound Receiving Checklist - VisualWMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 lg:px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em]">VisualWMS</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Dashboard</a>
+<a class="text-primary text-sm font-semibold border-b-2 border-primary py-4" href="#">Docks</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Inventory</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Settings</a>
+</nav>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-7xl mx-auto w-full px-4 lg:px-10 py-8">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<a class="text-primary hover:underline text-sm font-medium flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-sm">arrow_back</span> Back to Docks
+                            </a>
+</div>
+<h1 class="text-2xl lg:text-3xl font-bold tracking-tight">Inbound Receiving Checklist</h1>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-2">
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-sm">tag</span> Order: <span class="font-semibold text-slate-800 dark:text-slate-200">#ORD-99283</span>
+</div>
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-sm">local_shipping</span> Carrier: <span class="font-semibold text-slate-800 dark:text-slate-200">SwiftLogistics</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-amber-500"></span>
+<span class="text-sm font-medium text-amber-600">In-Progress</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-semibold hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined text-lg">description</span> View Manifest
+                        </button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Checklist & Blind Check -->
+<div class="lg:col-span-2 space-y-8">
+<!-- Blind Check Table Section -->
+<section class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/30">
+<h2 class="text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">inventory</span>
+                                    Blind Check - Receipt Verification
+                                </h2>
+<span class="text-xs font-medium px-2 py-1 bg-primary/10 text-primary rounded">3 Items Total</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-semibold">
+<tr>
+<th class="px-6 py-4">Item SKU &amp; Description</th>
+<th class="px-6 py-4">Expected</th>
+<th class="px-6 py-4">Received Qty</th>
+<th class="px-6 py-4 text-center">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-5">
+<p class="font-bold text-slate-800 dark:text-slate-200">SKU-1029</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Industrial Widgets (Blue)</p>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm font-medium">500 units</span>
+</td>
+<td class="px-6 py-5">
+<input class="w-24 px-3 py-1.5 rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-950 focus:ring-primary focus:border-primary" placeholder="0" type="number"/>
+</td>
+<td class="px-6 py-5 text-center">
+<span class="material-symbols-outlined text-slate-300">pending_actions</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-5">
+<p class="font-bold text-slate-800 dark:text-slate-200">SKU-4412</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Sealing Gaskets (12mm)</p>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm font-medium">250 units</span>
+</td>
+<td class="px-6 py-5">
+<input class="w-24 px-3 py-1.5 rounded-lg border-green-500 dark:border-green-800 bg-green-50 dark:bg-green-900/10 text-green-700 dark:text-green-400 focus:ring-green-500" type="number" value="250"/>
+</td>
+<td class="px-6 py-5 text-center">
+<span class="material-symbols-outlined text-green-500">check_circle</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-5">
+<p class="font-bold text-slate-800 dark:text-slate-200">SKU-8821</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Heavy Duty Bearings</p>
+</td>
+<td class="px-6 py-5">
+<span class="text-sm font-medium">100 units</span>
+</td>
+<td class="px-6 py-5">
+<input class="w-24 px-3 py-1.5 rounded-lg border-red-500 dark:border-red-800 bg-red-50 dark:bg-red-900/10 text-red-700 dark:text-red-400 focus:ring-red-500" type="number" value="98"/>
+</td>
+<td class="px-6 py-5 text-center">
+<span class="material-symbols-outlined text-red-500">warning</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Quality Control Section -->
+<section class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+<h2 class="text-lg font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">fact_check</span>
+                                Quality Control Questions
+                            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
+<span class="text-sm font-medium">Is the truck seal intact?</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded-md text-xs font-bold bg-primary text-white">YES</button>
+<button class="px-3 py-1 rounded-md text-xs font-bold bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400">NO</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
+<span class="text-sm font-medium">Temperature correct? (Ref cargo)</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded-md text-xs font-bold bg-primary text-white">YES</button>
+<button class="px-3 py-1 rounded-md text-xs font-bold bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400">NO</button>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
+<span class="text-sm font-medium">Packing list attached?</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded-md text-xs font-bold bg-primary text-white">YES</button>
+<button class="px-3 py-1 rounded-md text-xs font-bold bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400">NO</button>
+</div>
+</div>
+<div class="flex flex-col gap-2 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
+<label class="text-sm font-medium">Recorded Temp (°C)</label>
+<input class="px-3 py-1.5 rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-950 text-sm" placeholder="e.g. 4.5" type="text"/>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Damage Photos & Actions -->
+<div class="space-y-8">
+<!-- Photo Upload Section -->
+<section class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+<h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">add_a_photo</span>
+                                Damage / Pallet Documentation
+                            </h2>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Upload photos of any damaged items or unusual pallet conditions.</p>
+<div class="grid grid-cols-2 gap-3 mb-4">
+<div class="aspect-square rounded-lg bg-slate-100 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined text-slate-400">upload</span>
+<span class="text-[10px] font-bold text-slate-500 uppercase mt-1">Upload</span>
+</div>
+<div class="relative aspect-square rounded-lg overflow-hidden group">
+<img class="object-cover w-full h-full" data-alt="Damaged cardboard box in warehouse" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBqcUSZ2JaZTx0eKq4Zb2B3IipwC6yPXQOoIL0gHPqZEYeXZ8uifEj5eDyclOy0T0XO2ojEQs1IhLDz2Qs-lddrIQxdCSMWb0kL96Vegxz8hc7FvvgWDkpn6O_Oz4YjfU60nRGlzy8EykSj_MjD3H5sHp5mFqTiX0ZFFEe-pWGKhLQHv-YvEHRXc3qManN_MbpIV6RWUETuloGoT5LNj6YUPufHwHJRt4qrEkREOvTWMqWicVSyNfY6fHFX3mkF5mHfJzhJS-fvow"/>
+<button class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm leading-none">close</span>
+</button>
+</div>
+</div>
+<textarea class="w-full text-sm px-3 py-2 rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-950 focus:ring-primary focus:border-primary" placeholder="Add notes about damages..." rows="3"></textarea>
+</section>
+<!-- Action Buttons -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex flex-col gap-3">
+<h3 class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2">Finalize Inspection</h3>
+<button class="w-full py-4 bg-primary text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined">verified</span>
+                                Approve Receipt
+                            </button>
+<button class="w-full py-4 bg-white dark:bg-slate-950 border-2 border-red-500 text-red-500 dark:text-red-400 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-red-50 dark:hover:bg-red-900/10 transition-all">
+<span class="material-symbols-outlined">flag</span>
+                                Flag Discrepancy
+                            </button>
+<p class="text-[11px] text-center text-slate-400 dark:text-slate-500 mt-2">
+                                Submitting will log this report to the inventory manager and notify the carrier.
+                            </p>
+</div>
+<!-- Progress Summary -->
+<div class="p-4 bg-primary/5 dark:bg-primary/10 rounded-xl border border-primary/20">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-bold text-primary uppercase">Receiving Progress</span>
+<span class="text-xs font-bold text-primary">66%</span>
+</div>
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 66%"></div>
+</div>
+<div class="mt-3 flex flex-col gap-1">
+<div class="flex items-center gap-2 text-[11px] text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[14px] text-green-500">check_circle</span> 2 of 3 SKUs verified
+                                </div>
+<div class="flex items-center gap-2 text-[11px] text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[14px] text-green-500">check_circle</span> Seal inspection complete
+                                </div>
+<div class="flex items-center gap-2 text-[11px] text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[14px] text-amber-500">pending</span> Photo evidence required
+                                </div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="border-t border-slate-200 dark:border-slate-800 py-6 px-10 bg-white dark:bg-slate-900 mt-12">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-xs text-slate-500 dark:text-slate-400">© 2024 VisualWMS Pro. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-xs text-slate-500 dark:text-slate-400 hover:text-primary" href="#">User Guide</a>
+<a class="text-xs text-slate-500 dark:text-slate-400 hover:text-primary" href="#">Privacy Policy</a>
+<a class="text-xs text-slate-500 dark:text-slate-400 hover:text-primary" href="#">Support</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

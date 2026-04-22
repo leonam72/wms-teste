@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo Separador</title>
+<meta name="theme-color" content="#0f766e">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/separator.css">
+</head>
+<body class="separator-app-body">
+  <div id="server-status-overlay" class="server-status-overlay" aria-live="polite" aria-atomic="true">
+    <div class="server-status-card">
+      <div class="server-status-spinner"></div>
+      <div class="server-status-kicker">SEPARADOR // SERVER</div>
+      <div id="server-status-title" class="server-status-title">CARREGANDO TAREFAS</div>
+      <div id="server-status-desc" class="server-status-desc">Validando sessão e sincronizando separações.</div>
+    </div>
+  </div>
+
+  <main class="separator-shell">
+    <header class="separator-header">
+      <div>
+        <div class="separator-header-kicker">OPERACAO MOBILE</div>
+        <h1>Separador</h1>
+      </div>
+      <button class="separator-secondary-btn" type="button" onclick="logout()">Sair</button>
+    </header>
+
+    <section id="separator-home-screen" class="separator-screen active">
+      <div class="separator-summary-card">
+        <div>
+          <div class="separator-summary-label">Usuario</div>
+          <div id="separator-user-name" class="separator-summary-value">-</div>
+        </div>
+        <div class="separator-summary-stats">
+          <div>
+            <div class="separator-summary-label">Pendentes</div>
+            <div id="separator-pending-count" class="separator-summary-number">0</div>
+          </div>
+          <div>
+            <div class="separator-summary-label">Em andamento</div>
+            <div id="separator-progress-count" class="separator-summary-number">0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="separator-toolbar">
+        <button class="separator-secondary-btn" type="button" onclick="refreshSeparatorFeed()">Atualizar</button>
+      </div>
+
+      <section class="separator-list-section">
+        <div class="separator-section-title">Lista de tarefas</div>
+        <div id="separator-task-list" class="separator-task-list"></div>
+      </section>
+    </section>
+
+    <section id="separator-detail-screen" class="separator-screen">
+      <div class="separator-toolbar">
+        <button class="separator-secondary-btn" type="button" onclick="closeSeparatorTask()">Voltar</button>
+      </div>
+
+      <div id="separator-detail-status" class="separator-detail-status">Pendente</div>
+      <div id="separator-detail-title" class="separator-detail-title">-</div>
+
+      <div class="separator-detail-card">
+        <div class="separator-detail-row"><span>Romaneio</span><strong id="detail-romaneio">-</strong></div>
+        <div class="separator-detail-row"><span>Produto</span><strong id="detail-produto">-</strong></div>
+        <div class="separator-detail-row"><span>Codigo</span><strong id="detail-codigo">-</strong></div>
+        <div class="separator-detail-row"><span>Quantidade</span><strong id="detail-quantidade">-</strong></div>
+        <div class="separator-detail-row"><span>Deposito</span><strong id="detail-deposito">-</strong></div>
+        <div class="separator-detail-row"><span>Prateleira</span><strong id="detail-prateleira">-</strong></div>
+        <div class="separator-detail-row"><span>Gaveta</span><strong id="detail-gaveta">-</strong></div>
+        <div class="separator-detail-row"><span>Validade</span><strong id="detail-validade">-</strong></div>
+        <label class="separator-detail-note">
+          <span>Observacao opcional</span>
+          <textarea id="separator-occurrence-note" maxlength="500" placeholder="Descreva onde procurou ou alguma evidência relevante."></textarea>
+        </label>
+      </div>
+
+      <div class="separator-action-bar">
+        <button id="separator-cancel-btn" class="separator-secondary-btn separator-grow" type="button" onclick="cancelSeparatorTask()">Cancelar</button>
+        <button id="separator-start-btn" class="separator-secondary-btn separator-grow" type="button" onclick="startSeparatorTask()">Iniciar</button>
+        <button id="separator-nao-achei-btn" class="separator-secondary-btn separator-grow" type="button" onclick="markSeparatorTaskNaoAchei()">Não achei</button>
+        <button id="separator-complete-btn" class="separator-primary-btn separator-grow" type="button" onclick="completeSeparatorTask()">Concluir</button>
+      </div>
+    </section>
+  </main>
+
+  <script nonce="{{ csp_nonce }}">
+    window.AUTH_LOGIN_PATH = '/separador/login';
+    window.AUTH_TOKEN_STORAGE_KEY = 'separator_token';
+  </script>
+  <script nonce="{{ csp_nonce }}" src="/static/js/api.js"></script>
+  <script nonce="{{ csp_nonce }}" src="/static/js/separator_auth.js"></script>
+  <script nonce="{{ csp_nonce }}" src="/static/js/separator_app.js"></script>
+</body>
+</html>

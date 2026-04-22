@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>WMS - Conferência Cega</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 py-4 bg-white dark:bg-slate-900 shadow-sm">
+<div class="flex items-center gap-4">
+<div class="size-8 flex items-center justify-center bg-primary text-white rounded-lg">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+<div>
+<h2 class="text-lg font-bold leading-tight tracking-tight">WMS Logística</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400">Doca 04 • Recebimento #882</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">logout</span>
+</button>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-6 px-4 md:px-10 lg:px-40">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<!-- Timer Section -->
+<div class="mb-6">
+<div class="flex flex-col items-center justify-center p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-sm">schedule</span>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Cronômetro de Descarga</p>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center gap-1">
+<div class="flex h-16 w-16 items-center justify-center rounded-xl bg-primary/10 dark:bg-primary/20 border border-primary/20">
+<p class="text-primary text-2xl font-bold">00</p>
+</div>
+<p class="text-slate-400 text-[10px] font-bold uppercase">Horas</p>
+</div>
+<div class="flex h-16 items-center">
+<span class="text-2xl font-bold text-slate-300">:</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex h-16 w-16 items-center justify-center rounded-xl bg-primary/10 dark:bg-primary/20 border border-primary/20">
+<p class="text-primary text-2xl font-bold">12</p>
+</div>
+<p class="text-slate-400 text-[10px] font-bold uppercase">Minutos</p>
+</div>
+<div class="flex h-16 items-center">
+<span class="text-2xl font-bold text-slate-300">:</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex h-16 w-16 items-center justify-center rounded-xl bg-primary/10 dark:bg-primary/20 border border-primary/20">
+<p class="text-primary text-2xl font-bold">45</p>
+</div>
+<p class="text-slate-400 text-[10px] font-bold uppercase">Segundos</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Conference Title -->
+<div class="flex items-center justify-between mb-4 px-2">
+<h3 class="text-xl font-bold leading-tight">Conferência Cega</h3>
+<span class="px-3 py-1 bg-slate-200 dark:bg-slate-800 rounded-full text-xs font-bold text-slate-600 dark:text-slate-400">ITEM 4 / 28</span>
+</div>
+<!-- Product Card -->
+<div class="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6">
+<div class="flex flex-col md:flex-row gap-6">
+<div class="w-full md:w-1/3 aspect-square bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden flex items-center justify-center border border-slate-200 dark:border-slate-700">
+<div class="h-48 w-48 bg-cover bg-center rounded-md" data-alt="Industrial steel hammer product close up" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAL3vQZ6W4uvUvesWkDy2CB1-GXsnE6kOiECyIx0h_vQmH3v_mpW0AqPDbyLAWjRaNUhCKL9ks_ervsaapUBiky5D39G79C3sI1Zt9cUC804CA08jdwl2aM7xkoWP8sIpWiCdV9c1cgWgr-9B5fOFSEhOwhL07ssTnEjTTMRFOd2cAX_2qhO9KtbeY32cgGdklfR3XW5X63KvEwD1S-LiJBnybpZDOb6wm3fEBlQeTeX220Rr_SANm0U94NJaJKOalSHBKWXhXkcvc");'></div>
+</div>
+<div class="flex-1 flex flex-col justify-center">
+<div class="mb-4">
+<span class="inline-block px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold rounded uppercase mb-1">SKU Selecionado</span>
+<p class="text-2xl font-bold text-slate-900 dark:text-slate-100">7891234567890</p>
+<p class="text-lg font-medium text-slate-600 dark:text-slate-400 mt-1">Martelo de Aço Forjado 500g com Cabo Emborrachado</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
+<p class="text-xs text-slate-400 font-bold uppercase mb-1">Unidade</p>
+<p class="text-lg font-bold text-slate-700 dark:text-slate-300">UNID</p>
+</div>
+<div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
+<p class="text-xs text-slate-400 font-bold uppercase mb-1">Localização</p>
+<p class="text-lg font-bold text-slate-700 dark:text-slate-300">PICKING-A04</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Input Section -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="max-w-md mx-auto flex flex-col gap-6">
+<label class="flex flex-col gap-2">
+<span class="text-slate-900 dark:text-slate-100 text-lg font-bold text-center">Informe a Quantidade Contada</span>
+<div class="relative">
+<input autofocus="" class="form-input flex w-full text-center text-4xl font-black rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:border-primary focus:ring-4 focus:ring-primary/20 h-24 text-primary transition-all" placeholder="0" type="number"/>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+<span class="material-symbols-outlined text-slate-300 text-3xl">edit</span>
+</div>
+</div>
+<p class="text-center text-xs text-slate-400 mt-2 italic">Atenção: A quantidade esperada não é exibida nesta etapa.</p>
+</label>
+<div class="flex flex-col gap-3">
+<button class="flex items-center justify-center gap-2 h-16 w-full rounded-xl bg-primary text-white font-bold text-lg hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">check_circle</span>
+                                    Confirmar Item
+                                </button>
+<button class="flex items-center justify-center gap-2 h-14 w-full rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined">barcode_scanner</span>
+                                    Reescanear SKU
+                                </button>
+</div>
+</div>
+</div>
+<!-- Finish Section -->
+<div class="mt-8 flex justify-center border-t border-slate-200 dark:border-slate-800 pt-8">
+<button class="flex items-center justify-center gap-3 px-10 h-16 rounded-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 font-bold text-xl hover:opacity-90 transition-all">
+<span class="material-symbols-outlined">flag</span>
+                            Finalizar Conferência
+                        </button>
+</div>
+</div>
+</main>
+<footer class="py-4 text-center text-slate-400 text-xs">
+                Sistemas WMS Enterprise • Operação: Doca Sul • v4.2.0
+            </footer>
+</div>
+</div>
+</body></html>

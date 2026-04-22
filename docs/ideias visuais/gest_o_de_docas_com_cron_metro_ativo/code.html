@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Logística de Docas - Inbound</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">conveyor_belt</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em]">Logística de Docas</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Visão Geral</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#">Inbound</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Outbound</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Relatórios</a>
+</nav>
+<div class="bg-slate-200 dark:bg-slate-700 bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-300 dark:border-slate-600" data-alt="User profile avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCKosmQOPIM1iGxwDvX13GbN9Wf06D8BbPz56tRQNQonR8qyZaOfSUUbEyQ_Nz8iHorpbwye3DswY6jy5nOPnCRKLEEBPZX70MJ51P_Szk-1BSATaQgAFbmvgXjiZEVEzovaN4ljEUprbc-T6HnH5sBOqzV3kmGyfIWbX6pXKfZUqtz5a2Pnv-4Z69KD-a-tXXDZobHrjvBBGRYVSH1wOtD6R0XSMc3foV-1ucyqorTRZPWU08_csTX3A3yjWimVOq9Mdkxtpy9MkE");'>
+</div>
+</div>
+</header>
+<main class="flex-1 flex overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 hidden md:flex flex-col gap-6">
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-normal">Operações Logísticas</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal">Unidade Central - SP</p>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">rv_hookup</span>
+<p class="text-sm font-bold">Docas</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<p class="text-sm font-medium">Veículos</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium">Configurações</p>
+</a>
+</nav>
+</aside>
+<!-- Content Area -->
+<section class="flex-1 overflow-y-auto p-6 md:px-12 lg:px-20">
+<div class="max-w-5xl mx-auto flex flex-col gap-6">
+<!-- Tabs -->
+<div class="border-b border-slate-200 dark:border-slate-800 flex gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-primary text-primary pb-3 pt-2" href="#">
+<p class="text-sm font-bold tracking-[0.015em]">INBOUND</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-2 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">
+<p class="text-sm font-bold tracking-[0.015em]">OUTBOUND</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-2 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">
+<p class="text-sm font-bold tracking-[0.015em]">AGENDAMENTOS</p>
+</a>
+</div>
+<div class="flex items-center justify-between">
+<h2 class="text-slate-900 dark:text-slate-100 text-2xl font-bold leading-tight tracking-[-0.015em]">Monitoramento de Docas</h2>
+<div class="flex items-center gap-2 px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-xs font-bold uppercase tracking-wider">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+</span>
+                            Sistema Online
+                        </div>
+</div>
+<!-- Active Dock Card -->
+<div class="@container">
+<div class="flex flex-col @xl:flex-row items-stretch overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-md transition-shadow">
+<!-- Image Section -->
+<div class="w-full @xl:w-1/3 min-h-[200px] relative">
+<div class="absolute inset-0 bg-slate-200 dark:bg-slate-800 bg-center bg-no-repeat bg-cover" data-alt="Interior of a busy warehouse dock area" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAgJ55EQGnoSja4BPaEIbQtKH6qtgWsizAhg3gTWOAMMBzgi3fxyyYqyiElZfMJyqvE3HJiu_pgJR4VyU2-bpC1troGUADz3GQsNr4TNwGOz9O4h9z6G-KRwyd-mNLRlBKbhK6-MkRLTNSOnYzD7jTx3tx944l_eukQnHcNGWA8OeTr2GOq98Tkwi_sAuFQ_NjnMZPnYjQz94TjzaG0Pp0rOhWVHGf6SBl-CH5SGLasSj0GyF8X9X0fqK-YiqeJFti_nNsemGIHE54");'>
+</div>
+<div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg uppercase tracking-widest">
+                                    Doca 01
+                                </div>
+</div>
+<!-- Content Section -->
+<div class="flex flex-1 flex-col justify-between p-6 gap-6">
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight">Operação Ativa: Descarregamento</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Transportadora: Express Logística S.A.</p>
+</div>
+<!-- TIMER COMPONENT -->
+<div class="flex flex-col items-end">
+<div class="flex items-center gap-2 text-primary font-mono text-lg font-bold bg-primary/10 px-4 py-2 rounded-lg border border-primary/20">
+<span class="material-symbols-outlined text-sm">timer</span>
+<span>Tempo de Descarga: 00:42:15</span>
+</div>
+<span class="text-[10px] text-slate-400 dark:text-slate-500 mt-1 uppercase font-bold tracking-tighter">Cronômetro em tempo real</span>
+</div>
+</div>
+<div class="grid grid-cols-2 @md:grid-cols-4 gap-4 mt-4">
+<div class="flex flex-col gap-1">
+<span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">Veículo</span>
+<span class="text-sm font-medium text-slate-800 dark:text-slate-200">ABC-1234 (Sider)</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">Paletes</span>
+<span class="text-sm font-medium text-slate-800 dark:text-slate-200">24 / 28</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">Início</span>
+<span class="text-sm font-medium text-slate-800 dark:text-slate-200">14:20:00</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold">Operadores</span>
+<span class="text-sm font-medium text-slate-800 dark:text-slate-200">3 ativos</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-6">
+<div class="flex gap-2">
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-sm">pause</span>
+                                            Pausar
+                                        </button>
+<button class="flex items-center justify-center gap-2 px-4 py-2 border border-red-200 dark:border-red-900/30 text-red-600 dark:text-red-400 rounded-lg text-sm font-bold hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors">
+<span class="material-symbols-outlined text-sm">cancel</span>
+                                            Cancelar
+                                        </button>
+</div>
+<!-- CONFERENCIA CEGA BUTTON -->
+<button class="flex min-w-[160px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-11 px-6 bg-primary text-white text-sm font-bold leading-normal shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-sm">checklist</span>
+<span class="truncate">Conferência Cega</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Other Docks Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Dock 02 (Idle) -->
+<div class="p-5 border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-xs font-bold px-2 py-1 rounded">DOCA 02</span>
+<span class="text-slate-400 text-xs font-medium italic">Disponível</span>
+</div>
+<div class="h-24 flex items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-lg text-slate-400 mb-4">
+<span class="material-symbols-outlined text-3xl">add_circle</span>
+</div>
+<button class="w-full py-2 bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 text-sm font-bold rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                                Vincular Veículo
+                            </button>
+</div>
+<!-- Dock 03 (Cleaning/Maintenance) -->
+<div class="p-5 border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 opacity-75">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-xs font-bold px-2 py-1 rounded uppercase">DOCA 03</span>
+<span class="text-amber-600 dark:text-amber-500 text-xs font-bold">MANUTENÇÃO</span>
+</div>
+<div class="space-y-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm">Previsão de liberação:</p>
+<p class="text-slate-900 dark:text-slate-100 font-bold">16:30 (Aprox. 45 min)</p>
+</div>
+</div>
+<!-- Summary Widget -->
+<div class="p-5 bg-primary/5 border border-primary/20 rounded-xl">
+<h4 class="text-primary text-xs font-bold uppercase mb-4 tracking-widest">Resumo do Turno</h4>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<span class="text-sm text-slate-600 dark:text-slate-400 font-medium">Docas Operando</span>
+<span class="text-lg font-bold text-primary">01/08</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-slate-600 dark:text-slate-400 font-medium">Média de Descarga</span>
+<span class="text-lg font-bold text-slate-800 dark:text-slate-200">54min</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-slate-600 dark:text-slate-400 font-medium">Veículos p/ Atender</span>
+<span class="text-lg font-bold text-slate-800 dark:text-slate-200">12</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>

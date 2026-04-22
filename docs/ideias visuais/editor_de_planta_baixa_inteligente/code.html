@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .grid-canvas {
+            background-size: 40px 40px;
+            background-image: radial-gradient(circle, #e2e8f0 1px, transparent 1px);
+        }
+        .dark .grid-canvas {
+            background-image: radial-gradient(circle, #332118 1px, transparent 1px);
+        }
+        .blueprint-item:hover {
+            outline: 2px solid #ec5b13;
+        }
+        .smart-guide-x {
+            position: absolute;
+            height: 1px;
+            width: 100%;
+            border-top: 1px dashed #ec5b13;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .smart-guide-y {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            border-left: 1px dashed #ec5b13;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-primary/20 bg-white dark:bg-background-dark px-6 py-3 shrink-0">
+<div class="flex items-center gap-4">
+<div class="bg-primary p-1.5 rounded-lg text-white">
+<span class="material-symbols-outlined block">architecture</span>
+</div>
+<div>
+<h2 class="text-lg font-bold leading-tight tracking-tight">WMS Blueprint Editor</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400">Warehouse Layout: Zone A-42</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-1 bg-slate-100 dark:bg-primary/10 p-1 rounded-lg">
+<button class="p-1.5 hover:bg-white dark:hover:bg-primary/20 rounded-md transition-colors" title="Desfazer">
+<span class="material-symbols-outlined text-sm">undo</span>
+</button>
+<button class="p-1.5 hover:bg-white dark:hover:bg-primary/20 rounded-md transition-colors" title="Refazer">
+<span class="material-symbols-outlined text-sm">redo</span>
+</button>
+</div>
+<div class="h-6 w-px bg-slate-200 dark:bg-primary/20"></div>
+<div class="flex gap-2">
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-xl h-10 px-4 bg-primary text-white text-sm font-bold shadow-sm hover:opacity-90 transition-opacity">
+<span>Salvar</span>
+</button>
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-xl h-10 px-4 border border-slate-200 dark:border-primary/40 bg-white dark:bg-background-dark text-slate-700 dark:text-slate-200 text-sm font-bold hover:bg-slate-50 dark:hover:bg-primary/10 transition-colors">
+<span>Cancelar</span>
+</button>
+</div>
+<div class="size-10 rounded-full border-2 border-primary/20 overflow-hidden">
+<img alt="User Profile" data-alt="User avatar icon for the dashboard profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEbTOIKQ4QIoFTg4TZ6YlaRLLt28dKXVFzf3zrfQbvGy_ZYZKrhQ_RIFR_i7b9QyI3vGfrwSQJJfBJ73E-PzBmBDZwyRyWJ-SJGoJSVGEaJr9heTm6KMvLUhgvHrCvVl375SR3RomzWie76CdNL1lvfbHtz-Q22JwMRuOQ_39gTK5rZPHlj8yxAPWOGpPo2uvRsKmgfe7PAm9sJs7a6gS6ULADXX7Kh4ctRcx8iASLYDhrBqMFrKAes0Vc2feIHkZBJjeRRhcW74g"/>
+</div>
+</div>
+</header>
+<main class="flex flex-1 overflow-hidden relative">
+<!-- Left Floating Toolbar -->
+<div class="absolute left-6 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3 bg-white/90 dark:bg-background-dark/90 backdrop-blur shadow-2xl p-2 rounded-2xl border border-slate-200 dark:border-primary/20">
+<button class="flex items-center justify-center size-12 rounded-xl bg-primary text-white shadow-lg" title="Selecionar">
+<span class="material-symbols-outlined">near_me</span>
+</button>
+<button class="flex items-center justify-center size-12 rounded-xl hover:bg-primary/10 text-slate-600 dark:text-slate-300 transition-colors" title="Desenhar Rua">
+<span class="material-symbols-outlined">straight</span>
+</button>
+<button class="flex items-center justify-center size-12 rounded-xl hover:bg-primary/10 text-slate-600 dark:text-slate-300 transition-colors" title="Adicionar Bin">
+<span class="material-symbols-outlined">inventory_2</span>
+</button>
+<button class="flex items-center justify-center size-12 rounded-xl hover:bg-primary/10 text-slate-600 dark:text-slate-300 transition-colors" title="Corredor Rápido (Click &amp; Drag)">
+<span class="material-symbols-outlined">drag_pan</span>
+</button>
+<div class="h-px w-8 mx-auto bg-slate-200 dark:bg-primary/20 my-1"></div>
+<button class="flex items-center justify-center size-12 rounded-xl hover:bg-primary/10 text-slate-600 dark:text-slate-300 transition-colors" title="Medir">
+<span class="material-symbols-outlined">straighten</span>
+</button>
+<button class="flex items-center justify-center size-12 rounded-xl hover:bg-red-50 text-red-500 transition-colors" title="Apagar">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<!-- Editor Canvas -->
+<div class="flex-1 relative overflow-auto grid-canvas bg-background-light dark:bg-background-dark p-20 select-none">
+<!-- Smart Guides -->
+<div class="smart-guide-x" style="top: 240px;"></div>
+<div class="smart-guide-y" style="left: 440px;"></div>
+<!-- Warehouse Layout Items -->
+<div class="relative w-[2000px] h-[1500px]">
+<!-- Example Rack -->
+<div class="absolute top-[120px] left-[200px] w-60 h-10 bg-slate-200 dark:bg-slate-700 rounded border border-slate-300 dark:border-slate-600 flex items-center justify-center blueprint-item cursor-pointer">
+<span class="text-[10px] font-bold text-slate-500 uppercase">Rack Section A1</span>
+</div>
+<!-- Bins Row -->
+<div class="absolute top-[200px] left-[200px] flex gap-1">
+<div class="w-12 h-12 bg-primary/20 border-2 border-primary rounded-lg flex items-center justify-center blueprint-item cursor-pointer shadow-sm">
+<span class="text-[8px] font-bold text-primary">A-1-1</span>
+</div>
+<div class="w-12 h-12 bg-primary border-2 border-primary rounded-lg flex items-center justify-center blueprint-item cursor-pointer shadow-lg">
+<span class="text-[8px] font-bold text-white">A-1-2</span>
+</div>
+<div class="w-12 h-12 bg-primary/20 border-2 border-primary rounded-lg flex items-center justify-center blueprint-item cursor-pointer shadow-sm">
+<span class="text-[8px] font-bold text-primary">A-1-3</span>
+</div>
+<div class="w-12 h-12 bg-primary/20 border-2 border-primary rounded-lg flex items-center justify-center blueprint-item cursor-pointer shadow-sm">
+<span class="text-[8px] font-bold text-primary">A-1-4</span>
+</div>
+<div class="w-12 h-12 bg-primary/20 border-2 border-primary rounded-lg flex items-center justify-center blueprint-item cursor-pointer shadow-sm">
+<span class="text-[8px] font-bold text-primary">A-1-5</span>
+</div>
+</div>
+<!-- Street Area -->
+<div class="absolute top-[320px] left-[100px] w-[800px] h-32 border-2 border-dashed border-slate-300 dark:border-primary/20 rounded-xl flex items-center justify-center bg-slate-50/50 dark:bg-primary/5">
+<span class="text-sm font-medium text-slate-400 dark:text-slate-500 uppercase tracking-widest">Main Loading Street</span>
+</div>
+<!-- Another Row -->
+<div class="absolute top-[500px] left-[200px] flex gap-1">
+<div class="w-12 h-12 bg-primary/20 border-2 border-primary rounded-lg flex items-center justify-center blueprint-item cursor-pointer"></div>
+<div class="w-12 h-12 bg-primary/20 border-2 border-primary rounded-lg flex items-center justify-center blueprint-item cursor-pointer"></div>
+<div class="w-12 h-12 bg-primary/20 border-2 border-primary rounded-lg flex items-center justify-center blueprint-item cursor-pointer"></div>
+<div class="w-12 h-12 bg-primary/20 border-2 border-primary rounded-lg flex items-center justify-center blueprint-item cursor-pointer"></div>
+</div>
+</div>
+</div>
+<!-- Right Quick Edit Panel -->
+<aside class="w-80 border-l border-slate-200 dark:border-primary/20 bg-white dark:bg-background-dark p-6 flex flex-col gap-6 z-30 shadow-2xl overflow-y-auto">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-bold">Quick Edit</h3>
+<span class="px-2 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded uppercase">Bin Selected</span>
+</div>
+<div class="space-y-4">
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Identificador</label>
+<input class="w-full px-3 py-2 bg-slate-100 dark:bg-primary/10 border-transparent focus:border-primary focus:ring-0 rounded-lg text-sm font-medium" type="text" value="A-1-2"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Zona de Armazenagem</label>
+<select class="w-full px-3 py-2 bg-slate-100 dark:bg-primary/10 border-transparent focus:border-primary focus:ring-0 rounded-lg text-sm">
+<option>Picking Principal</option>
+<option>Recebimento</option>
+<option>Expedição</option>
+<option>Quarentena</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Capac. Stack</label>
+<div class="flex items-center gap-2">
+<input class="w-full px-3 py-2 bg-slate-100 dark:bg-primary/10 border-transparent focus:border-primary focus:ring-0 rounded-lg text-sm" type="number" value="5"/>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Peso Máx (kg)</label>
+<input class="w-full px-3 py-2 bg-slate-100 dark:bg-primary/10 border-transparent focus:border-primary focus:ring-0 rounded-lg text-sm" type="number" value="250"/>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 pt-2">
+<label class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Propriedades Visuais</label>
+<div class="flex gap-2">
+<button class="size-8 rounded-full bg-primary ring-2 ring-primary ring-offset-2 dark:ring-offset-background-dark"></button>
+<button class="size-8 rounded-full bg-blue-500"></button>
+<button class="size-8 rounded-full bg-emerald-500"></button>
+<button class="size-8 rounded-full bg-amber-500"></button>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-slate-100 dark:border-primary/10">
+<button class="w-full flex items-center justify-center gap-2 py-3 bg-primary/10 text-primary rounded-xl font-bold text-sm hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+                    Duplicar Elemento
+                </button>
+</div>
+</aside>
+<!-- Mini Map Overlay -->
+<div class="absolute bottom-6 left-24 z-20 w-48 h-32 bg-white/80 dark:bg-background-dark/80 backdrop-blur rounded-xl border border-slate-200 dark:border-primary/30 shadow-xl overflow-hidden group cursor-move">
+<div class="w-full h-full p-2 relative">
+<div class="w-full h-full bg-slate-100 dark:bg-primary/5 rounded border border-slate-200 dark:border-primary/10 relative">
+<!-- Mini representation -->
+<div class="absolute top-4 left-4 w-12 h-2 bg-slate-400/50 rounded-full"></div>
+<div class="absolute top-8 left-4 w-12 h-2 bg-primary/50 rounded-full"></div>
+<div class="absolute top-12 left-4 w-12 h-2 bg-primary/50 rounded-full"></div>
+<!-- Viewport box -->
+<div class="absolute top-2 left-2 w-20 h-16 border-2 border-primary rounded shadow-[0_0_0_1000px_rgba(0,0,0,0.1)]"></div>
+</div>
+<div class="absolute bottom-1 right-2 text-[8px] font-bold text-slate-400 uppercase">Mini-mapa</div>
+</div>
+</div>
+<!-- Zoom Controls Overlay -->
+<div class="absolute bottom-6 right-[340px] z-20 flex gap-1 bg-white dark:bg-background-dark p-1 rounded-lg border border-slate-200 dark:border-primary/20 shadow-lg">
+<button class="size-8 flex items-center justify-center hover:bg-primary/10 rounded transition-colors">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<div class="px-2 flex items-center text-xs font-bold text-slate-600 dark:text-slate-300">100%</div>
+<button class="size-8 flex items-center justify-center hover:bg-primary/10 rounded transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</main>
+<!-- Visual Hint Footer -->
+<footer class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-primary/20 px-6 py-2 flex justify-between items-center shrink-0">
+<div class="flex gap-4 text-xs text-slate-500 dark:text-slate-400">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">mouse</span>
+<span>Clique e arraste para criar corredores</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">keyboard</span>
+<span>ESC para cancelar seleção</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs font-medium text-slate-400">Cursor: 42.4, 18.2</span>
+<div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">Live Editor Active</span>
+</div>
+</footer>
+</body></html>

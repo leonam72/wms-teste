@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import ProductTable from '../features/ProductTable/ProductTable';
+import { useResizable } from '../../hooks/useResizable';
 import './Sidebar.css';
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  onProductClick: (product: any, location: string) => void;
+  onBulkAddClick: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ onProductClick, onBulkAddClick }) => {
   const [activeTab, setActiveTab] = useState<'products' | 'shelves'>('products');
   const [searchTerm, setSearchTerm] = useState('');
+  const { width, startResizing } = useResizable(320, 180, 600);
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-resizer" />
+    <aside className="sidebar" style={{ width }}>
+      <div className="sidebar-resizer" onMouseDown={startResizing} />
       <div className="sidebar-tabs">
         <div 
           className={`tab ${activeTab === 'products' ? 'active' : ''}`}
@@ -36,7 +43,7 @@ const Sidebar: React.FC = () => {
               />
             </div>
             <div style={{ overflowY: 'auto', flex: 1 }}>
-              <ProductTable searchTerm={searchTerm} />
+              <ProductTable searchTerm={searchTerm} onProductClick={onProductClick} />
             </div>
           </div>
         ) : (

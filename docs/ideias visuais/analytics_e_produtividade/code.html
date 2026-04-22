@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded-lg text-white">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">WMS Pro</h2>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+<div class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer">
+<span class="material-symbols-outlined">package_2</span>
+<span class="font-medium text-sm">Inventário</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 rounded-lg bg-primary/10 text-primary cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">analytics</span>
+<span class="font-medium text-sm">Analytics</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer">
+<span class="material-symbols-outlined">group</span>
+<span class="font-medium text-sm">Operadores</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium text-sm">Configurações</span>
+</div>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2">
+<div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+<img class="h-full w-full object-cover" data-alt="Profile picture of a logistics manager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM3pJ3TZ7E-JRWWcUsCEMAqKI7UKxK12clx43O7TqMR7dU0m5amL3fRPvXF4bP8l6BTMmAVDgVA_LwVB1bwmjP14Abr72na985DaPBjplgAkooSZOtQkWuFlN2rObIIjQRyIDFUPUYTI3vBDOlotlAwLdeaisKi6mxhSlSXTcvqgXHI3pfgkOVY2TbZLtB3OhXrWc6ONz7ISkZs4MuR080wnAPX9Fupo4JkKlTZGwri58ikq_IUxgjXgjWZbgAzzQwD0sgMMUa1lc"/>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold">Carlos Silva</span>
+<span class="text-xs text-slate-500">Unidade SP-01</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto">
+<!-- Header -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-10">
+<div class="flex items-center gap-4">
+<h1 class="text-xl font-bold">Relatórios de Produtividade</h1>
+<div class="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
+<button class="px-3 py-1 text-xs font-semibold bg-white dark:bg-slate-700 rounded shadow-sm">Hoje</button>
+<button class="px-3 py-1 text-xs font-semibold text-slate-500">Semana</button>
+<button class="px-3 py-1 text-xs font-semibold text-slate-500">Mês</button>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 h-2 w-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+<button class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-sm">download</span>
+                        Exportar PDF
+                    </button>
+</div>
+</header>
+<div class="p-8 space-y-8 max-w-7xl mx-auto">
+<!-- KPI Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 rounded-lg">
+<span class="material-symbols-outlined">timer</span>
+</span>
+<span class="text-red-500 text-xs font-bold flex items-center">-5% <span class="material-symbols-outlined text-xs">trending_down</span></span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Tempo Médio Tarefa</p>
+<h3 class="text-2xl font-bold mt-1">12.5 min</h3>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 rounded-lg">
+<span class="material-symbols-outlined">bolt</span>
+</span>
+<span class="text-emerald-500 text-xs font-bold flex items-center">+2.1% <span class="material-symbols-outlined text-xs">trending_up</span></span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Eficiência Geral</p>
+<h3 class="text-2xl font-bold mt-1">94.2%</h3>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 bg-purple-50 dark:bg-purple-900/30 text-purple-600 rounded-lg">
+<span class="material-symbols-outlined">task_alt</span>
+</span>
+<span class="text-emerald-500 text-xs font-bold flex items-center">+12% <span class="material-symbols-outlined text-xs">trending_up</span></span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Tarefas Concluídas</p>
+<h3 class="text-2xl font-bold mt-1">1.280</h3>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 bg-amber-50 dark:bg-amber-900/30 text-amber-600 rounded-lg">
+<span class="material-symbols-outlined">box</span>
+</span>
+<span class="text-slate-500 text-xs font-bold">Meta: 1.500</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Volume Movimentado</p>
+<h3 class="text-2xl font-bold mt-1">12.4t</h3>
+</div>
+</div>
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Picking Efficiency Chart -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg">Eficiência de Picking por Hora</h3>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer">more_horiz</span>
+</div>
+<div class="h-64 flex items-end justify-between gap-2 px-2">
+<div class="group relative flex-1 bg-primary/20 hover:bg-primary transition-colors rounded-t-lg" style="height: 40%">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded">08h: 45 p/h</div>
+</div>
+<div class="group relative flex-1 bg-primary/20 hover:bg-primary transition-colors rounded-t-lg" style="height: 65%">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded">09h: 72 p/h</div>
+</div>
+<div class="group relative flex-1 bg-primary/20 hover:bg-primary transition-colors rounded-t-lg" style="height: 85%">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded">10h: 94 p/h</div>
+</div>
+<div class="group relative flex-1 bg-primary/20 hover:bg-primary transition-colors rounded-t-lg" style="height: 95%">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded">11h: 105 p/h</div>
+</div>
+<div class="group relative flex-1 bg-primary/40 hover:bg-primary transition-colors rounded-t-lg" style="height: 30%">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded">12h: 32 p/h</div>
+</div>
+<div class="group relative flex-1 bg-primary/20 hover:bg-primary transition-colors rounded-t-lg" style="height: 75%">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded">13h: 88 p/h</div>
+</div>
+<div class="group relative flex-1 bg-primary/20 hover:bg-primary transition-colors rounded-t-lg" style="height: 80%">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded">14h: 92 p/h</div>
+</div>
+<div class="group relative flex-1 bg-primary/20 hover:bg-primary transition-colors rounded-t-lg" style="height: 60%">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded">15h: 68 p/h</div>
+</div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+<span>08:00</span>
+<span>10:00</span>
+<span>12:00</span>
+<span>14:00</span>
+<span>16:00</span>
+</div>
+</div>
+<!-- Movement Volume Chart -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg">Movimentação Diária (7 dias)</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-1">
+<span class="h-2 w-2 rounded-full bg-primary"></span>
+<span class="text-[10px] font-bold text-slate-500 uppercase">Saída</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="h-2 w-2 rounded-full bg-slate-300"></span>
+<span class="text-[10px] font-bold text-slate-500 uppercase">Entrada</span>
+</div>
+</div>
+</div>
+<div class="h-64 relative">
+<!-- SVG Area Chart Placeholder -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 400 200">
+<defs>
+<lineargradient id="gradSaida" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:var(--primary);stop-opacity:0.2"></stop>
+<stop offset="100%" style="stop-color:var(--primary);stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,180 Q50,140 100,160 T200,80 T300,120 T400,40 V200 H0 Z" fill="url(#gradSaida)"></path>
+<path d="M0,180 Q50,140 100,160 T200,80 T300,120 T400,40" fill="none" stroke="#137fec" stroke-width="3"></path>
+<path d="M0,190 Q50,170 100,185 T200,140 T300,160 T400,110" fill="none" stroke="#cbd5e1" stroke-dasharray="5,5" stroke-width="2"></path>
+</svg>
+</div>
+<div class="flex justify-between mt-4 text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+<span>Seg</span>
+<span>Ter</span>
+<span>Qua</span>
+<span>Qui</span>
+<span>Sex</span>
+<span>Sab</span>
+<span>Dom</span>
+</div>
+</div>
+</div>
+<!-- Operators Ranking and Task Log -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-12">
+<!-- Ranking Operators -->
+<div class="lg:col-span-1 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="font-bold text-lg mb-6">Ranking de Operadores</h3>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="h-10 w-10 rounded-full bg-slate-100 overflow-hidden">
+<img class="h-full w-full object-cover" data-alt="Warehouse operator portrait 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-eMc025tkdN-PLr3YWDpjUIb-D3AyhN66NzcLGuK3VB-aaHRkD9KxhYYHlotEip_8qIEgoxva94U74K7MwU4OkctGXIEBKr9SEmTKx08TyKX7Rde9nbE1P1-Y3d-2kHFYQvMfogFUTD1Tg4EQ7GlMrpqiAAfSgQEZAFE09QHl8_r0Lsvc2euFP2N3cZXg9RP7BAPKXbIA4pTPFxk4nxFjmwPqW2SHD9qCeiUlbLQW9ZTgsi-6sIZuJhEogzUbCvtP2oLbP2AsLXA"/>
+</div>
+<div class="absolute -bottom-1 -right-1 h-5 w-5 bg-amber-400 rounded-full flex items-center justify-center text-[10px] text-white font-bold border-2 border-white dark:border-slate-900">1</div>
+</div>
+<div>
+<p class="text-sm font-semibold">Roberto Mendes</p>
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-tight">Zona A - Picking</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">142</p>
+<p class="text-[10px] text-slate-400 uppercase">Itens/h</p>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="h-10 w-10 rounded-full bg-slate-100 overflow-hidden">
+<img class="h-full w-full object-cover" data-alt="Warehouse operator portrait 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLdGATj2QJ6tkmGCKT4hHXKeqmXi047iUGb2nguxpWYQruGkv0knvftG3mnd5FzvA5X0BJlivpH6jlzuxyeYLxDIiVMCuWNvxjIE2sce7eGzZN4tpBZuW-yRnHALGZ00pOFRtHHgMI5ZWrzqz99gxiv7ija7nz0NrTiw6wtWzfEWTZ_Cw25e-KrQC-IXJgffSJfVeBgS9rD2Fv8jpWD1uNTJsRQ9pL1pt94FS0IbiC5eBzRJQkQMXRbANe6GcsVYpQltXHDCSfYbo"/>
+</div>
+<div class="absolute -bottom-1 -right-1 h-5 w-5 bg-slate-300 rounded-full flex items-center justify-center text-[10px] text-white font-bold border-2 border-white dark:border-slate-900">2</div>
+</div>
+<div>
+<p class="text-sm font-semibold">Ana Oliveira</p>
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-tight">Zona B - Recebimento</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">138</p>
+<p class="text-[10px] text-slate-400 uppercase">Itens/h</p>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="h-10 w-10 rounded-full bg-slate-100 overflow-hidden">
+<img class="h-full w-full object-cover" data-alt="Warehouse operator portrait 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG6LKOKTLIRSr2OgPqGn6BjRTVr0dCL-D_VKRBWJw-8unMyF8loraYYd72zVU_uCclWng32VL7Zdoeau_5gL8lkzfOSsjgy_fJkPKFmyoNp5efngBaZybN6127cqYT0G2svYxIoLS_YNE4LcaGfnc5aZ26YJjoKqCPmS2jPGoDUteHEP7k6Rs8YviiHCiPWP4cOPxuD5TkZUItZspBGg8xdrbb4bJwGy1DoFZUT3FNyPUbeCZ0CqKXGVCjCD_lhkPTym6Aks9ZWzs"/>
+</div>
+<div class="absolute -bottom-1 -right-1 h-5 w-5 bg-orange-300 rounded-full flex items-center justify-center text-[10px] text-white font-bold border-2 border-white dark:border-slate-900">3</div>
+</div>
+<div>
+<p class="text-sm font-semibold">Marcos Souza</p>
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-tight">Zona A - Picking</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">135</p>
+<p class="text-[10px] text-slate-400 uppercase">Itens/h</p>
+</div>
+</div>
+<button class="w-full py-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-bold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">VER RANKING COMPLETO</button>
+</div>
+</div>
+<!-- Performance Table -->
+<div class="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg">Desempenho por Zona</h3>
+<button class="text-xs text-primary font-bold flex items-center gap-1">
+                                DETALHES <span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="border-b border-slate-100 dark:border-slate-800">
+<tr class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+<th class="pb-4">Zona / Área</th>
+<th class="pb-4">Ocupação</th>
+<th class="pb-4 text-center">Picking / h</th>
+<th class="pb-4 text-center">Erros</th>
+<th class="pb-4 text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-50 dark:divide-slate-800">
+<tr class="text-sm hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-4">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-blue-500"></span>
+<span class="font-medium">Zona A - E-commerce</span>
+</div>
+</td>
+<td class="py-4">
+<div class="w-24 h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 85%"></div>
+</div>
+</td>
+<td class="py-4 text-center font-semibold">1,240</td>
+<td class="py-4 text-center text-red-500 font-medium">0.2%</td>
+<td class="py-4 text-right">
+<span class="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 text-[10px] font-bold rounded">OTIMIZADO</span>
+</td>
+</tr>
+<tr class="text-sm hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-4">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-purple-500"></span>
+<span class="font-medium">Zona B - Paletizado</span>
+</div>
+</td>
+<td class="py-4">
+<div class="w-24 h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 42%"></div>
+</div>
+</td>
+<td class="py-4 text-center font-semibold">450</td>
+<td class="py-4 text-center text-emerald-500 font-medium">0.05%</td>
+<td class="py-4 text-right">
+<span class="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 text-[10px] font-bold rounded">OTIMIZADO</span>
+</td>
+</tr>
+<tr class="text-sm hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-4">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-amber-500"></span>
+<span class="font-medium">Zona C - Refrigerado</span>
+</div>
+</td>
+<td class="py-4">
+<div class="w-24 h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-amber-500" style="width: 94%"></div>
+</div>
+</td>
+<td class="py-4 text-center font-semibold">112</td>
+<td class="py-4 text-center text-amber-500 font-medium">1.5%</td>
+<td class="py-4 text-right">
+<span class="px-2 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-600 text-[10px] font-bold rounded">CRÍTICO</span>
+</td>
+</tr>
+<tr class="text-sm hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="py-4">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-slate-400"></span>
+<span class="font-medium">Doca 04 - Expedição</span>
+</div>
+</td>
+<td class="py-4">
+<div class="w-24 h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 68%"></div>
+</div>
+</td>
+<td class="py-4 text-center font-semibold">890</td>
+<td class="py-4 text-center text-emerald-500 font-medium">0.1%</td>
+<td class="py-4 text-right">
+<span class="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 text-[10px] font-bold rounded">OTIMIZADO</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

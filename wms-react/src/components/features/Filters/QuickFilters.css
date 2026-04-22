@@ -1,0 +1,49 @@
+.quick-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all .15s;
+  letter-spacing: .5px;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.chip.active {
+  background: var(--highlight);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.15);
+}
+
+.chip-icon {
+  font-size: 12px;
+}
+
+.chip-clear {
+  color: var(--danger);
+  border-color: var(--danger);
+  background: #ff000005;
+}
+
+.chip-clear:hover {
+  background: var(--danger);
+  color: #fff;
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — VISUALWMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <style>
+        body { justify-content: center; align-items: center; background: #0a0a0c; }
+        .login-card {
+            width: 360px; background: var(--surface); border: 1px solid var(--border);
+            padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .login-logo { font-family: 'IBM Plex Mono'; font-weight: 700; font-size: 24px; color: var(--accent); text-align: center; margin-bottom: 30px; letter-spacing: 3px; }
+        .login-logo span { color: var(--text3); font-weight: 400; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-family: 'IBM Plex Mono'; font-size: 10px; color: var(--text3); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group input { 
+            width: 100%; padding: 12px; background: var(--surface2); border: 1px solid var(--border); 
+            color: var(--text); font-family: 'IBM Plex Mono'; outline: none; transition: border-color 0.2s;
+        }
+        .form-group input:focus { border-color: var(--accent); }
+        .login-btn { width: 100%; padding: 14px; background: var(--accent); border: none; color: #fff; font-family: 'IBM Plex Mono'; font-weight: 600; cursor: pointer; letter-spacing: 2px; }
+        .login-btn:hover { background: #0056b3; }
+        #error-msg { color: var(--danger); font-family: 'IBM Plex Mono'; font-size: 11px; margin-top: 15px; text-align: center; display: none; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="login-logo">VISUAL<span>WMS</span></div>
+        <form id="login-form">
+            <div class="form-group">
+                <label>Usuário de Acesso</label>
+                <input type="text" id="username" required spellcheck="false" autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label>Senha Operacional</label>
+                <input type="password" id="password" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="login-btn">AUTENTICAR</button>
+            <div id="error-msg">CREDENCIAIS INVÁLIDAS</div>
+        </form>
+    </div>
+
+    <script type="module">
+        import { API } from '/static/js/services/api.js';
+
+        document.getElementById('login-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const errorMsg = document.getElementById('error-msg');
+            const btn = e.target.querySelector('button');
+            errorMsg.style.display = 'none';
+            btn.textContent = 'AUTENTICANDO...';
+            btn.disabled = true;
+
+            try {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                await API.auth.login(username, password);
+                window.location.href = '/';
+            } catch (err) {
+                console.error(err);
+                errorMsg.textContent = err.message.toUpperCase();
+                errorMsg.style.display = 'block';
+            } finally {
+                btn.textContent = 'AUTENTICAR';
+                btn.disabled = false;
+            }
+        };
+    </script>
+</body>
+</html>

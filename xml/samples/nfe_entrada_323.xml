@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe>
+        <infNFe Id="NFe99211702501608508774272198297103857817467985" versao="4.00">
+            <ide>
+                <cUF>35</cUF>
+                <nNF>10323</nNF>
+                <dhEmi>2025-02-11T20:20:18-03:00</dhEmi>
+                <mod>55</mod>
+            </ide>
+            <emit><CNPJ>23456789000102</CNPJ><xNome>DOCA FORNECEDORA</xNome></emit>
+            <det nItem="1">
+                <prod>
+                    <cProd>SKU480</cProd>
+                    <xProd>Açúcar Refinado 1kg</xProd>
+                    <qCom>50.0000</qCom>
+                    <uCom>UN</uCom>
+                </prod>
+            </det>
+        </infNFe>
+    </NFe>
+</nfeProc>

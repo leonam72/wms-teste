@@ -4,6 +4,26 @@
   height: 100%;
 }
 
+.history-filters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.hist-input, .hist-select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text);
+  outline: none;
+}
+
+.hist-input:focus, .hist-select:focus {
+  border-color: var(--accent);
+}
+
 .history-list {
   flex: 1;
   overflow-y: auto;

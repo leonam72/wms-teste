@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WMS Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/login.css">
+</head>
+<body>
+  <div id="server-status-overlay" class="server-status-overlay">
+    <div class="server-status-card">
+      <div class="server-status-spinner"></div>
+      <div class="server-status-kicker">WMS // SERVER</div>
+      <div id="server-status-title" class="server-status-title">VALIDANDO SERVIDOR</div>
+      <div id="server-status-desc" class="server-status-desc">Aguardando disponibilidade da API para liberar o login.</div>
+    </div>
+  </div>
+  <main class="login-shell">
+    <section class="login-hero">
+      <div class="login-hero-copy">
+        <div class="login-kicker">WAREHOUSE CONTROL</div>
+        <h1>WMS Pro</h1>
+        <p>Controle de prateleiras, lotes, validade, planta baixa e operacao de deposito em uma interface unica.</p>
+      </div>
+    </section>
+
+    <section class="login-panel">
+      <div class="login-card">
+        <div class="login-brand">WMS<span>// AUTH</span></div>
+        <h2>Acesso ao sistema</h2>
+        <p class="login-subtitle">Entre com seu usuario para abrir o painel principal.</p>
+
+        <form class="login-form" onsubmit="event.preventDefault(); doLogin();">
+          <label for="login-username">Usuario</label>
+          <input type="text" id="login-username" value="admin" autocomplete="username">
+
+          <label for="login-password">Senha</label>
+          <input type="password" id="login-password" value="admin" autocomplete="current-password">
+
+          <div id="login-error" class="login-error"></div>
+          <button id="login-btn" class="login-btn" type="submit">ENTRAR</button>
+          <div class="login-forgot">Esqueci a senha: solicite a um gerente ou superior a redefinição da sua senha.</div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script nonce="{{ csp_nonce }}" src="/static/js/api.js"></script>
+  <script nonce="{{ csp_nonce }}" src="/static/js/auth.js"></script>
+</body>
+</html>

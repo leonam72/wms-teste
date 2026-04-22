@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe>
+        <infNFe Id="NFe40295281456667628919796516758383004611471451" versao="4.00">
+            <ide>
+                <cUF>35</cUF>
+                <nNF>10886</nNF>
+                <dhEmi>2025-08-07T00:46:57-03:00</dhEmi>
+                <mod>55</mod>
+            </ide>
+            <emit><CNPJ>34567890000103</CNPJ><xNome>DOCA FORNECEDORA</xNome></emit>
+            <det nItem="1">
+                <prod>
+                    <cProd>SKU521</cProd>
+                    <xProd>Suco de Uva 1L</xProd>
+                    <qCom>50.0000</qCom>
+                    <uCom>UN</uCom>
+                    <rastro>
+                        <nLote>LOT204</nLote>
+                        <qLote>100.0000</qLote>
+                        <dFab>2025-08-07</dFab>
+                        <dVal>2026-04-04</dVal>
+                    </rastro>
+                </prod>
+            </det>
+        </infNFe>
+    </NFe>
+</nfeProc>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe>
+        <infNFe Id="NFe63895926467833722137793611827448278630126266" versao="4.00">
+            <ide>
+                <cUF>35</cUF>
+                <nNF>11859</nNF>
+                <dhEmi>2025-05-30T08:41:38-03:00</dhEmi>
+                <mod>55</mod>
+            </ide>
+            <emit><CNPJ>23456789000102</CNPJ><xNome>DOCA FORNECEDORA</xNome></emit>
+            <det nItem="1">
+                <prod>
+                    <cProd>SKU593</cProd>
+                    <xProd>Arroz Integral 5kg</xProd>
+                    <qCom>50.0000</qCom>
+                    <uCom>UN</uCom>
+                    <rastro>
+                        <nLote>LOT691</nLote>
+                        <qLote>100.0000</qLote>
+                        <dFab>2025-05-30</dFab>
+                        <dVal>2026-05-30</dVal>
+                    </rastro>
+                </prod>
+            </det>
+        </infNFe>
+    </NFe>
+</nfeProc>

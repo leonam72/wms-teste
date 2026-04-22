@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe>
+        <infNFe Id="NFe15216405233267012020895076066791034875875858" versao="4.00">
+            <ide>
+                <cUF>35</cUF>
+                <nNF>12233</nNF>
+                <dhEmi>2025-02-07T15:28:38-03:00</dhEmi>
+                <mod>55</mod>
+            </ide>
+            <emit><CNPJ>34567890000103</CNPJ><xNome>DOCA FORNECEDORA</xNome></emit>
+            <det nItem="1">
+                <prod>
+                    <cProd>SKU655</cProd>
+                    <xProd>Leite Integral 1L</xProd>
+                    <qCom>50.0000</qCom>
+                    <uCom>UN</uCom>
+                    <rastro>
+                        <nLote>LOT945</nLote>
+                        <qLote>100.0000</qLote>
+                        <dFab>2025-02-07</dFab>
+                        <dVal>2025-06-07</dVal>
+                    </rastro>
+                </prod>
+            </det>
+        </infNFe>
+    </NFe>
+</nfeProc>

@@ -1,0 +1,8 @@
+comando: "brfiscalfaker --type CFe"
+descricao: "Gera um XML de Cupom Fiscal Eletrônico (CFe-SAT) fictício."
+uso_ia: "Use este comando para simular emissões via equipamentos SAT (comum em SP)."
+parametros_opcionais:
+  cpf: "--cpf [número]"
+  cnpj: "--cnpj [número]"
+  remover_tags: "--block-tags 'tag1, tag2'"
+exemplo: "brfiscalfaker --type CFe"

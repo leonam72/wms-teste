@@ -1,0 +1,34 @@
+{
+  "recovery_report": {
+    "target_session": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+    "project_name": "WMS Agora Vai",
+    "recovery_date": "2026-04-19T17:15:00Z",
+    "status": "RECOVERED_FROM_LOGS",
+    "root_cause": "Sessão corrompida durante orquestração massiva Gemini + Ollama MCP em cenário de timeout/erro de rede (ERR_CONNECTION_REFUSED).",
+    "last_valid_interaction": {
+      "timestamp": "2026-04-18T08:13:08.246Z",
+      "user_command": "Report de ERR_CONNECTION_REFUSED e diretriz para testes rigorosos antes de reportar conclusão.",
+      "outcome": "Sessão interrompida antes da resposta da IA."
+    },
+    "technical_debt_left": {
+      "frontend": "SyntaxError em ReceivingPage.js:59 (Unexpected token '{'). CSS global desconfigurado.",
+      "backend": "Erros 500 (Internal Server Error) nas rotas de auditoria e recebimento.",
+      "infrastructure": "Servidor FastAPI offline ou travado no localhost:8000."
+    },
+    "generated_recovery_files": [
+      {
+        "file": "session_status_report.json",
+        "description": "Resumo técnico executivo do estado do projeto e erros críticos encontrados."
+      },
+      {
+        "file": "session_e721ad48_full_dump.json",
+        "description": "Dump completo de todas as 21 interações recuperadas do banco de logs (.gemini/tmp/wms-agora-vai/logs.json)."
+      },
+      {
+        "file": "sessao_001_mapeamento_total.md",
+        "description": "Documentação de inteligência do sistema (identificada durante o dump)."
+      }
+    ],
+    "how_to_resume": "1. cd ~/Documentos/wms_agora_vai | 2. gemini --resume e721ad48-87f5-47e8-8a99-6523c0068ea3"
+  }
+}

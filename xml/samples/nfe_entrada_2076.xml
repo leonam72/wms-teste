@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe>
+        <infNFe Id="NFe77490183916474522137652842121884979947430098" versao="4.00">
+            <ide>
+                <cUF>35</cUF>
+                <nNF>12076</nNF>
+                <dhEmi>2025-04-09T17:18:04-03:00</dhEmi>
+                <mod>55</mod>
+            </ide>
+            <emit><CNPJ>23456789000102</CNPJ><xNome>DOCA FORNECEDORA</xNome></emit>
+            <det nItem="1">
+                <prod>
+                    <cProd>SKU201</cProd>
+                    <xProd>Óleo de Soja 900ml</xProd>
+                    <qCom>50.0000</qCom>
+                    <uCom>UN</uCom>
+                    <rastro>
+                        <nLote>LOT462</nLote>
+                        <qLote>100.0000</qLote>
+                        <dFab>2025-04-09</dFab>
+                        <dVal>2026-04-09</dVal>
+                    </rastro>
+                </prod>
+            </det>
+        </infNFe>
+    </NFe>
+</nfeProc>

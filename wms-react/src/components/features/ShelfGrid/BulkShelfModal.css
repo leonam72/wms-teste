@@ -1,0 +1,7 @@
+.bulk-shelf-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Reusing form-row, form-group, form-actions from ProductForm.css */

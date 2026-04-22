@@ -1,0 +1,23 @@
+venv/
+run/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+wms.db
+.DS_Store
+
+# Banco local (nunca commitar)
+*.db
+*.db-shm
+*.db-wal
+*.db.backup_tmp
+
+# Backups gerados pelo sistema
+wms-backup-*.zip
+
+# Certificados e chaves
+*.pem
+*.key
+*.crt

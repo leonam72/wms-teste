@@ -19,12 +19,11 @@
 
 .fp-container {
   flex: 1;
-  background: #e5e8ed; /* Fundo um pouco mais escuro para o grid */
+  background: #e5e8ed;
   border: 1px solid var(--border);
   position: relative;
   overflow: auto;
   min-height: 0;
-  /* Simula um grid de engenharia */
   background-image: 
     linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px);
@@ -39,28 +38,36 @@
   height: 2000px;
 }
 
-.fp-obj {
-  position: absolute;
+.fp-obj-wrapper {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.fp-obj-inner {
+  width: 100%;
+  height: 100%;
   border: 2px solid var(--border);
   background: var(--surface);
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: grab;
   transition: box-shadow 0.2s;
+  box-sizing: border-box;
 }
 
-.fp-obj:hover {
+.fp-obj-wrapper:hover .fp-obj-inner {
   box-shadow: 0 0 10px rgba(0, 102, 204, 0.2);
   border-color: var(--accent);
 }
 
-.fp-obj.shelf {
+.fp-obj-wrapper.shelf .fp-obj-inner {
   border-color: var(--accent);
   background: #ffffff;
 }
 
-.fp-obj.area {
+.fp-obj-wrapper.area .fp-obj-inner {
   border-style: dashed;
 }
 
@@ -71,4 +78,5 @@
   color: var(--text2);
   text-align: center;
   pointer-events: none;
+  padding: 4px;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { useWMSStore } from '../../../store/useWMSStore';
 import { getDrawerKey } from '../../../utils/helpers';
 import { getProductExpiryStatus } from '../../../utils/expiry';
+import type { FilterType } from '../../types';
 import './ShelfGrid.css';
 
 interface DrawerProps {
@@ -9,11 +10,13 @@ interface DrawerProps {
   floor: number;
   drawer: number;
   onClick: (key: string) => void;
+  activeFilter: FilterType;
+  addressSearch: string;
 }
 
 const EMPTY_ARRAY: any[] = [];
 
-const Drawer: React.FC<DrawerProps> = ({ shelfId, floor, drawer, onClick }) => {
+const Drawer: React.FC<DrawerProps> = ({ shelfId, floor, drawer, onClick, activeFilter, addressSearch }) => {
   const key = getDrawerKey(shelfId, floor, drawer);
   
   const products = useWMSStore((state) => {
@@ -22,10 +25,29 @@ const Drawer: React.FC<DrawerProps> = ({ shelfId, floor, drawer, onClick }) => {
   });
   
   const isOccupied = products.length > 0;
-
   const drawerStatus = isOccupied 
     ? getProductExpiryStatus(products.flatMap(p => p.expiries))
     : 'none';
+
+  // Lógica de Filtro (Regras do BEHAVIOR_RULES.md)
+  let isVisible = true;
+  
+  // 1. Filtro por Status
+  if (activeFilter === 'occupied') isVisible = isOccupied;
+  if (activeFilter === 'empty')    isVisible = !isOccupied;
+  if (activeFilter === 'expired')  isVisible = drawerStatus === 'expired';
+  if (activeFilter === 'expiring') isVisible = drawerStatus === 'warn';
+  if (activeFilter === 'multi') {
+    const uniqueSkus = new Set(products.map(p => p.code));
+    isVisible = uniqueSkus.size >= 2;
+  }
+
+  // 2. Filtro por Endereço (Focus Mode do monolito)
+  if (addressSearch && !key.includes(addressSearch)) {
+    isVisible = false;
+  }
+
+  if (!isVisible) return <div className="drawer hidden" />;
 
   return (
     <div 

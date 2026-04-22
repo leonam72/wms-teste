@@ -1,0 +1,10 @@
+fastapi[all]
+sqlalchemy[asyncio]>=2.0.0
+aiosqlite
+alembic
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+pydantic-settings
+pydantic[email]
+uvicorn

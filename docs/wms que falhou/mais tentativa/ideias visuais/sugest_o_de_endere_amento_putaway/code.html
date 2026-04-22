@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VisualWMS - Sugestão de Endereçamento</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,FILL@0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 py-3 bg-white dark:bg-slate-900">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em]">VisualWMS</h2>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-3 hover:bg-slate-200 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-3 hover:bg-slate-200 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-4 md:px-20 lg:px-40 py-8 flex flex-col gap-6">
+<div class="flex flex-col gap-2">
+<nav class="flex text-sm text-slate-500 dark:text-slate-400 gap-2 items-center">
+<span>Recebimento</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="font-medium text-primary">Sugestão de Endereçamento</span>
+</nav>
+<h1 class="text-slate-900 dark:text-slate-100 text-3xl font-bold leading-tight">Sugestão de Endereçamento (Putaway)</h1>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Warehouse Map Container -->
+<div class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col shadow-sm">
+<div class="p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">map</span>
+<span class="font-semibold">Mapa do Armazém - Corredor B</span>
+</div>
+<div class="flex gap-4 text-xs items-center">
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-sm bg-slate-200 dark:bg-slate-700"></div>
+<span>Ocupado</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-sm border border-primary bg-primary/20"></div>
+<span>Sugerido</span>
+</div>
+</div>
+</div>
+<div class="flex-1 bg-slate-50 dark:bg-slate-950 p-6 relative overflow-auto min-h-[400px]">
+<!-- Warehouse Grid Map Simulation -->
+<div class="grid grid-cols-8 gap-4 w-full h-full min-w-[600px]">
+<!-- Column 1 -->
+<div class="space-y-3 flex flex-col items-center">
+<span class="text-[10px] font-bold text-slate-400">RAQUE 01</span>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+</div>
+<!-- Column 2 -->
+<div class="space-y-3 flex flex-col items-center">
+<span class="text-[10px] font-bold text-slate-400">RAQUE 02</span>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+<div class="w-full aspect-square bg-primary/20 rounded border-2 border-primary ring-4 ring-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">move_to_inbox</span>
+</div>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+</div>
+<!-- Aisle Space -->
+<div class="col-span-1 bg-slate-100/50 dark:bg-slate-900/50 flex items-center justify-center border-x border-dashed border-slate-200 dark:border-slate-800">
+<span class="text-[10px] uppercase tracking-widest text-slate-400 rotate-90">Corredor B</span>
+</div>
+<!-- Column 4 -->
+<div class="space-y-3 flex flex-col items-center">
+<span class="text-[10px] font-bold text-slate-400">RAQUE 03</span>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+<div class="w-full aspect-square bg-primary/20 rounded border-2 border-primary ring-4 ring-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">move_to_inbox</span>
+</div>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+</div>
+<!-- Column 5 -->
+<div class="space-y-3 flex flex-col items-center">
+<span class="text-[10px] font-bold text-slate-400">RAQUE 04</span>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+<div class="w-full aspect-square bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700"></div>
+</div>
+<!-- Empty Space -->
+<div class="col-span-3 grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-3 items-center">
+<span class="text-[10px] font-bold text-slate-400">PICKING</span>
+<div class="w-full h-full bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-400">conveyor_belt</span>
+</div>
+</div>
+<div class="flex flex-col gap-3 items-center">
+<span class="text-[10px] font-bold text-slate-400">DOCA 04</span>
+<div class="w-full h-full bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-400">local_shipping</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Details Panel -->
+<div class="flex flex-col gap-6">
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-4 border-b border-slate-200 dark:border-slate-800">
+<h3 class="text-lg font-bold">Detalhes do Item</h3>
+</div>
+<div class="p-4">
+<div class="w-full bg-slate-100 dark:bg-slate-800 aspect-video rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
+<img alt="Warehouse pallet box with logistics labels" class="w-full h-full object-cover" data-alt="Pallet box with logistics barcode labels" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3e2vb3nH9NVQ-JVaVxGykHjZq4Fs2jhkYZGVhl4ULCWk_E9y8EqboHiuHElzAbr6btVSp7hzxaW-gehBzTDH2Bs_B8a99nsGb-5gkGJUjOBtTM5CHpZP9C3OzNg7dfKr-PLpliDmqx83ocwL1WaqWO0hcIOVIu2mLW87HQ0xUgKhuIPqO6lhXfvF_Yojcvpiwc9GFhMvmP8GrFeW-PB1IjlDUc9gYYXZKdAZOy4tqEjBd4Jb20RbvLLSghDZy8FQCF4ogJvfOjhw"/>
+<div class="absolute bottom-2 right-2 bg-primary px-2 py-1 rounded text-[10px] text-white font-bold">EM RECEBIMENTO</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800">
+<p class="text-slate-500 dark:text-slate-400 text-sm">SKU</p>
+<p class="text-slate-900 dark:text-slate-100 font-medium">WMS-789210</p>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800">
+<p class="text-slate-500 dark:text-slate-400 text-sm">Lote (Batch)</p>
+<p class="text-slate-900 dark:text-slate-100 font-medium">B-4492-X</p>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800">
+<p class="text-slate-500 dark:text-slate-400 text-sm">Expiração</p>
+<p class="text-slate-900 dark:text-slate-100 font-medium">31/12/2025</p>
+</div>
+<div class="flex justify-between items-center py-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm">Stacking Status</p>
+<div class="flex flex-col items-end gap-1">
+<p class="text-slate-900 dark:text-slate-100 font-medium">2 / 4 Unidades</p>
+<div class="w-24 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-1/2"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 dark:bg-primary/20 p-4 rounded-xl border border-primary/30 flex flex-col gap-4">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary">tips_and_updates</span>
+<div>
+<h4 class="font-bold text-primary">Sugestão de Endereço</h4>
+<p class="text-xs text-slate-600 dark:text-slate-300">O sistema otimizou a alocação baseada na validade e frequência de giro.</p>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-3 rounded-lg border border-primary/20 flex justify-between items-center">
+<div>
+<p class="text-[10px] text-slate-500 uppercase font-bold">Endereço Recomendado</p>
+<p class="text-lg font-bold text-primary">B-02-04-A</p>
+</div>
+<span class="material-symbols-outlined text-primary text-3xl">location_on</span>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined">check_circle</span>
+                            Confirmar Armazenamento
+                        </button>
+</div>
+</div>
+</div>
+</main>
+<footer class="mt-auto px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex justify-between items-center text-xs text-slate-500">
+<p>© 2024 VisualWMS Logistics. Todos os direitos reservados.</p>
+<div class="flex gap-4">
+<a class="hover:text-primary" href="#">Suporte</a>
+<a class="hover:text-primary" href="#">Documentação</a>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

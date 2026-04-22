@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS Agora Vai — Sistema de Gestão</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <header>
+        <div class="logo">VISUAL<span>WMS</span></div>
+        <div class="header-actions">
+            <span id="user-display" style="font-size: 11px; color: var(--text2); font-family: 'IBM Plex Mono';">...</span>
+            <button class="btn" id="logout-btn">SAIR</button>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- Menu Lateral Ultra Estrito -->
+        <nav class="nav-rail" id="nav-rail">
+            <!-- Os botões serão injetados via NavRail.js -->
+        </nav>
+
+        <!-- Sidebar Dinâmica -->
+        <aside class="sidebar" id="sidebar">
+            <div id="sidebar-content"></div>
+        </aside>
+
+        <!-- Área de Trabalho Principal -->
+        <main class="workspace" id="workspace">
+            <div id="page-content">
+                <!-- Conteúdo das páginas injetado aqui -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modais Globais -->
+    <div id="modal-container"></div>
+
+    <script type="module" src="/static/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "WMS Pro",
+  "short_name": "WMS Pro",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0f2f5",
+  "theme_color": "#0066cc",
+  "lang": "pt-BR",
+  "description": "WMS Pro para controle de depósitos, conferência, qualidade e expedição.",
+  "icons": []
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe>
+        <infNFe Id="NFe92240913593380744872505587288566269910472442" versao="4.00">
+            <ide>
+                <cUF>35</cUF>
+                <nNF>10881</nNF>
+                <dhEmi>2025-04-12T00:53:29-03:00</dhEmi>
+                <mod>55</mod>
+            </ide>
+            <emit><CNPJ>12345678000101</CNPJ><xNome>DOCA FORNECEDORA</xNome></emit>
+            <det nItem="1">
+                <prod>
+                    <cProd>SKU900</cProd>
+                    <xProd>Pão de Forma 500g</xProd>
+                    <qCom>50.0000</qCom>
+                    <uCom>UN</uCom>
+                </prod>
+            </det>
+        </infNFe>
+    </NFe>
+</nfeProc>

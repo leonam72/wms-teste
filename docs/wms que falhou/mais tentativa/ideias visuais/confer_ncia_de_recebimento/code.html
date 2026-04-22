@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>VisualWMS - Conferência de Recebimento</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary rounded-lg p-1 text-white">
+<span class="material-symbols-outlined text-2xl">warehouse</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">VisualWMS</h1>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-medium text-sm">Inbound</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-medium text-sm">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">package_2</span>
+<span class="font-medium text-sm">Outbound</span>
+</a>
+<div class="pt-4 pb-2 px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Configuração</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 px-2">
+<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700" data-alt="User avatar placeholder" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD8IqTBi5M0qQXOs9rz1h1NsddPf4hZJs8xSkBg2bbFUpjVg2MPD5SeZ6c27ATpI06GvngBMMnc0OrOOryQmJ49xVUnb3rnkDlqLDItdf18pK2mwVGz_jJoGw_tGqfdjrefMxbSOdg8VasvsrvsEyn7Rz9b9njtQxY3IyXeH8tKNnCqP4pv-WFJWdQEvZLNwX89gfV_2QejMhn9oBjzedJzLrG_9XL9Wh_rWVSeipx10P0AZU5B6OcJG5eqb_FYf--4oU-KBOV2j3I')"></div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold truncate">Operador Dock 01</p>
+<p class="text-xs text-slate-500 truncate">Sessão Ativa</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col overflow-y-auto">
+<!-- Header -->
+<header class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 sticky top-0 z-10">
+<div class="flex items-center gap-4">
+<nav class="flex text-sm text-slate-500 gap-2">
+<span>Inbound</span>
+<span>/</span>
+<span class="text-slate-900 dark:text-slate-100 font-medium">Receiving Inspection</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64" placeholder="Search orders..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-8 space-y-6">
+<!-- Title and Actions -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">Conferência de Recebimento</h2>
+<div class="flex items-center gap-3 mt-1">
+<span class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wide">In Progress</span>
+<p class="text-slate-500 font-medium">Order #ORD-2024-001 | Dock 01</p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            Pause Inspection
+                        </button>
+<button class="px-6 py-2 bg-primary text-white rounded-lg text-sm font-bold hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">
+                            Finalize Reception
+                        </button>
+</div>
+</div>
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-slate-500 text-sm font-medium">Total Items</p>
+<span class="material-symbols-outlined text-primary">inventory_2</span>
+</div>
+<p class="text-3xl font-bold mt-2">1,200</p>
+<p class="text-xs text-slate-400 mt-1">Expected from Invoice</p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-slate-500 text-sm font-medium">Verified</p>
+<span class="material-symbols-outlined text-green-500">check_circle</span>
+</div>
+<p class="text-3xl font-bold mt-2">850</p>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
+<div class="bg-green-500 h-full w-[70%]"></div>
+</div>
+<p class="text-xs text-green-600 mt-2 font-medium">70.8% Complete</p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-slate-500 text-sm font-medium">Pending</p>
+<span class="material-symbols-outlined text-amber-500">pending_actions</span>
+</div>
+<p class="text-3xl font-bold mt-2">350</p>
+<p class="text-xs text-amber-600 mt-1 font-medium">Requires attention</p>
+</div>
+</div>
+<!-- Main Grid: Items & Quality Control -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+<!-- Items Table Section -->
+<div class="xl:col-span-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+<h3 class="font-bold text-lg">Items Unloading</h3>
+<button class="text-primary text-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">add</span> Add Item
+                            </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 text-xs font-bold uppercase tracking-wider">
+<tr>
+<th class="px-6 py-4">SKU / Product</th>
+<th class="px-6 py-4">Category</th>
+<th class="px-6 py-4 text-center">Expected</th>
+<th class="px-6 py-4 text-center">Verified</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="font-bold text-sm">ELE-MOU-01</div>
+<div class="text-xs text-slate-500">Logitech MX Master 3S</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">Electronics</td>
+<td class="px-6 py-4 text-center font-medium">200</td>
+<td class="px-6 py-4 text-center">
+<input class="w-16 p-1 text-center text-sm border-slate-200 dark:border-slate-700 bg-transparent rounded-lg" type="number" value="200"/>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded text-[10px] font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">VERIFIED</span>
+</td>
+<td class="px-6 py-4">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer">more_vert</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="font-bold text-sm">ELE-KB-05</div>
+<div class="text-xs text-slate-500">Keychron K2 Mechanical</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">Electronics</td>
+<td class="px-6 py-4 text-center font-medium">150</td>
+<td class="px-6 py-4 text-center">
+<input class="w-16 p-1 text-center text-sm border-slate-200 dark:border-slate-700 bg-transparent rounded-lg" type="number" value="120"/>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">PARTIAL</span>
+</td>
+<td class="px-6 py-4">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer">more_vert</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="font-bold text-sm">FUR-CH-12</div>
+<div class="text-xs text-slate-500">Herman Miller Aeron</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">Furniture</td>
+<td class="px-6 py-4 text-center font-medium">25</td>
+<td class="px-6 py-4 text-center">
+<input class="w-16 p-1 text-center text-sm border-slate-200 dark:border-slate-700 bg-transparent rounded-lg" type="number" value="0"/>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded text-[10px] font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400">PENDING</span>
+</td>
+<td class="px-6 py-4">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer">more_vert</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Quality Control Sidebar -->
+<div class="space-y-6">
+<!-- QC Section -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-5 border-b border-slate-200 dark:border-slate-800">
+<h3 class="font-bold text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">fact_check</span>
+                                    Quality Control
+                                </h3>
+</div>
+<div class="p-6 space-y-6">
+<div>
+<label class="block text-sm font-bold mb-3">Temperature Log (Cold Storage Items)</label>
+<div class="flex items-center gap-4">
+<div class="flex-1 bg-slate-100 dark:bg-slate-800 p-4 rounded-lg text-center">
+<p class="text-xs text-slate-500 mb-1">Current</p>
+<p class="text-2xl font-bold text-primary">4.2°C</p>
+</div>
+<div class="flex-1 bg-slate-100 dark:bg-slate-800 p-4 rounded-lg text-center">
+<p class="text-xs text-slate-500 mb-1">Target Range</p>
+<p class="text-lg font-bold">2.0° - 6.0°</p>
+</div>
+</div>
+<div class="mt-2 flex items-center gap-2 text-xs text-green-600 font-medium">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                                        Within safe parameters
+                                    </div>
+</div>
+<div>
+<label class="block text-sm font-bold mb-3">Damaged Items Found</label>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 border border-red-100 dark:border-red-900/30 bg-red-50 dark:bg-red-900/10 rounded-lg">
+<div class="flex gap-3">
+<div class="size-10 rounded bg-red-200 dark:bg-red-900/40 flex items-center justify-center text-red-700 dark:text-red-400">
+<span class="material-symbols-outlined">broken_image</span>
+</div>
+<div>
+<p class="text-sm font-bold">KB-05 Case Damaged</p>
+<p class="text-xs text-slate-500">2 units rejected</p>
+</div>
+</div>
+<button class="text-red-600 hover:text-red-800">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<button class="w-full py-2 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-500 font-medium hover:border-primary hover:text-primary transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+                                            Log Damage Issue
+                                        </button>
+</div>
+</div>
+<div class="pt-4 border-t border-slate-200 dark:border-slate-800">
+<label class="block text-sm font-bold mb-2">Inspection Notes</label>
+<textarea class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm p-3 focus:ring-primary" placeholder="Add any observation about the delivery..." rows="3"></textarea>
+</div>
+</div>
+</div>
+<!-- Logistics Info -->
+<div class="bg-primary/5 dark:bg-primary/10 rounded-xl border border-primary/20 p-6">
+<h4 class="text-sm font-bold text-primary flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm">info</span>
+                                Shipment Details
+                            </h4>
+<div class="space-y-3 text-sm">
+<div class="flex justify-between">
+<span class="text-slate-500">Carrier:</span>
+<span class="font-bold">FastTrack Logistics</span>
+</div>
+<div class="flex justify-between">
+<span class="text-slate-500">Vehicle:</span>
+<span class="font-bold">Truck ABC-1234</span>
+</div>
+<div class="flex justify-between">
+<span class="text-slate-500">Driver:</span>
+<span class="font-bold">Roberto Silva</span>
+</div>
+<div class="flex justify-between">
+<span class="text-slate-500">Arrival:</span>
+<span class="font-bold">08:45 AM</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

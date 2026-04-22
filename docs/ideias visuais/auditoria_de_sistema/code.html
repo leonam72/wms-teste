@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VisualWMS - Audit Trail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 lg:px-10 py-3 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-extrabold leading-tight tracking-tight">VisualWMS</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Inventory</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Tasks</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary pb-1 transition-colors" href="#">Audit Trail</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+<label class="hidden sm:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">
+<div class="text-slate-500 flex items-center justify-center pl-3">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full bg-transparent border-none focus:ring-0 text-sm placeholder:text-slate-500" placeholder="Search logs..." value=""/>
+</div>
+</label>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="bg-primary/10 rounded-full p-0.5 border-2 border-primary/20">
+<img class="aspect-square rounded-full size-8 object-cover" data-alt="User profile avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7reVLKOWUKtS4UU48anghGyUiSWfa-aZkrFAuskEYfi7Un_4i2F1C7wN31mYw0yUeB2Li78R-fk_8C6IkqOAmGCpuTVympoi6RF3PFM_v8ybpH9WEvddu2UgkVaku_nh_xu_jcq5y-HuHuKS98z7efjD3S5KmGFNTIE2kf986YeNwxQz0C6tePJd4D1uDAKvKn4L5JyFesTauxUWOy_1XV2OCNfDXrVmTPRk0NyHYwK0-vFwAgfJXvfnwno3ZvQGiOLqbfWSyJjw"/>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col p-6 lg:p-10 max-w-[1440px] mx-auto w-full gap-8">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<h1 class="text-slate-900 dark:text-white text-3xl font-black tracking-tight">Audit Trail</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Full activity log of system events, inventory moves, and layout changes.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-sm">
+<span class="material-symbols-outlined text-[20px]">file_download</span>
+                        Export CSV
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold hover:bg-primary/90 transition-all shadow-md">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+                        Refresh Logs
+                    </button>
+</div>
+</div>
+<!-- Filters Section -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">person</span>
+                            User
+                        </label>
+<select class="form-select w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-11">
+<option>All Users</option>
+<option>Admin System</option>
+<option>John Doe (Operator)</option>
+<option>Maria Silva (Manager)</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">event</span>
+                            Start Date
+                        </label>
+<input class="form-input w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-11" type="date"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">event_busy</span>
+                            End Date
+                        </label>
+<input class="form-input w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-11" type="date"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">category</span>
+                            Action Type
+                        </label>
+<select class="form-select w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-primary h-11">
+<option>All Actions</option>
+<option>Pallet Movement</option>
+<option>Layout Edit</option>
+<option>User Login</option>
+<option>SKU Update</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Table Section -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-md border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Date &amp; Time</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">User</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Action</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">SKU / ID</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">From</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">To</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">IP / Device</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">2023-10-27 14:32:01</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm">
+<div class="flex items-center gap-2">
+<div class="size-6 bg-blue-500 rounded-full flex items-center justify-center text-[10px] text-white">JD</div>
+<span>John Doe</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">
+                                        Pallet Move
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-primary">PAL-8829-X</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">A-12-04</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">D-05-01</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">192.168.1.42 (Scanner #4)</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">2023-10-27 14:30:15</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm">
+<div class="flex items-center gap-2">
+<div class="size-6 bg-purple-500 rounded-full flex items-center justify-center text-[10px] text-white">MS</div>
+<span>Maria Silva</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
+                                        Layout Edit
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-primary">ZONE-FAST-B</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Cap: 400</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Cap: 500</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">10.0.0.122 (Desktop)</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">2023-10-27 14:28:44</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm">
+<div class="flex items-center gap-2">
+<div class="size-6 bg-slate-500 rounded-full flex items-center justify-center text-[10px] text-white">AS</div>
+<span>Admin System</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                                        User Login
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-primary">USER-441</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">-</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Dashboard</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">177.42.11.08 (Web)</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">2023-10-27 14:15:22</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm">
+<div class="flex items-center gap-2">
+<div class="size-6 bg-blue-500 rounded-full flex items-center justify-center text-[10px] text-white">JD</div>
+<span>John Doe</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">
+                                        Pallet Move
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-primary">PAL-9001-A</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">DOCK-02</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">B-01-12</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">192.168.1.42 (Scanner #4)</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">2023-10-27 13:55:10</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm">
+<div class="flex items-center gap-2">
+<div class="size-6 bg-orange-500 rounded-full flex items-center justify-center text-[10px] text-white">RK</div>
+<span>Rob King</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400">
+                                        Inventory Audit
+                                    </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-primary">SKU-7721-T</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Qty: 24</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">Qty: 23 (Correction)</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">192.168.1.55 (Tablet)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between border-t border-slate-200 dark:border-slate-700">
+<p class="text-sm text-slate-500 dark:text-slate-400">Showing 1 to 5 of 248 entries</p>
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50">Previous</button>
+<div class="flex items-center">
+<button class="flex items-center justify-center rounded bg-primary px-3 py-1 text-sm font-bold text-white">1</button>
+<button class="flex items-center justify-center rounded px-3 py-1 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700">2</button>
+<button class="flex items-center justify-center rounded px-3 py-1 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700">3</button>
+</div>
+<button class="flex items-center justify-center rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700">Next</button>
+</div>
+</div>
+</div>
+<!-- Dashboard Summary Widgets -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-4">
+<div class="size-12 bg-emerald-100 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px]">directions_run</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-wider text-slate-500">Moves Today</p>
+<p class="text-2xl font-black">1,240</p>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-4">
+<div class="size-12 bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px]">group</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-wider text-slate-500">Active Users</p>
+<p class="text-2xl font-black">18</p>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-4">
+<div class="size-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px]">warning</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-wider text-slate-500">System Alerts</p>
+<p class="text-2xl font-black">2</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

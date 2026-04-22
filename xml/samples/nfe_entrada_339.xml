@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe>
+        <infNFe Id="NFe63835793885825608235682611335615492784810444" versao="4.00">
+            <ide>
+                <cUF>35</cUF>
+                <nNF>10339</nNF>
+                <dhEmi>2025-08-20T09:54:19-03:00</dhEmi>
+                <mod>55</mod>
+            </ide>
+            <emit><CNPJ>23456789000102</CNPJ><xNome>DOCA FORNECEDORA</xNome></emit>
+            <det nItem="1">
+                <prod>
+                    <cProd>SKU587</cProd>
+                    <xProd>Feijão Carioca 1kg</xProd>
+                    <qCom>50.0000</qCom>
+                    <uCom>UN</uCom>
+                    <rastro>
+                        <nLote>LOT394</nLote>
+                        <qLote>100.0000</qLote>
+                        <dFab>2025-08-20</dFab>
+                        <dVal>2026-02-16</dVal>
+                    </rastro>
+                </prod>
+            </det>
+        </infNFe>
+    </NFe>
+</nfeProc>

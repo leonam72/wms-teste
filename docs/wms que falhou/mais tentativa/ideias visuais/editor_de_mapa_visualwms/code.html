@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .grid-canvas {
+            background-size: 20px 20px;
+            background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px);
+        }
+        .dark .grid-canvas {
+            background-image: radial-gradient(circle, #334155 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="flex flex-col h-screen">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 shrink-0">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded-lg text-white">
+<span class="material-symbols-outlined text-2xl">warehouse</span>
+</div>
+<div>
+<h2 class="text-lg font-bold leading-tight tracking-tight">VisualWMS</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Layout Configuration</p>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Inventory</a>
+<a class="text-primary text-sm font-semibold border-b-2 border-primary py-4 -mb-4" href="#">Map Editor</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-1.5 items-center gap-2 border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-slate-400 text-lg">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 text-slate-700 dark:text-slate-200 placeholder-slate-400" placeholder="Search or drag items..." type="text"/>
+</div>
+<div class="h-6 w-px bg-slate-200 dark:border-slate-700"></div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-700 dark:text-slate-200 text-sm font-bold transition-all">
+<span class="material-symbols-outlined text-lg">save</span>
+                        Save
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 rounded-lg text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-lg">publish</span>
+                        Publish
+                    </button>
+</div>
+<div class="size-9 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border border-slate-300 dark:border-slate-600">
+<img class="w-full h-full object-cover" data-alt="User profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPylLwP4gedo06iZxAHD8M_mZFBD4WXhZ2F6GltEEE2t8Js3rT_nNvozkUIXW-lomY00EoLsoroyJwNpz1oDfUGeFjPjE7e6S6YfmJvmwTWpDF74cyF7I0ZJJUc9sNOF86ZsbWS672mNaHaAZ_gHpLjT3tFbAftXZkaZyZkM7W4ryM5C4FTn0d7WvkgVft1ye8ncTtlH__Tj4dEL-iDi1bO3ScBwpdgIovi1ttlzpNd1ZTjIg0cMUJ4zBym6zCldqZwah10It-0sc"/>
+</div>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex flex-1 overflow-hidden">
+<!-- Left Toolbar: Creation Tools -->
+<aside class="w-16 md:w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col shrink-0">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800">
+<h3 class="hidden md:block text-xs font-bold uppercase tracking-wider text-slate-400">Design Tools</h3>
+</div>
+<div class="flex-1 overflow-y-auto p-2 space-y-1">
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary border border-primary/20 transition-all">
+<span class="material-symbols-outlined">near_me</span>
+<span class="hidden md:block text-sm font-semibold">Select / Move</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+<span class="material-symbols-outlined">add_road</span>
+<span class="hidden md:block text-sm font-semibold">Add Street</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+<span class="material-symbols-outlined">package_2</span>
+<span class="hidden md:block text-sm font-semibold">Add Bin/Position</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+<span class="material-symbols-outlined">polyline</span>
+<span class="hidden md:block text-sm font-semibold">Draw Area</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+<span class="material-symbols-outlined">straighten</span>
+<span class="hidden md:block text-sm font-semibold">Measure</span>
+</button>
+<div class="px-3 py-2 mb-2">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="rounded text-primary focus:ring-primary size-4" type="checkbox"/>
+<span class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Snap to Grid</span>
+</label>
+</div><div class="py-4 px-3 border-t border-slate-100 dark:border-slate-800 mt-4">
+<h3 class="hidden md:block text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Bulk Creation</h3>
+<button class="w-full flex items-center justify-center md:justify-start gap-3 px-3 py-2.5 rounded-lg bg-slate-900 dark:bg-slate-700 text-white hover:bg-slate-800 transition-all">
+<span class="material-symbols-outlined">view_kanban</span>
+<span class="hidden md:block text-sm font-semibold">Generate Row</span>
+</button>
+</div>
+</div>
+<div class="p-4 border-t border-slate-100 dark:border-slate-800">
+<div class="hidden md:flex items-center gap-2 text-xs text-slate-500 font-medium">
+<span class="material-symbols-outlined text-sm">info</span>
+                        Shortcuts: [V] Select, [A] Add
+                    </div>
+</div>
+</aside>
+<!-- Center Area: Interactive Grid Canvas -->
+<section class="flex-1 bg-slate-100 dark:bg-slate-950 relative overflow-hidden flex flex-col">
+<!-- Canvas Header/Breadcrumbs -->
+<div class="absolute top-4 left-4 z-10 flex items-center gap-2 px-3 py-1.5 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full border border-slate-200 dark:border-slate-700 shadow-sm text-xs font-medium">
+<span class="text-slate-400">Warehouse</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-slate-400">North Wing</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-100 font-bold">Zone A - Floor Plan</span>
+</div>
+<!-- Canvas Area -->
+<div class="flex-1 grid-canvas overflow-auto relative p-20 cursor-crosshair"><!-- Smart Guides (Hidden by default, shown during drag) -->
+<div class="absolute inset-0 pointer-events-none z-10 opacity-0 group-dragging:opacity-100">
+<div class="absolute top-[192px] left-0 w-full border-t border-primary/40 border-dashed"></div>
+<div class="absolute top-0 left-[320px] h-full border-l border-primary/40 border-dashed"></div>
+</div>
+<!-- Sample Warehouse Elements -->
+<div class="absolute top-40 left-60 w-[600px] h-[400px] border-4 border-slate-300 dark:border-slate-700 border-dashed rounded-xl bg-slate-200/20 dark:bg-slate-800/20 flex items-center justify-center pointer-events-none">
+<span class="text-slate-400 font-bold text-3xl opacity-30 select-none">ZONE A</span>
+</div>
+<!-- Sample Street -->
+<div class="absolute top-[280px] left-20 w-[800px] h-20 bg-slate-300/40 dark:bg-slate-700/40 border-y-2 border-slate-400 dark:border-slate-600 flex items-center justify-center cursor-move hover:ring-2 hover:ring-primary/50 transition-all active:scale-95 active:shadow-xl active:z-50" draggable="true">
+<span class="text-[10px] text-slate-400 uppercase tracking-[0.5em] font-bold">Main Traffic Street A-01</span>
+</div>
+<!-- Sample Rows of Bins -->
+<div class="absolute top-48 left-80 flex gap-1">
+<!-- Row 1 -->
+<div class="flex flex-col gap-1">
+<div class="size-10 bg-white dark:bg-slate-800 border-2 border-primary rounded shadow-sm flex items-center justify-center text-[10px] font-bold text-primary ring-2 ring-primary/20 cursor-move hover:ring-2 hover:ring-primary/50 transition-all active:scale-95 active:shadow-xl active:z-50" draggable="true">A1-01</div>
+<div class="size-10 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded shadow-sm flex items-center justify-center text-[10px] font-bold text-slate-500 cursor-move hover:ring-2 hover:ring-primary/50 transition-all active:scale-95 active:shadow-xl active:z-50" draggable="true">A1-02</div>
+<div class="size-10 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded shadow-sm flex items-center justify-center text-[10px] font-bold text-slate-500 cursor-move hover:ring-2 hover:ring-primary/50 transition-all active:scale-95 active:shadow-xl active:z-50" draggable="true">A1-03</div>
+<div class="size-10 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded shadow-sm flex items-center justify-center text-[10px] font-bold text-slate-500 cursor-move hover:ring-2 hover:ring-primary/50 transition-all active:scale-95 active:shadow-xl active:z-50" draggable="true">A1-04</div>
+</div>
+<!-- Row 2 -->
+<div class="flex flex-col gap-1 ml-4">
+<div class="size-10 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded shadow-sm flex items-center justify-center text-[10px] font-bold text-slate-500 cursor-move hover:ring-2 hover:ring-primary/50 transition-all active:scale-95 active:shadow-xl active:z-50" draggable="true">B1-01</div>
+<div class="size-10 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded shadow-sm flex items-center justify-center text-[10px] font-bold text-slate-500 cursor-move hover:ring-2 hover:ring-primary/50 transition-all active:scale-95 active:shadow-xl active:z-50" draggable="true">B1-02</div>
+<div class="size-10 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded shadow-sm flex items-center justify-center text-[10px] font-bold text-slate-500 cursor-move hover:ring-2 hover:ring-primary/50 transition-all active:scale-95 active:shadow-xl active:z-50" draggable="true">B1-03</div>
+<div class="size-10 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded shadow-sm flex items-center justify-center text-[10px] font-bold text-slate-500 cursor-move hover:ring-2 hover:ring-primary/50 transition-all active:scale-95 active:shadow-xl active:z-50" draggable="true">B1-04</div>
+</div>
+</div>
+<!-- Zoom Controls -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1 p-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl z-20">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined">zoom_out</span>
+</button>
+<div class="px-4 text-xs font-bold text-slate-600 dark:text-slate-400 min-w-16 text-center">85%</div>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined">zoom_in</span>
+</button>
+<div class="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1"></div>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined">fit_screen</span>
+</button>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined">undo</span>
+</button>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<span class="material-symbols-outlined">redo</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Right Sidebar: Properties Panel -->
+<aside class="w-72 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0 flex flex-col sticky top-0">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
+<h3 class="text-sm font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary text-lg">edit_attributes</span>
+Quick Edit</h3>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- Selection Indicator -->
+<div class="flex items-center gap-4 p-3 rounded-lg bg-primary/5 border border-primary/10">
+<div class="size-12 bg-white dark:bg-slate-800 border-2 border-primary rounded flex items-center justify-center text-xs font-bold text-primary">A1-01</div>
+<div>
+<p class="text-xs font-bold text-primary uppercase">Current Selection</p>
+<p class="text-sm font-medium">Standard Bin Position</p>
+</div>
+</div>
+<!-- Property Forms -->
+<div class="space-y-4">
+<div class="space-y-1.5">
+<label class="text-xs font-bold text-slate-500 uppercase tracking-tight">Position Name</label>
+<input class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary" type="text" value="A1-01"/>
+</div>
+<div class="space-y-1.5">
+<label class="text-xs font-bold text-slate-500 uppercase tracking-tight">Zone Assignment</label>
+<select class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary">
+<option>Zone A (Picking)</option>
+<option>Zone B (Bulk)</option>
+<option>Zone C (Returns)</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1.5">
+<label class="text-xs font-bold text-slate-500 uppercase tracking-tight">Max Stacking</label>
+<input class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary" type="number" value="4"/>
+</div>
+<div class="space-y-1.5">
+<label class="text-xs font-bold text-slate-500 uppercase tracking-tight">Load Cap (kg)</label>
+<input class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-primary focus:border-primary" type="number" value="500"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-xs font-bold text-slate-500 uppercase tracking-tight">Dimensions (L x W x H)</label>
+<div class="flex gap-2">
+<input class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-2 text-xs text-center" placeholder="120" type="text"/>
+<input class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-2 text-xs text-center" placeholder="80" type="text"/>
+<input class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-2 text-xs text-center" placeholder="100" type="text"/>
+</div>
+</div>
+<div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-slate-200 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">Available for picking</span>
+</label>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-slate-100 dark:border-slate-800 flex gap-2">
+<button class="flex-1 px-4 py-2 border border-red-200 dark:border-red-900/30 text-red-600 dark:text-red-400 text-xs font-bold rounded-lg hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors">
+                        Delete
+                    </button>
+<button class="flex-1 px-4 py-2 bg-slate-900 dark:bg-slate-700 text-white text-xs font-bold rounded-lg hover:bg-slate-800 transition-colors">
+                        Duplicate
+                    </button>
+</div>
+</aside>
+</main>
+</div>
+</body></html>

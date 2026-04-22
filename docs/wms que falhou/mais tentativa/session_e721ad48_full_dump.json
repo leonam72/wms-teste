@@ -1,0 +1,154 @@
+{
+  "session_id": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+  "description": "Dump completo extra\u00eddo do logs.json ap\u00f3s corrup\u00e7\u00e3o do arquivo de chat.",
+  "entries_found": 21,
+  "data": [
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 0,
+      "type": "user",
+      "message": "yolo",
+      "timestamp": "2026-04-18T04:15:12.009Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 1,
+      "type": "user",
+      "message": "leia o md e continue o que estavamos fazendo, lembre-se use o Ollama mcp",
+      "timestamp": "2026-04-18T04:15:29.971Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 2,
+      "type": "user",
+      "message": "leia o md e continue o que estavamos fazendo, lembre-se use voc\u00ea para guardar e orquestrar o ollama mcp",
+      "timestamp": "2026-04-18T04:16:09.542Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 3,
+      "type": "user",
+      "message": "estamos tendo muito timeout, o problema \u00e9 a ia ou a implementa\u00e7\u00e3o do mcp ollama?",
+      "timestamp": "2026-04-18T04:23:44.856Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 4,
+      "type": "user",
+      "message": "mas eu quero usar o mcp o maximo possivel, melhoro o tempo de timeout? alguma implementa\u00e7\u00e3o para otimizar isso?",
+      "timestamp": "2026-04-18T04:26:32.230Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 5,
+      "type": "user",
+      "message": "Internal Server Error esta dando em  http://localhost:8000/",
+      "timestamp": "2026-04-18T04:33:55.255Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 6,
+      "type": "user",
+      "message": "nada, faz o teste ai, via http para validar",
+      "timestamp": "2026-04-18T04:35:14.194Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 7,
+      "type": "user",
+      "message": "adicione na sua diretriz, se o ollama errar c\u00f3digo vc corrige A estrat\u00e9gia m\u00e1xima \u00e9:\n\nFor\u00e7a Bruta/Digita\u00e7\u00e3o em Massa: Ollama (MCP). Exemplo: \"Gere 300 linhas de boilerplate para ler a tabela de produtos\".\n\nL\u00f3gica Fina/Corre\u00e7\u00e3o de Rota: Gemini (Nuvem). Exemplo: \"A fun\u00e7\u00e3o de 10 linhas que o Ollama gerou tem um bug no namespace do XML. Eu mesmo (Gemini) vou fazer o replace para consertar.\"",
+      "timestamp": "2026-04-18T04:37:56.113Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 8,
+      "type": "user",
+      "message": "AUTENTICAR\nUNEXPECTED TOKEN 'I', \"INTERNAL S\"... IS NOT VALID JSON",
+      "timestamp": "2026-04-18T04:38:52.129Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 9,
+      "type": "user",
+      "message": "agora n\u00e3o abre mais, mas antes da sua corre\u00e7\u00e3o dava erro ao AUTENTICAR\nUNEXPECTED TOKEN 'I', \"INTERNAL S\"... IS NOT VALID JSON",
+      "timestamp": "2026-04-18T04:39:14.837Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 10,
+      "type": "user",
+      "message": "tudo ok, mas nada existe, s\u00f3 placeholders n\u00e9? login foi perfeito nada de erro no console, n\u00e3o use icones para indicar, use css use apenas textos largos se icones por agora)",
+      "timestamp": "2026-04-18T04:42:51.569Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 11,
+      "type": "user",
+      "message": "suba isso tudo atual para o github como nome wms-neo com todos os cuidados e seguran\u00e7a de informa\u00e7\u00e3o, mesmo assim, suba em git privado, ap\u00f3s isso, continue as inplementa\u00e7\u00f5es indefinidamente, sem minha intera\u00e7\u00e3o, at\u00e9 o acabar o contexto todo, caso o mcp falhe muito exessivamente 15 vezes, abandone ele e fa\u00e7a voc\u00ea mesmo",
+      "timestamp": "2026-04-18T04:48:21.060Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 12,
+      "type": "user",
+      "message": "n\u00e3o sei se foi n\u00e3o Uncaught SyntaxError: Unexpected token '{'\n:8000/favicon.ico:1  Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "timestamp": "2026-04-18T07:56:15.703Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 13,
+      "type": "user",
+      "message": "a home, TA QUEBRADA, TUDO EST\u00c1  aparece s\u00f3 VISUALWMS\n... SAIR",
+      "timestamp": "2026-04-18T07:59:38.727Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 14,
+      "type": "user",
+      "message": "N\u00e3o \u00e9 poss\u00edvel acessar esse site\nA conex\u00e3o com localhost foi recusada.\nTente:\n\nVerificar a conex\u00e3o\nVerificar o proxy e o firewall\nERR_CONNECTION_REFUSED",
+      "timestamp": "2026-04-18T08:00:00.948Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 15,
+      "type": "user",
+      "message": "o que aconteceu aqui nos momentos que eu te dei a ordem se seguir sozinha at\u00e9 agora, com vc e a ollama?",
+      "timestamp": "2026-04-18T08:01:50.212Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 16,
+      "type": "user",
+      "message": "zoou tudo est\u00e1 assim VISUALWMS\n... SAIR\nmais nada e: ReceivingPage.js:59 Uncaught SyntaxError: Unexpected token '{'",
+      "timestamp": "2026-04-18T08:04:40.104Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 17,
+      "type": "user",
+      "message": "main.js:21 WMS Inicializando\nmain.js:50 Navegando via Hash: overview\n:8000/api/audit/:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "timestamp": "2026-04-18T08:06:16.417Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 18,
+      "type": "user",
+      "message": "main.js:21 WMS Inicializando\nmain.js:50 Navegando via Hash: overview\n:8000/api/audit/:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)\nmain.js:50 Navegando via Hash: receiving\napi.js:13  GET http://localhost:8000/api/receiving/sessions 500 (Internal Server Error)\nrequest @ api.js:13\nlistSessions @ api.js:109\nlistPendingSessions @ ReceivingPage.js:40\nrender @ ReceivingPage.js:32\nloadPage @ main.js:67\nhandleHashChange @ main.js:54\n(anonymous) @ main.js:29\nhashchange\nbtn.onclick @ NavRail.js:27\napi.js:13 Fetch failed loading: GET \"http://localhost:8000/api/receiving/sessions\".\nrequest @ api.js:13\nlistSessions @ api.js:109\nlistPendingSessions @ ReceivingPage.js:40\nrender @ ReceivingPage.js:32\nloadPage @ main.js:67\nhandleHashChange @ main.js:54\n(anonymous) @ main.js:29\nhashchange\nbtn.onclick @ NavRail.js:27\nmain.js:50 Navegando via Hash: picking\napi.js:13 Fetch finished loading: GET \"http://localhost:8000/api/separation/romaneios\".\nrequest @ api.js:13\nlistRomaneios @ api.js:154\nrender @ PickingPage.js:10\nloadPage @ main.js:77\nhandleHashChange @ main.js:54\n(anonymous) @ main.js:29\nhashchange\nbtn.onclick @ NavRail.js:27\nmain.js:50 Navegando via Hash: map\napi.js:13 Fetch finished loading: GET \"http://localhost:8000/api/floorplan/1/layout\".\nrequest @ api.js:13\ngetLayout @ api.js:124\nrender @ MapPage.js:12\nloadPage @ main.js:71\nhandleHashChange @ main.js:54\n(anonymous) @ main.js:29\nhashchange\nbtn.onclick @ NavRail.js:27\nmain.js:50 Navegando via Hash: products\napi.js:13 Fetch finished loading: GET \"http://localhost:8000/api/products/\".\nrequest @ api.js:13\nlist @ api.js:136\nrender @ ProductsPage.js:10\nloadPage @ main.js:73\nhandleHashChange @ main.js:54\n(anonymous) @ main.js:29\nhashchange\nbtn.onclick @ NavRail.js:27\nmain.js:50 Navegando via Hash: audit\napi.js:13  GET http://localhost:8000/api/audit/ 500 (Internal Server Error)\nrequest @ api.js:13\nlist @ api.js:148\nrender @ AuditPage.js:10\nloadPage @ main.js:75\nhandleHashChange @ main.js:54\n(anonymous) @ main.js:29\nhashchange\nbtn.onclick @ NavRail.js:27\napi.js:13 Fetch failed loading: GET \"http://localhost:8000/api/audit/\".\nrequest @ api.js:13\nlist @ api.js:148\nrender @ AuditPage.js:10\nloadPage @ main.js:75\nhandleHashChange @ main.js:54\n(anonymous) @ main.js:29\nhashchange\nbtn.onclick @ NavRail.js:27\n\nn\u00e3o me diga que est\u00e1 pronto sem testar todas as paginas e combina\u00e7\u00f5es e ler no debug.log",
+      "timestamp": "2026-04-18T08:09:47.738Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 19,
+      "type": "user",
+      "message": "o css est\u00e1 quebradissomo",
+      "timestamp": "2026-04-18T08:10:34.760Z"
+    },
+    {
+      "sessionId": "e721ad48-87f5-47e8-8a99-6523c0068ea3",
+      "messageId": 20,
+      "type": "user",
+      "message": "N\u00e3o \u00e9 poss\u00edvel acessar esse site\nA conex\u00e3o com localhost foi recusada.\nTente:\n\nVerificar a conex\u00e3o\nVerificar o proxy e o firewall\nERR_CONNECTION_REFUSED n\u00e3o diga quqe fez sem testar, n\u00e3o diga que corrigiu sem testar todas as paginas antes, use o mcp novamente, agora para te auxiliado em paralelo",
+      "timestamp": "2026-04-18T08:13:08.246Z"
+    }
+  ]
+}

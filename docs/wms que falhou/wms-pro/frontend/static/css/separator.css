@@ -1,0 +1,347 @@
+:root {
+  --sep-bg: #eef6f4;
+  --sep-surface: #ffffff;
+  --sep-surface-strong: #d7ebe5;
+  --sep-text: #12312c;
+  --sep-muted: #5c746d;
+  --sep-border: #c7dbd5;
+  --sep-primary: #0f766e;
+  --sep-primary-strong: #0a5d57;
+  --sep-warning: #b45309;
+  --sep-shadow: 0 18px 40px rgba(15, 118, 110, 0.12);
+  --sep-radius: 22px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: "IBM Plex Sans", sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(15, 118, 110, 0.14), transparent 34%),
+    linear-gradient(180deg, #f7fbfa 0%, var(--sep-bg) 100%);
+  color: var(--sep-text);
+}
+
+body.server-locked {
+  overflow: hidden;
+}
+
+.separator-login-body,
+.separator-app-body {
+  min-height: 100vh;
+}
+
+.separator-login-shell,
+.separator-shell {
+  width: min(100%, 540px);
+  margin: 0 auto;
+  padding: 20px 16px 32px;
+}
+
+.separator-login-shell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.separator-login-card,
+.separator-summary-card,
+.separator-detail-card,
+.separator-task-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--sep-border);
+  border-radius: var(--sep-radius);
+  box-shadow: var(--sep-shadow);
+}
+
+.separator-login-card {
+  width: 100%;
+  padding: 28px 22px;
+}
+
+.separator-login-kicker,
+.separator-header-kicker,
+.separator-summary-label,
+.separator-task-meta,
+.separator-detail-status {
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.separator-login-card h1,
+.separator-header h1 {
+  margin: 8px 0 6px;
+  font-size: 2rem;
+}
+
+.separator-login-copy {
+  margin: 0 0 20px;
+  color: var(--sep-muted);
+}
+
+.separator-login-form {
+  display: grid;
+  gap: 12px;
+}
+
+.separator-login-form label {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.separator-login-form input {
+  width: 100%;
+  border: 1px solid var(--sep-border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  font: inherit;
+  color: var(--sep-text);
+  background: #fff;
+}
+
+.separator-login-error {
+  min-height: 20px;
+  color: #b42318;
+  font-size: 0.92rem;
+}
+
+.separator-primary-btn,
+.separator-secondary-btn {
+  appearance: none;
+  border: 0;
+  border-radius: 16px;
+  min-height: 48px;
+  padding: 0 16px;
+  font: inherit;
+  font-weight: 700;
+}
+
+.separator-primary-btn {
+  background: var(--sep-primary);
+  color: #fff;
+}
+
+.separator-secondary-btn {
+  background: var(--sep-surface-strong);
+  color: var(--sep-text);
+}
+
+.separator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.separator-screen {
+  display: none;
+  gap: 16px;
+}
+
+.separator-screen.active {
+  display: grid;
+}
+
+.separator-summary-card {
+  padding: 18px;
+  display: grid;
+  gap: 16px;
+}
+
+.separator-summary-value,
+.separator-summary-number,
+.separator-detail-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.separator-summary-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.separator-toolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.separator-section-title {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.separator-task-list {
+  display: grid;
+  gap: 12px;
+}
+
+.separator-task-card {
+  padding: 16px;
+  text-align: left;
+}
+
+.separator-task-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.separator-task-card-grid,
+.separator-detail-card {
+  display: grid;
+  gap: 10px;
+}
+
+.separator-task-meta {
+  color: var(--sep-muted);
+  font-size: 0.78rem;
+}
+
+.separator-task-line,
+.separator-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.96rem;
+}
+
+.separator-task-line span:first-child,
+.separator-detail-row span {
+  color: var(--sep-muted);
+}
+
+.separator-detail-status {
+  color: var(--sep-primary);
+  font-size: 0.82rem;
+}
+
+.separator-detail-card {
+  padding: 18px;
+}
+
+.separator-detail-note {
+  display: grid;
+  gap: 8px;
+}
+
+.separator-detail-note span {
+  color: var(--sep-muted);
+  font-size: 0.92rem;
+}
+
+.separator-detail-note textarea {
+  width: 100%;
+  min-height: 92px;
+  resize: vertical;
+  border: 1px solid var(--sep-border);
+  border-radius: 16px;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--sep-text);
+  background: #fff;
+}
+
+.separator-action-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.separator-grow {
+  flex: 1;
+  min-width: 0;
+}
+
+.separator-empty {
+  padding: 24px 16px;
+  border-radius: var(--sep-radius);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px dashed var(--sep-border);
+  color: var(--sep-muted);
+  text-align: center;
+}
+
+.status-pendente {
+  color: var(--sep-warning);
+}
+
+.status-em_andamento,
+.status-concluida {
+  color: var(--sep-primary);
+}
+
+.server-status-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 30, 28, 0.58);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 50;
+}
+
+.server-status-overlay.open {
+  display: flex;
+}
+
+.server-status-card {
+  width: min(100%, 360px);
+  padding: 22px;
+  border-radius: 24px;
+  background: #082f2d;
+  color: #eaf7f4;
+  text-align: center;
+}
+
+.server-status-spinner {
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 14px;
+  border: 4px solid rgba(255, 255, 255, 0.16);
+  border-top-color: #7dd3ca;
+  border-radius: 50%;
+  animation: separator-spin 1s linear infinite;
+}
+
+.server-status-kicker {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.76;
+}
+
+.server-status-title {
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.server-status-desc {
+  margin-top: 8px;
+  font-size: 0.94rem;
+  opacity: 0.84;
+}
+
+@keyframes separator-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (min-width: 720px) {
+  .separator-shell {
+    width: min(100%, 720px);
+  }
+
+  .separator-task-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

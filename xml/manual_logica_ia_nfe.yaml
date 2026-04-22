@@ -1,0 +1,45 @@
+manual_logica_ia_wms:
+  versao_layout: "4.00"
+  contexto: "Este guia orienta a IA na tomada de decisão durante o recebimento fiscal no WMS."
+
+  validacoes_de_integridade:
+    chave_acesso:
+      regra: "Validar se os 44 dígitos da chave (infNFe/@Id) correspondem aos dados internos."
+      calculo_dv: "O último dígito deve ser validado via algoritmo Módulo 11."
+    totais:
+      regra: "SOMA(det/prod/vProd) == total/ICMSTot/vProd"
+      acao_erro: "Bloquear recebimento se houver divergência de centavos (quebra de confiança)."
+
+  procedimentos_operacionais_ia:
+    identificacao_sku:
+      passo_1: "Tentar bipar cEAN (GTIN). Se encontrado no cadastro, vincular ao SKU interno."
+      passo_2: "Se cEAN for 'SEM GTIN' ou não cadastrado, usar cProd + CNPJ_Emitente para buscar no 'De-Para'."
+      passo_3: "Se falhar, abrir exceção para 'Cadastro de Novo Produto'."
+    
+    conferencia_quantitativa:
+      conversao_unidade:
+        regra: "Verificar uCom. Se uCom == 'CX' e cadastro interno for 'UN', aplicar fator de conversão (ex: CX 12 -> UN 12)."
+        tag_referencia: "qCom"
+
+    logica_armazenamento_prioridade:
+      cenario_fefo:
+        condicao: "Se existir tag <rastro>, extrair <dVal>."
+        prioridade: "O lote com <dVal> mais próxima (menor data) deve ser o primeiro na fila de saída."
+      cenario_fifo:
+        condicao: "Se não houver <rastro> ou <dVal>, usar <dhEmi> (ou data de entrada no WMS)."
+        prioridade: "O lote com recebimento mais antigo sai primeiro."
+
+  regras_fiscais_logicas:
+    tipo_entrada:
+      regra: "Se finNFe == 4, direcionar para área de 'Devolução' e não para 'Estoque Geral'."
+      regra_remessa: "Se CFOP começar com 59.. ou 69.., verificar se é 'Remessa para Conserto' (não gera saldo disponível)."
+
+  formatos_e_tipos_dados:
+    cnpj: "Regex: ^[0-9]{14}$"
+    data_hora: "Padrao: ISO8601 (AAAA-MM-DDTHH:MM:SS-HH:MM)"
+    valores: "Decimal com 2 a 4 casas decimais dependendo da tag."
+
+  alertas_de_fraude_ou_erro:
+    data_futura: "Rejeitar se dhEmi > (Data_Atual + 24h)."
+    cnpj_invalido: "Rejeitar se CNPJ emitente constar em 'Blacklist' de fornecedores bloqueados."
+    lote_vencido: "Alerta crítico se dVal < Data_Atual no momento do recebimento."

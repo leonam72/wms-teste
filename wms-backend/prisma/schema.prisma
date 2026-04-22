@@ -1,0 +1,93 @@
+// wms-backend/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  role          String   @default("operator")
+  passwordHash  String
+  createdAt     DateTime @default(now())
+  movements     MovementHistory[]
+}
+
+model Depot {
+  id        String   @id @default("dep1")
+  name      String
+  address   String?
+  createdAt DateTime @default(now())
+  shelves   Shelf[]
+  inventory Inventory[]
+  fpObjects FloorPlanObject[]
+}
+
+model Shelf {
+  id        String   @id @default(uuid())
+  depotId   String
+  depot     Depot    @relation(fields: [depotId], references: [id])
+  code      String   
+  floors    Int
+  drawers   Int
+  maxKg     Decimal
+  inventory Inventory[]
+}
+
+model Product {
+  code      String   @id
+  name      String
+  kg        Float
+  unit      String   
+  category  String?
+  inventory Inventory[]
+}
+
+model Inventory {
+  id          String   @id @default(uuid())
+  depotId     String
+  depot     Depot    @relation(fields: [depotId], references: [id])
+  shelfId     String
+  shelf     Shelf    @relation(fields: [shelfId], references: [id])
+  floor       Int
+  drawer      Int
+  productCode String
+  product     Product  @relation(fields: [productCode], references: [code])
+  qty         Float
+  expiryDate  DateTime?
+  lotCode     String?
+  entryDate   DateTime @default(now())
+}
+
+model FloorPlanObject {
+  id        String   @id @default(uuid())
+  depotId   String
+  depot     Depot    @relation(fields: [depotId], references: [id])
+  type      String   
+  x         Int
+  y         Int
+  width     Int
+  height    Int
+  rotation  Int      @default(0)
+  label     String?
+  color     String?
+}
+
+model MovementHistory {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  actionType  String   
+  productCode String
+  fromLoc     String?
+  toLoc       String?
+  qty         Float
+  timestamp   DateTime @default(now())
+  notes       String?
+}

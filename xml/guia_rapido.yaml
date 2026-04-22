@@ -1,0 +1,10 @@
+ferramenta: "brfiscalfaker"
+objetivo: "Gerar dados e documentos fiscais brasileiros fictícios para desenvolvimento e testes."
+instrucao_geral: "Para gerar qualquer documento, execute o comando correspondente e redirecione a saída para um arquivo .xml se desejar salvar."
+como_instalar: "go install github.com/mayckol/brfiscalfaker/cmd/brfiscalfaker@latest"
+arquivos_disponiveis:
+  - gerar_nfe.yaml
+  - gerar_nfce.yaml
+  - gerar_cfe.yaml
+  - gerar_nfe_devolucao.yaml
+dica_ia: "Sempre verifique se o binário 'brfiscalfaker' está no seu PATH. Caso contrário, use '~/go/bin/brfiscalfaker'."

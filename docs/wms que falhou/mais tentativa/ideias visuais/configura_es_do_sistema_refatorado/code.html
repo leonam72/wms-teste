@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>VisualWMS - Configurações do Sistema</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+<div class="flex flex-col gap-8 p-6">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined">box</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-base font-bold leading-tight">VisualWMS</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Enterprise Edition</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">inventory_2</span>
+<span class="text-sm font-medium">Estoque</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">local_shipping</span>
+<span class="text-sm font-medium">Operações</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">bar_chart</span>
+<span class="text-sm font-medium">Relatórios</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+<span class="text-sm font-medium">Configurações</span>
+</a>
+</nav>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-hidden">
+<!-- Header -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-8 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">admin_panel_settings</span>
+<h2 class="text-lg font-bold tracking-tight">Configurações do Sistema</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/50" placeholder="Buscar configuração..." type="text"/>
+</div>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+</div>
+<div class="h-10 w-10 rounded-full bg-slate-200 overflow-hidden border border-slate-300 dark:border-slate-700">
+<img class="w-full h-full object-cover" data-alt="User profile avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6wKdwD-S8WZLb5BBR__ZZaQC7uShYalKw8-f7u2dRP-5KhFK208CeqrWmGNrG8Bjii8U6W3X4hcaSC4_1gzq5LgLVzJYnlui_MZCRP0lKgg88qh9rrIJ_W9vLGyzlYRfZczutMA0ON7pVN-AzmkU_uMCmcZEiAaJ4lCUF4GavnBf1YVAUagK7de22I937pm3I86XrmtTDy9lRqx29hBdWNaVglFMHpXCNfMRoYnNJQlDyiieAJ3lGzCA9C8tpVuV2sd8ZH44AJzw"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Settings Container -->
+<div class="flex-1 overflow-y-auto p-8 bg-background-light dark:bg-background-dark">
+<div class="max-w-5xl mx-auto space-y-8 pb-24">
+<header class="mb-8">
+<h3 class="text-3xl font-black tracking-tight mb-2">Preferências Globais</h3>
+<p class="text-slate-500 dark:text-slate-400">Gerencie regras de armazém, alertas críticos e integrações de sistema.</p>
+</header>
+<!-- Section 1: Warehouse Rules -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-1">
+<h4 class="text-lg font-bold">Regras do Armazém</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">Limites físicos e automação inteligente de picking.</p>
+</div>
+<div class="md:col-span-2 space-y-4">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-sm font-semibold">Limite de Empilhamento Máximo</label>
+<div class="flex items-center gap-2">
+<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary" type="number" value="12"/>
+<span class="text-xs text-slate-500">unidades</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold">Gatilho de Reabastecimento Automático</label>
+<div class="flex items-center gap-2">
+<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg focus:ring-primary" type="number" value="25"/>
+<span class="text-xs text-slate-500">%</span>
+</div>
+</div>
+<div class="sm:col-span-2 flex items-center justify-between p-4 bg-primary/5 rounded-lg border border-primary/20">
+<div>
+<p class="text-sm font-bold">Otimização Inteligente de Slotting</p>
+<p class="text-xs text-slate-500">IA sugere posições baseadas em curva ABC.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Alert Configuration -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-slate-200 dark:border-slate-800">
+<div class="md:col-span-1">
+<h4 class="text-lg font-bold">Configuração de Alertas</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">Defina limites de validade e canais de comunicação.</p>
+</div>
+<div class="md:col-span-2 space-y-4">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="text-sm font-semibold">Alerta de Validade Próxima</label>
+<div class="flex items-center gap-4">
+<input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary" max="90" min="5" type="range" value="40"/>
+<span class="font-bold text-primary min-w-[60px]">40 dias</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex items-center gap-3 p-3 border border-slate-200 dark:border-slate-800 rounded-lg">
+<span class="material-symbols-outlined text-slate-400">mail</span>
+<span class="text-sm flex-1">E-mail</span>
+<input checked="" class="rounded text-primary focus:ring-primary border-slate-300" type="checkbox"/>
+</div>
+<div class="flex items-center gap-3 p-3 border border-slate-200 dark:border-slate-800 rounded-lg">
+<span class="material-symbols-outlined text-slate-400">notifications_active</span>
+<span class="text-sm flex-1">Push Mobile</span>
+<input checked="" class="rounded text-primary focus:ring-primary border-slate-300" type="checkbox"/>
+</div>
+<div class="flex items-center gap-3 p-3 border border-slate-200 dark:border-slate-800 rounded-lg">
+<span class="material-symbols-outlined text-slate-400">chat</span>
+<span class="text-sm flex-1">WhatsApp</span>
+<input class="rounded text-primary focus:ring-primary border-slate-300" type="checkbox"/>
+</div>
+<div class="flex items-center gap-3 p-3 border border-slate-200 dark:border-slate-800 rounded-lg">
+<span class="material-symbols-outlined text-slate-400">forum</span>
+<span class="text-sm flex-1">Slack</span>
+<input class="rounded text-primary focus:ring-primary border-slate-300" type="checkbox"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Integration Settings -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-slate-200 dark:border-slate-800">
+<div class="md:col-span-1">
+<h4 class="text-lg font-bold">Integrações</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">Conecte com seu ERP e transportadoras parceiras.</p>
+</div>
+<div class="md:col-span-2 space-y-4">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="text-sm font-semibold">Chave da API do ERP</label>
+<div class="relative">
+<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg pr-10" type="password" value="••••••••••••••••••••"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 cursor-pointer">visibility</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold">Sistema de Transportadora Integrado</label>
+<select class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg">
+<option>LogiTrack Enterprise</option>
+<option>ShipMaster Pro</option>
+<option>Global Freight Connect</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Interface Customization -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-slate-200 dark:border-slate-800">
+<div class="md:col-span-1">
+<h4 class="text-lg font-bold">Personalização da Interface</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">Ajuste o visual do sistema para sua equipe.</p>
+</div>
+<div class="md:col-span-2 space-y-4">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="space-y-3">
+<label class="text-sm font-semibold">Tema do Sistema</label>
+<div class="flex gap-4">
+<div class="flex-1 p-3 rounded-lg border-2 border-primary bg-white cursor-pointer text-center ring-4 ring-primary/10">
+<span class="material-symbols-outlined text-primary mb-1">light_mode</span>
+<p class="text-xs font-bold">Light</p>
+</div>
+<div class="flex-1 p-3 rounded-lg border-2 border-slate-200 dark:border-slate-800 bg-slate-900 cursor-pointer text-center text-white opacity-60 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined mb-1">dark_mode</span>
+<p class="text-xs font-bold">Dark</p>
+</div>
+</div>
+</div>
+<div class="space-y-3">
+<label class="text-sm font-semibold">Cor Primária do Sistema</label>
+<div class="flex flex-wrap gap-2">
+<button class="h-8 w-8 rounded-full bg-primary ring-2 ring-offset-2 ring-primary"></button>
+<button class="h-8 w-8 rounded-full bg-emerald-500 hover:ring-2 ring-offset-2 ring-emerald-500 transition-all"></button>
+<button class="h-8 w-8 rounded-full bg-amber-500 hover:ring-2 ring-offset-2 ring-amber-500 transition-all"></button>
+<button class="h-8 w-8 rounded-full bg-rose-500 hover:ring-2 ring-offset-2 ring-rose-500 transition-all"></button>
+<button class="h-8 w-8 rounded-full bg-indigo-500 hover:ring-2 ring-offset-2 ring-indigo-500 transition-all"></button>
+<div class="h-8 w-8 rounded-full border border-dashed border-slate-400 flex items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined text-sm">palette</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Sticky Footer Action Bar -->
+<footer class="absolute bottom-0 left-64 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-8 py-4 flex justify-between items-center z-10">
+<div class="flex items-center gap-2 text-slate-500 text-xs">
+<span class="material-symbols-outlined text-sm">info</span>
+<span>As alterações afetarão todos os usuários do armazém.</span>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        Descartar
+                    </button>
+<button class="px-8 py-2 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">
+                        Salvar Alterações
+                    </button>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

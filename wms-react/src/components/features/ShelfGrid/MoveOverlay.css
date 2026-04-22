@@ -1,0 +1,42 @@
+.move-overlay {
+  position: fixed;
+  top: 0;
+  left: 64px; /* Largura do NavRail */
+  right: 0;
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1100;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  animation: slideIn 0.3s ease-out;
+}
+
+.move-message {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+}
+
+.move-message strong {
+  text-decoration: underline;
+}
+
+.move-hint {
+  display: block;
+  font-size: 10px;
+  opacity: 0.8;
+  margin-top: 2px;
+  font-weight: 700;
+}
+
+.move-icon {
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}

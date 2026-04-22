@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VisualWMS - Gestão de Usuários e Segurança</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-40 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary rounded-lg text-white">
+<span class="material-symbols-outlined block">inventory_2</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white uppercase">VisualWMS</h1>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-semibold" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-semibold" href="#">Inventário</a>
+<a class="text-primary border-b-2 border-primary py-5 text-sm font-semibold" href="#">Usuários</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-semibold" href="#">Configurações</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64" placeholder="Buscar usuários..." type="text"/>
+</div>
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 relative">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30">
+<img alt="Foto do perfil administrador" class="w-full h-full object-cover" data-alt="Avatar image of the logged in administrator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6Lw9OrGsMSVo8gAGxw1lj5UqV5WLvQSBi6tfCc2I8nCVbVoDyj3dReSEvkpS0mwnzJCr7fy7ei4BOWmXlTJozXe405VqU7tE5wconIqfUv1b6s7YU8Rk_QmzBgVYh0DGfH2JzHKguv_3_p-Ta9PdgPK7nvHyofkZr9NXF2g4Q3T99mxhuy1upc82t_5n1co71mGkBBwZWF5WS-GyCXUOKTHIOtpIU9TU_yb3P_DGUunPLqJcnkDQ0xBuTXqBG8anoHxhSPUwef3g"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 flex gap-8">
+<!-- Left Sidebar Content / Main View -->
+<div class="flex-1">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+<div>
+<h2 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Gestão de Equipe</h2>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Gerencie acessos, cargos e segurança dos operadores do armazém.</p>
+</div>
+<button class="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg font-bold transition-all shadow-lg shadow-primary/25">
+<span class="material-symbols-outlined text-xl">person_add</span>
+                    Novo Usuário
+                </button>
+</div>
+<!-- Stats Overview -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+<div class="size-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined">group</span>
+</div>
+<div>
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Total Usuários</p>
+<p class="text-2xl font-bold">128</p>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+<div class="size-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined">how_to_reg</span>
+</div>
+<div>
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Ativos Agora</p>
+<p class="text-2xl font-bold">42</p>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+<div class="size-12 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
+<span class="material-symbols-outlined">security</span>
+</div>
+<div>
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Solicitações Senha</p>
+<p class="text-2xl font-bold">3</p>
+</div>
+</div>
+</div>
+<!-- Users Table -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-400">Usuário</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-400">Cargo</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-400">Status</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-400">Última Atividade</th>
+<th class="px-6 py-4 text-sm font-semibold text-slate-600 dark:text-slate-400 text-right">Ações</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- User 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="size-10 rounded-full ring-2 ring-slate-100 dark:ring-slate-800" data-alt="Profile photo of user Ricardo Santos" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgiH5ZSxpo9RlRC_cZnU0pvkPPshJgCfVyl6KvEMMCCsGCcVv9h2jrI_qmiWh66RMqqwYuczlUAVPvJp6K5DuNt5zNGkTkcj7-YKjHd07rdC2Al0MK9PbGTp7jyhAYNWPYKZqlSzqyT9KOnZCHRJz0Uf9JYhuEvhtbgWhM3cw_J1pSPuAQoUKiM4Wy27qvXmoK4jbbEkZxqsV9kKDssn9zw3PWxXaQigHOt5waR70QUtqveiwersB2hsCuWq36-TISo-slfsiEHyU"/>
+<div>
+<p class="font-bold text-slate-900 dark:text-white">Ricardo Santos</p>
+<p class="text-xs text-slate-500">ricardo.santos@visualwms.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider">Admin</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span class="text-sm font-medium">Ativo</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-sm text-slate-500 dark:text-slate-400 italic">Há 2 minutos</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:bg-primary/10 px-3 py-1.5 rounded font-bold text-sm transition-colors">Editar</button>
+</td>
+</tr>
+<!-- User 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="size-10 rounded-full ring-2 ring-slate-100 dark:ring-slate-800" data-alt="Profile photo of user Maria Oliveira" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ-5IWNq0QJ6gJSW79L7pYoYKYNc4qTPWkJnxr27TzrjVPaPDnCb1bVqYj21tMuyt812aQmd5JMd6KUk9RI7vy58D5IlE5f4t44n_uBnGbQRaf2af964royUT4JhrOPIR0UysHBwpTRtYInXYtqIm6ImNdceBnPTFsE6dONYb3zeOT2qiPWouh22s_XxMqmeUVdOgAdKmp-uvIthLS02rFP9HF1aH0p0DM2_ZYmv_Iqvdti7tESUCKMuw2aUzp5Xsqbw8jnbhYWoI"/>
+<div>
+<p class="font-bold text-slate-900 dark:text-white">Maria Oliveira</p>
+<p class="text-xs text-slate-500">maria.oliveira@visualwms.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs font-bold uppercase tracking-wider">Supervisor</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span class="text-sm font-medium">Ativo</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-sm text-slate-500 dark:text-slate-400 italic">Há 15 minutos</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:bg-primary/10 px-3 py-1.5 rounded font-bold text-sm transition-colors">Editar</button>
+</td>
+</tr>
+<!-- User 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="size-10 rounded-full ring-2 ring-slate-100 dark:ring-slate-800" data-alt="Profile photo of user Carlos Eduardo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAye_1CsJdt4EMw2JKOaLVk1a5HVS8iKda3ZK829o_ff8ZmeYS87XaRo9WuynKfDm7fwqm6GW_f47FJfOjldLNmZqR39DWzhoAlu7s5IXIZc7HvkfZhWw2WTPGnpkRD7CCp84Z9_LQ4gMYyJj8j88sCEUggB15R-xa5Sr2dHqAu6NXglpZy6Vhqpcr7X9iOJ5EheFlrCFeKfoXLL_2q_FlITt5R59KGE2fPXDA3uxIq1PHO0X0jmmhHJu0zHFJ5PjxD5FhuLQQqtX0"/>
+<div>
+<p class="font-bold text-slate-900 dark:text-white">Carlos Eduardo</p>
+<p class="text-xs text-slate-500">carlos.e@visualwms.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Operador</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-slate-400">
+<div class="size-2 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+<span class="text-sm font-medium">Inativo</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-sm text-slate-500 dark:text-slate-400 italic">Há 3 dias</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:bg-primary/10 px-3 py-1.5 rounded font-bold text-sm transition-colors">Editar</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20">
+<p class="text-sm text-slate-500">Mostrando 3 de 128 usuários</p>
+<div class="flex gap-2">
+<button class="p-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="p-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Modal / Edit User Panel -->
+<aside class="w-96 hidden lg:block">
+<div class="sticky top-24 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 bg-primary/5">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-black text-primary uppercase tracking-widest">Editar Perfil</span>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex flex-col items-center text-center">
+<div class="relative mb-4 group">
+<img class="size-24 rounded-full ring-4 ring-white dark:ring-slate-800 shadow-lg" data-alt="Large detailed profile photo of Ricardo Santos" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCswCK-DPAzBitrH6Dq87te4j4cya6fWEbVnLqzhTWjzngw8PKYZXXgoJa5ipL7eusIylSyL91RCkwmUxfO6DD8RzAdktUWIoWFxdExwNX4xiC11uB9CXXAd0ATbhlWb3yRkyKtBCsYp5b6V3nibzesvH2XNb6qhkFrErOnYlk7_Dv-vn-92QAmi1KbftWwCYXwOnVXHdVrKOlUQE4lhcIdwz_Yh0DV8CgYKFZT3ocQ-bwci_m0Kqm56N4st2gDFPi50HP6pchBD5I"/>
+<button class="absolute bottom-0 right-0 size-8 bg-primary text-white rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+</div>
+<h3 class="text-xl font-bold">Ricardo Santos</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">ID: #WMS-0042</p>
+</div>
+</div>
+<div class="p-6 space-y-8">
+<!-- Reset Password Section -->
+<section>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">lock_reset</span>
+<h4 class="font-bold text-sm">Segurança de Senha</h4>
+</div>
+<div class="space-y-3">
+<button class="w-full py-2.5 px-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-lg transition-colors flex items-center justify-center gap-2 text-sm">
+<span class="material-symbols-outlined text-lg">key</span>
+                                Gerar Senha Temporária
+                            </button>
+<button class="w-full py-2.5 px-4 border border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 font-bold rounded-lg transition-colors flex items-center justify-center gap-2 text-sm">
+<span class="material-symbols-outlined text-lg">no_accounts</span>
+                                Bloquear Acesso
+                            </button>
+</div>
+</section>
+<!-- Permissions Section -->
+<section>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">shield_person</span>
+<h4 class="font-bold text-sm">Permissões de Acesso</h4>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-semibold">Módulo de Entrada</p>
+<p class="text-xs text-slate-500 italic">Recebimento e Conferência</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-semibold">Módulo de Estoque</p>
+<p class="text-xs text-slate-500 italic">Movimentação e Inventário</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-semibold">Módulo de Expedição</p>
+<p class="text-xs text-slate-500 italic">Picking e Packing</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between opacity-50">
+<div>
+<p class="text-sm font-semibold">Relatórios Financeiros</p>
+<p class="text-xs text-slate-500 italic">Custos e Produtividade</p>
+</div>
+<label class="relative inline-flex items-center cursor-not-allowed">
+<input class="sr-only peer" disabled="" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 rounded-full peer dark:bg-slate-700 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 transition-all"></div>
+</label>
+</div>
+</div>
+</section>
+</div>
+<div class="p-6 bg-slate-50 dark:bg-slate-800/40 border-t border-slate-100 dark:border-slate-800 flex gap-3">
+<button class="flex-1 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold rounded-lg transition-all shadow-md shadow-primary/20">Salvar</button>
+<button class="px-5 py-2.5 text-slate-500 font-bold hover:text-slate-800 dark:hover:text-slate-200">Cancelar</button>
+</div>
+</div>
+</aside>
+</main>
+<!-- Overlay logic mockup for Mobile - only visual here -->
+<footer class="md:hidden fixed bottom-0 w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-6 py-4 flex justify-around">
+<span class="material-symbols-outlined text-primary">dashboard</span>
+<span class="material-symbols-outlined text-slate-400">inventory</span>
+<span class="material-symbols-outlined text-primary">group</span>
+<span class="material-symbols-outlined text-slate-400">settings</span>
+</footer>
+</body></html>

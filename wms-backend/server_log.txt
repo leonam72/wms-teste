@@ -1,0 +1,19 @@
+/home/leonamramosfoli/wms-teste/wms-backend/node_modules/@prisma/client/src/runtime/utils/validatePrismaClientOptions.ts:260
+      throw new PrismaClientConstructorValidationError(
+            ^
+
+
+PrismaClientConstructorValidationError: Unknown property datasources provided to PrismaClient constructor.
+Read more at https://pris.ly/d/client-constructor
+    at validatePrismaClientOptions (/home/leonamramosfoli/wms-teste/wms-backend/node_modules/@prisma/client/src/runtime/utils/validatePrismaClientOptions.ts:260:13)
+    at new t (/home/leonamramosfoli/wms-teste/wms-backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:358:7)
+    at express (/home/leonamramosfoli/wms-teste/wms-backend/src/server.ts:6:16)
+    at Object.<anonymous> (/home/leonamramosfoli/wms-teste/wms-backend/src/server.ts:48:2)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Object.transformer (/home/leonamramosfoli/wms-teste/wms-backend/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1104)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12)
+    at cjsLoader (node:internal/modules/esm/translators:298:15)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:240:7)
+
+Node.js v20.20.0

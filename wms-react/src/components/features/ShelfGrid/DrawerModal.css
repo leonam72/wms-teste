@@ -1,0 +1,58 @@
+.drawer-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.dm-actions {
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 10px;
+}
+
+.dm-prod-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.dm-prod-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+}
+
+.dm-prod-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dm-prod-code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.dm-prod-code.status-expired { color: var(--danger); font-weight: 900; }
+.dm-prod-code.status-warn    { color: var(--warn);   font-weight: 900; }
+.dm-prod-code.status-ok      { color: var(--accent3); }
+
+.dm-prod-name {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.dm-prod-qty {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text2);
+}

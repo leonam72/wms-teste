@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inbound Validation | VisualWMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex flex-col min-h-screen">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl font-bold">inventory_2</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold tracking-tight">VisualWMS</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-semibold border-b-2 border-primary py-1" href="#">Inbound</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Inventory</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Outbound</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="bg-slate-100 dark:bg-slate-800 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary w-64" placeholder="Search Shipment ID..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Warehouse Manager profile picture circular avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTc_kVrl8zL-3IyN1HTDkmAnYZjL-PsVhOa_vpnXpSuntI6N4vMi6PVKKtjO5-MKGcwFE1EDXWyIJnMaCYkeFsmP7MS5qIL1nu_BkEDvoH_eQbZz3ieVrTCbIGkxkdeU2ikRI1sFUB6noBd5oCJl1TQHrIKmpbJPEk-boz_rE44Hw3O7bNjV0oJz9xO49pr2tfkRhE1r1NmhHVWQOWhzmAI2eMuhKNqvpknvaV5x-BsdgsF2lMyBFYnoebZEDGymEqyxBbFtzGouQ"/>
+</div>
+</div>
+</header>
+<main class="flex-1 flex">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 hidden xl:flex flex-col gap-2">
+<div class="px-3 py-2">
+<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Inbound Operations</p>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-xl">list_alt</span>
+<span class="text-sm font-medium">Pending Shipments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined text-xl">fact_check</span>
+<span class="text-sm font-semibold">Validation Queue</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-xl">error_outline</span>
+<span class="text-sm font-medium">Discrepancy Resolution</span>
+</a>
+<div class="mt-4 px-3 py-2 border-t border-slate-100 dark:border-slate-800">
+<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-4">System</p>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-xl">bar_chart</span>
+<span class="text-sm font-medium">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 p-6 overflow-y-auto">
+<!-- Breadcrumbs & Header -->
+<div class="mb-6">
+<nav class="flex text-sm text-slate-500 dark:text-slate-400 mb-2 items-center gap-2">
+<a class="hover:text-primary" href="#">Inbound</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<a class="hover:text-primary" href="#">Validation Queue</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-100 font-medium">Shipment #WH-9842</span>
+</nav>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Validation &amp; Resolution</h1>
+<p class="text-slate-600 dark:text-slate-400 mt-1">Reviewing blind count vs. manifest for vendor <span class="font-semibold text-slate-900 dark:text-white underline decoration-primary/30">Global Logistics Corp</span></p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">description</span> View Manifest
+                        </button>
+<button class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-bold shadow-lg shadow-red-600/20 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">cancel</span> Reject Entire Shipment
+                        </button>
+</div>
+</div>
+</div>
+<!-- Summary Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Items Expected</p>
+<h3 class="text-3xl font-black text-slate-900 dark:text-white mt-1">4,250</h3>
+</div>
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">inventory</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Match Percentage</p>
+<h3 class="text-3xl font-black text-slate-900 dark:text-white mt-1">92.4%</h3>
+<span class="text-green-600 dark:text-green-400 text-xs font-bold flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +2.1% from prev. batch
+                            </span>
+</div>
+<div class="p-2 bg-green-500/10 rounded-lg text-green-600">
+<span class="material-symbols-outlined">verified</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-start justify-between">
+<div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Discrepancies</p>
+<h3 class="text-3xl font-black text-red-600 dark:text-red-500 mt-1">324</h3>
+<span class="text-red-600 dark:text-red-400 text-xs font-bold flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-sm">warning</span> 5 SKUs require action
+                            </span>
+</div>
+<div class="p-2 bg-red-500/10 rounded-lg text-red-600">
+<span class="material-symbols-outlined">difference</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Table Section -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
+<h3 class="font-bold text-slate-800 dark:text-white">Shipment Contents &amp; Discrepancy Log</h3>
+<div class="flex gap-2">
+<button class="text-xs font-bold bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-50">Filter: All</button>
+<button class="text-xs font-bold bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-50">Export CSV</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs uppercase font-bold tracking-wider">
+<th class="px-6 py-4 border-b border-slate-200 dark:border-slate-800">SKU / Item Description</th>
+<th class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 text-center">Expected</th>
+<th class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 text-center">Counted (Blind)</th>
+<th class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 text-center">Delta</th>
+<th class="px-6 py-4 border-b border-slate-200 dark:border-slate-800">Status</th>
+<th class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Match Row -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-bold text-slate-900 dark:text-white">EL-3342-X</span>
+<span class="text-xs text-slate-500">Wireless Optical Mouse - Silver</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center font-medium text-slate-600 dark:text-slate-400">1,200</td>
+<td class="px-6 py-4 text-center font-bold text-slate-900 dark:text-white">1,200</td>
+<td class="px-6 py-4 text-center">
+<span class="text-green-600 font-bold">0</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+<span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Perfect Match
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+</td>
+</tr>
+<!-- Shortage Row -->
+<tr class="bg-red-50/50 dark:bg-red-900/10 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+<td class="px-6 py-4 border-l-4 border-red-500">
+<div class="flex flex-col">
+<span class="font-bold text-slate-900 dark:text-white">MD-4401-K</span>
+<span class="text-xs text-slate-500">Mechanical Keyboard RGB - Black</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center font-medium text-slate-600 dark:text-slate-400">500</td>
+<td class="px-6 py-4 text-center font-bold text-slate-900 dark:text-white">482</td>
+<td class="px-6 py-4 text-center">
+<span class="text-red-600 font-black">-18</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-bold bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
+<span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Missing Items
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-3 py-1.5 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded border border-slate-200 dark:border-slate-600 hover:bg-slate-50">Accept Delta</button>
+<button class="px-3 py-1.5 bg-primary text-white text-xs font-bold rounded shadow-md hover:bg-primary/90">Request Recount</button>
+</div>
+</td>
+</tr>
+<!-- Overage Row -->
+<tr class="bg-amber-50/50 dark:bg-amber-900/10 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors">
+<td class="px-6 py-4 border-l-4 border-amber-500">
+<div class="flex flex-col">
+<span class="font-bold text-slate-900 dark:text-white">AU-1029-B</span>
+<span class="text-xs text-slate-500">Studio Headphones Pro</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center font-medium text-slate-600 dark:text-slate-400">300</td>
+<td class="px-6 py-4 text-center font-bold text-slate-900 dark:text-white">312</td>
+<td class="px-6 py-4 text-center">
+<span class="text-amber-600 font-black">+12</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Overage
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-3 py-1.5 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded border border-slate-200 dark:border-slate-600 hover:bg-slate-50">Accept Delta</button>
+<button class="px-3 py-1.5 bg-primary text-white text-xs font-bold rounded shadow-md hover:bg-primary/90">Request Recount</button>
+</div>
+</td>
+</tr>
+<!-- Another Match -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-bold text-slate-900 dark:text-white">CB-0092-W</span>
+<span class="text-xs text-slate-500">USB-C Fast Charging Cable 2m</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center font-medium text-slate-600 dark:text-slate-400">2,000</td>
+<td class="px-6 py-4 text-center font-bold text-slate-900 dark:text-white">2,000</td>
+<td class="px-6 py-4 text-center">
+<span class="text-green-600 font-bold">0</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+<span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Perfect Match
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+</td>
+</tr>
+<!-- Shortage Row 2 -->
+<tr class="bg-red-50/50 dark:bg-red-900/10 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+<td class="px-6 py-4 border-l-4 border-red-500">
+<div class="flex flex-col">
+<span class="font-bold text-slate-900 dark:text-white">MO-1188-D</span>
+<span class="text-xs text-slate-500">27" 4K Office Monitor</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center font-medium text-slate-600 dark:text-slate-400">250</td>
+<td class="px-6 py-4 text-center font-bold text-slate-900 dark:text-white">245</td>
+<td class="px-6 py-4 text-center">
+<span class="text-red-600 font-black">-5</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-bold bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
+<span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Missing Items
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="px-3 py-1.5 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded border border-slate-200 dark:border-slate-600 hover:bg-slate-50">Accept Delta</button>
+<button class="px-3 py-1.5 bg-primary text-white text-xs font-bold rounded shadow-md hover:bg-primary/90">Request Recount</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Global Footer Actions -->
+<div class="mt-8 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="flex -space-x-3">
+<img alt="Receiver 1" class="w-10 h-10 rounded-full border-2 border-white dark:border-slate-900" data-alt="Warehouse receiving operator avatar 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfi7YhuXrUW_-psgfMo0EFGTQgcVWbJyEITeLMtwznOhRdPCX3ubCnB6QkdEaHrYgDPp5UrpctjOTTjtM8nHFeMQSzDNgcw-rIVzX-jv9-GXRim9dxZnu2G_rZoCOpjmOj15Gg8xPDDlc1q3SFpu9tiu4NMzQGOIHCTHmG2qA4QuOXT6i5-hZWRvIipbX01Iz9ZdIyRSff8zv3yJNlkYbxJe3p8CteT-3IV14oIolLpG3CItSD6Z4t1BbgtlOz2DfqENIQULX8nXY"/>
+<img alt="Receiver 2" class="w-10 h-10 rounded-full border-2 border-white dark:border-slate-900" data-alt="Warehouse receiving operator avatar 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ4aw0uxHZjdy2flgXpHJkhpa7SeIDNdhD-qehaSpmipk47lGQMUtYWIN8XcMWXsgRCZP4lBT536Mn1-Bnn--Kq4pVXgzqxcMYSHDw_32vuzXp91iKhp8zKMEAkm9SbCsqu3C0xeicnnQawYSIE7bk_udUXK_OfPK0ovhEdQ9nBGxgAU2n6z0ywlxEQLhRRgeh1e-INxR_l63tXk13vv4S35pxKfLxwlpIu7KfXt3CyHPkdBeJ6Xk8CqERUwF_v5UjunPUKR-OBc8"/>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Blind count completed by 2 operators</p>
+<p class="text-xs text-slate-500">Verified at Oct 24, 2023 - 10:45 AM</p>
+</div>
+</div>
+<div class="flex items-center gap-4 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-6 py-3 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        Save Progress
+                    </button>
+<button class="flex-1 sm:flex-none px-8 py-3 bg-primary hover:bg-primary/90 text-white font-black rounded-lg shadow-xl shadow-primary/25 transition-all flex items-center justify-center gap-2">
+                        Approve and Release to Putaway <span class="material-symbols-outlined">rocket_launch</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- App Bottom Bar (Mobile only) -->
+<footer class="xl:hidden bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-6 py-3 grid grid-cols-4 gap-2 sticky bottom-0 z-50">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">download</span>
+<span class="text-[10px] font-bold">Inbound</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-bold">Inventory</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">upload</span>
+<span class="text-[10px] font-bold">Outbound</span>
+</button>
+</footer>
+</div>
+</body></html>

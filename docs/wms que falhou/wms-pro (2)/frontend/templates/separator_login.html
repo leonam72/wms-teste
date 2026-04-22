@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Separador Login</title>
+<meta name="theme-color" content="#0f766e">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/separator.css">
+</head>
+<body class="separator-login-body">
+  <div id="server-status-overlay" class="server-status-overlay" aria-live="polite" aria-atomic="true">
+    <div class="server-status-card">
+      <div class="server-status-spinner"></div>
+      <div class="server-status-kicker">SEPARADOR // SERVER</div>
+      <div id="server-status-title" class="server-status-title">VALIDANDO SERVIDOR</div>
+      <div id="server-status-desc" class="server-status-desc">Aguardando resposta da API para liberar o login.</div>
+    </div>
+  </div>
+
+  <main class="separator-login-shell">
+    <section class="separator-login-card">
+      <div class="separator-login-kicker">MODULO ISOLADO</div>
+      <h1>Separador</h1>
+      <p class="separator-login-copy">Acesso restrito para usuarios do tipo separador.</p>
+      <form class="separator-login-form" onsubmit="event.preventDefault(); doSeparatorLogin();">
+        <label for="separator-login-username">Usuario</label>
+        <input type="text" id="separator-login-username" autocomplete="username" inputmode="text">
+
+        <label for="separator-login-password">Senha</label>
+        <input type="password" id="separator-login-password" autocomplete="current-password">
+
+        <div id="separator-login-error" class="separator-login-error"></div>
+        <button id="separator-login-btn" class="separator-primary-btn" type="submit">Entrar</button>
+      </form>
+    </section>
+  </main>
+
+  <script nonce="{{ csp_nonce }}">
+    window.AUTH_LOGIN_PATH = '/separador/login';
+    window.AUTH_TOKEN_STORAGE_KEY = 'separator_token';
+  </script>
+  <script nonce="{{ csp_nonce }}" src="/static/js/api.js"></script>
+  <script nonce="{{ csp_nonce }}" src="/static/js/separator_auth.js"></script>
+</body>
+</html>

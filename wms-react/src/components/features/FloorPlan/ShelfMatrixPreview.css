@@ -1,0 +1,40 @@
+.fp-shelf-matrix {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 6px;
+  background: var(--surface2);
+  padding: 4px;
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  opacity: 0.8;
+  pointer-events: none; /* Prevent dragging from matrix cells */
+}
+
+.fp-matrix-row {
+  display: flex;
+  gap: 2px;
+}
+
+.fp-matrix-cell {
+  width: 8px;
+  height: 8px;
+  background: var(--empty);
+  border: 1px solid var(--empty-border);
+  border-radius: 1px;
+}
+
+.fp-matrix-cell.occupied {
+  background: var(--occupied);
+  border-color: var(--occupied-border);
+}
+
+.fp-matrix-cell.status-expired {
+  background: #ff000030;
+  border-color: var(--danger);
+}
+
+.fp-matrix-cell.status-warn {
+  background: #ffaa0030;
+  border-color: var(--warn);
+}

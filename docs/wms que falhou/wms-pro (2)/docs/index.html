@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portal da Documentação</title>
+  <link rel="stylesheet" href="./assets/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__header">
+        <div>
+          <p class="eyebrow">Documentação local</p>
+          <h1>Portal da Documentação</h1>
+        </div>
+        <button class="sidebar__toggle" id="sidebar-toggle" type="button" aria-label="Alternar menu">☰</button>
+      </div>
+
+      <label class="search">
+        <span>Buscar arquivo</span>
+        <input id="search-input" type="search" placeholder="README, telas, API...">
+      </label>
+
+      <nav class="tree" id="nav-tree" aria-label="Árvore de navegação"></nav>
+    </aside>
+
+    <main class="content">
+      <header class="content__header">
+        <div>
+          <p class="eyebrow">Arquivo atual</p>
+          <h2 id="current-title">Selecione um documento</h2>
+          <p class="content__path" id="current-path">docs/</p>
+        </div>
+      </header>
+
+      <article class="doc-body" id="doc-body">
+        <section class="empty-state">
+          <h3>Selecione um arquivo no menu lateral</h3>
+          <p>O conteúdo Markdown já existente em <code>docs/</code> será renderizado aqui sem modificar os arquivos originais.</p>
+        </section>
+      </article>
+    </main>
+  </div>
+
+  <script src="./assets/content.js"></script>
+  <script src="./assets/app.js"></script>
+</body>
+</html>

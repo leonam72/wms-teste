@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Visual WMS Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 flex flex-col bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary rounded-lg p-2 text-white">
+<span class="material-symbols-outlined">warehouse</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-lg font-bold leading-none">Visual WMS</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Enterprise v2.4.0</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">map</span>
+<span>Map View</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4">
+<p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider">System Health</p>
+<div class="flex items-center justify-between text-sm">
+<span>Database</span>
+<span class="text-green-500 font-medium">Online</span>
+</div>
+<div class="flex items-center justify-between text-sm mt-1">
+<span>Scanner Sync</span>
+<span class="text-green-500 font-medium">Active</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col overflow-y-auto">
+<!-- Top Header -->
+<header class="h-16 flex items-center justify-between px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+<div class="flex items-center gap-4 flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg focus:ring-2 focus:ring-primary text-sm" placeholder="Search SKU, Bin, or Task ID..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-500 cursor-pointer">notifications</span>
+<div class="w-2 h-2 bg-red-500 rounded-full -mt-4 -ml-3 border-2 border-white"></div>
+</div>
+<div class="flex items-center gap-3 border-l border-slate-200 dark:border-slate-800 pl-6">
+<div class="text-right">
+<p class="text-sm font-bold">Alex Johnson</p>
+<p class="text-xs text-slate-500">Floor Manager</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center overflow-hidden border-2 border-white dark:border-slate-800 shadow-sm" data-alt="Portrait of Alex Johnson Floor Manager" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDM2Nf4R7uz-59oXXcAGppWeeAQSy4Hi6uX8AF7KbDs7zrvd-ohTKa7XiLfgm6U91jl4DtNYJsCYLJ5ktBKm39uxNexYtI3kn2k69OYn0Zjg35G3r0RPrO2WCwJnnivT-VIr9ojlhlODakBH_7wXiuEo-7vk_xujdLLc7zxyyZ2wmYJZokpL-NKVy0GK47oynhYAZn2HSGORDQPvMb-E_YhBU2yKS2DQ9Uim-BQC1qKvZXkW3zUXQo9ObsA430MxlWZxmEEeHS2ZJA')"></div>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-8 space-y-8">
+<!-- Page Title -->
+<div class="flex items-center justify-between">
+<div>
+<h2 class="text-2xl font-black tracking-tight">Dashboard Summary</h2>
+<p class="text-slate-500">Real-time warehouse KPIs and occupancy levels.</p>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95">
+<span class="material-symbols-outlined text-lg">add</span>
+                        Create Task
+                    </button>
+</div>
+<!-- KPI Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg">
+<span class="material-symbols-outlined">event_busy</span>
+</div>
+<span class="text-xs font-bold text-red-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">trending_up</span> +2%
+                            </span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Expired Products</p>
+<p class="text-3xl font-black mt-1">14 <span class="text-sm font-normal text-slate-400 uppercase tracking-tighter">Items</span></p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-lg">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<span class="text-xs font-bold text-red-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">trending_up</span> +5%
+                            </span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Expiring Soon (&lt;40d)</p>
+<p class="text-3xl font-black mt-1">82 <span class="text-sm font-normal text-slate-400 uppercase tracking-tighter">Items</span></p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary/10 text-primary rounded-lg">
+<span class="material-symbols-outlined">task_alt</span>
+</div>
+<span class="text-xs font-bold text-green-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">trending_up</span> +12%
+                            </span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Active Tasks</p>
+<p class="text-3xl font-black mt-1">24 <span class="text-sm font-normal text-slate-400 uppercase tracking-tighter">Tasks</span></p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex justify-between items-center mb-4">
+<p class="text-slate-500 text-sm font-medium">Total Occupancy</p>
+<span class="text-xs font-bold text-primary">84.1%</span>
+</div>
+<p class="text-3xl font-black mt-1">3,450 <span class="text-xs font-normal text-slate-400 uppercase tracking-tighter">/ 4,100 Pallets</span></p>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full mt-4 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 84.1%"></div>
+</div>
+</div>
+</div>
+<!-- Charts & Distributions -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Warehouse Distribution -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="font-bold text-slate-800 dark:text-slate-200 mb-6">Zone Distribution</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span class="font-medium">Picking Zone</span>
+<span class="text-slate-500">92% Capacity</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-3 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span class="font-medium">Reserve Zone</span>
+<span class="text-slate-500">74% Capacity</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-3 rounded-full overflow-hidden">
+<div class="bg-indigo-500 h-full rounded-full" style="width: 74%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span class="font-medium">Cross-Dock Area</span>
+<span class="text-slate-500">45% Capacity</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-3 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 45%"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-4">
+<div class="flex-1 text-center">
+<p class="text-xl font-bold">1,240</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest">SKUs Stored</p>
+</div>
+<div class="w-px h-8 bg-slate-200 dark:bg-slate-800"></div>
+<div class="flex-1 text-center">
+<p class="text-xl font-bold">18</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest">Dock Doors</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Stock Health Monitoring -->
+<div class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<h3 class="font-bold text-slate-800 dark:text-slate-200">Stock Health Monitoring</h3>
+<button class="text-primary text-xs font-bold flex items-center gap-1 hover:underline">
+                                View Full Alert List <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 text-xs font-bold uppercase">
+<tr>
+<th class="px-6 py-4">Product SKU</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4">Days Remaining</th>
+<th class="px-6 py-4">Current Stock</th>
+<th class="px-6 py-4">Action</th>
+</tr>
+</thead>
+<tbody class="text-sm divide-y divide-slate-100 dark:divide-slate-800">
+<tr>
+<td class="px-6 py-4 font-medium">SKU-99042 - Dairy Fresh 1L</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded-full text-[10px] font-black">EXPIRED</span>
+</td>
+<td class="px-6 py-4 text-red-600 font-bold">-2 Days</td>
+<td class="px-6 py-4">140 Units</td>
+<td class="px-6 py-4"><span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary">more_vert</span></td>
+</tr>
+<tr>
+<td class="px-6 py-4 font-medium">SKU-12855 - Organic Kale Mix</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 rounded-full text-[10px] font-black">CRITICAL</span>
+</td>
+<td class="px-6 py-4 text-amber-600 font-bold">4 Days</td>
+<td class="px-6 py-4">22 Units</td>
+<td class="px-6 py-4"><span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary">more_vert</span></td>
+</tr>
+<tr>
+<td class="px-6 py-4 font-medium">SKU-77210 - Frozen Peas Bulk</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 rounded-full text-[10px] font-black">EXPIRING SOON</span>
+</td>
+<td class="px-6 py-4 font-bold text-slate-600 dark:text-slate-300">32 Days</td>
+<td class="px-6 py-4">1,400 Units</td>
+<td class="px-6 py-4"><span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary">more_vert</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Product Occupancy Breakdown -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<div>
+<h3 class="font-bold text-slate-800 dark:text-slate-200">Occupancy by Product</h3>
+<p class="text-xs text-slate-500">Volume distribution across top categories</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-medium hover:bg-slate-50 dark:hover:bg-slate-800">Filter</button>
+<button class="px-3 py-1.5 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-medium hover:bg-slate-50 dark:hover:bg-slate-800">Export CSV</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 text-xs font-bold uppercase">
+<tr>
+<th class="px-6 py-4">Product Name / SKU</th>
+<th class="px-6 py-4">Category</th>
+<th class="px-6 py-4">Quantity</th>
+<th class="px-6 py-4">% Warehouse Volume</th>
+<th class="px-6 py-4">Stack Status</th>
+</tr>
+</thead>
+<tbody class="text-sm divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-bold">Premium Mineral Water 500ml</span>
+<span class="text-[10px] text-slate-400">SKU-WTR-001</span>
+</div>
+</td>
+<td class="px-6 py-4"><span class="text-slate-600 dark:text-slate-300">Beverages</span></td>
+<td class="px-6 py-4 font-bold">12,450 units</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 14%"></div>
+</div>
+<span class="text-xs font-medium">14.2%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span>High-Stack Ready</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-bold">Eco-Friendly Paper Towels</span>
+<span class="text-[10px] text-slate-400">SKU-HSE-042</span>
+</div>
+</td>
+<td class="px-6 py-4"><span class="text-slate-600 dark:text-slate-300">Household</span></td>
+<td class="px-6 py-4 font-bold">4,120 units</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 28%"></div>
+</div>
+<span class="text-xs font-medium">28.4%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5 text-amber-600">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span>Max Stack Limit</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-bold">Bulk Rice Sacks 20kg</span>
+<span class="text-[10px] text-slate-400">SKU-GRN-112</span>
+</div>
+</td>
+<td class="px-6 py-4"><span class="text-slate-600 dark:text-slate-300">Grains</span></td>
+<td class="px-6 py-4 font-bold">850 units</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 8%"></div>
+</div>
+<span class="text-xs font-medium">8.1%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span>Stable</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="font-bold">Assorted Chocolate Bar Box</span>
+<span class="text-[10px] text-slate-400">SKU-CNF-088</span>
+</div>
+</td>
+<td class="px-6 py-4"><span class="text-slate-600 dark:text-slate-300">Confectionery</span></td>
+<td class="px-6 py-4 font-bold">2,400 units</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-16 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 5%"></div>
+</div>
+<span class="text-xs font-medium">5.4%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span>
+<span>Picking Active</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 bg-slate-50 dark:bg-slate-800/30 text-center">
+<p class="text-xs text-slate-500">Showing 4 of 1,240 results</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

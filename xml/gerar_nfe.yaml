@@ -1,0 +1,8 @@
+comando: "brfiscalfaker --type NFe"
+descricao: "Gera um XML de Nota Fiscal Eletrônica (NFe) brasileira fictícia para testes."
+uso_ia: "Use este comando quando precisar de um exemplo completo de NFe (modelo 55)."
+parametros_opcionais:
+  cpf: "--cpf [número]"
+  cnpj: "--cnpj [número]"
+  remover_tags: "--block-tags 'tag1, tag2'"
+exemplo: "brfiscalfaker --type NFe --cnpj 12345678000100"

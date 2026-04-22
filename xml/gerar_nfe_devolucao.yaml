@@ -1,0 +1,8 @@
+comando: "brfiscalfaker --type NFeDevolucao"
+descricao: "Gera um XML de Nota Fiscal Eletrônica de Devolução fictícia."
+uso_ia: "Use este comando para testar fluxos de retorno de mercadoria ou estorno."
+parametros_opcionais:
+  cpf: "--cpf [número]"
+  cnpj: "--cnpj [número]"
+  remover_tags: "--block-tags 'tag1, tag2'"
+exemplo: "brfiscalfaker --type NFeDevolucao"

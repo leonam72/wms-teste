@@ -1,0 +1,84 @@
+documentacao_detalhada_nfe:
+  versao_layout: "4.00"
+  objetivo: "Dicionário técnico exaustivo para integração de WMS e treinamento de IA."
+
+  raiz_e_chaves:
+    nfeProc:
+      descricao: "Nó raiz obrigatório em arquivos distribuídos (XML de consulta). Agrupa a nota e sua validade jurídica."
+      tags_filhas:
+        NFe: "Dados da Nota Fiscal Eletrônica."
+        protNFe: "Protocolo de autorização da SEFAZ (Data/Hora, Nº Protocolo, Digest Value)."
+    infNFe:
+      descricao: "Grupo central de informações. O atributo 'Id' é a Chave de Acesso de 44 dígitos."
+      detalhe_chave_acesso:
+        formato: "NFe + 44 dígitos numéricos"
+        segmentos:
+          cUF: "02 dígitos - Código da UF (IBGE) do emitente."
+          AAMM: "04 dígitos - Ano e mês da emissão (YYMM)."
+          CNPJ: "14 dígitos - CNPJ do emitente."
+          mod: "02 dígitos - Modelo (55=NFe, 65=NFCe)."
+          serie: "03 dígitos - Série da nota fiscal (0-999)."
+          nNF: "09 dígitos - Número sequencial da nota fiscal."
+          tpEmis: "01 dígito - Forma de emissão (1=Normal, 2..5=Contingência, 9=Contingência ID)."
+          cNF: "08 dígitos - Código numérico aleatório para segurança."
+          cDV: "01 dígito - Dígito verificador (Algoritmo Módulo 11)."
+
+  identificacao_operacao (ide):
+    descricao: "Metadados da nota que definem como o WMS deve processar o documento."
+    campos:
+      natOp: "Descrição da transação (Ex: Venda, Transferência). Define a operação logística."
+      dhEmi: "Data/Hora de emissão. Marco zero para o cálculo de FIFO (First In, First Out)."
+      tpNF: "0=Entrada (Compra/Devol. Cliente); 1=Saída (Venda/Devol. Fornecedor)."
+      idDest: "1=Operação Interna (Mesmo Estado); 2=Interestadual; 3=Exterior."
+      finNFe: "Finalidade: 1=Normal; 2=Complementar; 3=Ajuste; 4=Devolução (Ativa fluxo de estorno no WMS)."
+      indPres: "Indicador de presença: 1=Presencial; 2=Internet; 3=Teleatendimento; 4=NFCe entrega."
+
+  entidades (emit/dest):
+    emitente:
+      CNPJ: "Identidade fiscal do fornecedor. Chave estrangeira no cadastro de fornecedores do WMS."
+      xNome: "Razão Social. Nome oficial para emissão de etiquetas e documentos."
+      IE: "Inscrição Estadual. Necessária para validação de substituição tributária."
+      CRT: "Código de Regime Tributário: 1=Simples Nacional; 3=Regime Normal."
+    destinatario:
+      CNPJ_CPF: "Identifica o cliente ou a própria empresa (em notas de transferência)."
+      indIEDest: "Indicador da IE do destinatário: 1=Contribuinte ICMS; 9=Não Contribuinte."
+
+  logistica_de_itens (det):
+    descricao: "O 'coração' do WMS. Cada item (det) contém os dados para conferência e estocagem."
+    item:
+      nItem: "Número sequencial do item na nota (1 a 990)."
+    produto (prod):
+      cProd: "Código do SKU no fornecedor. O WMS deve cruzar com o código interno (De-Para)."
+      cEAN: "Código de barras GTIN. Usado para o 'bip' inicial na conferência cega."
+      xProd: "Descrição comercial. Conferência visual do conferente."
+      NCM: "Classificação fiscal. Define regras de armazenamento de produtos perigosos ou controlados."
+      CFOP: "Define se o item entra no estoque disponível ou se é apenas remessa de conserto/brinde."
+      uCom: "Unidade de medida (CX, UN, KG). Crucial para o fator de conversão (Ex: 1 Caixa = 12 Unidades)."
+      qCom: "Quantidade faturada. O que o WMS espera receber fisicamente."
+      vUnCom: "Preço unitário. Base para valorização do estoque."
+    rastreabilidade (rastro):
+      importancia: "Ativa o controle de FEFO (First Expired, First Out)."
+      nLote: "Identificador do lote. Separa fisicamente produtos iguais de produções diferentes."
+      qLote: "Quantidade vinculada a este lote específico."
+      dFab: "Data de fabricação. Histórico de qualidade."
+      dVal: "Data de validade. Define a data limite de saída no WMS (Shelf Life)."
+
+  tributacao_e_custos:
+    icms: "Define o custo real da mercadoria e créditos tributários na entrada."
+    ipi: "Imposto sobre produtos industriais. Comum em compras direto de fábrica."
+    total:
+      vProd: "Soma dos valores dos itens."
+      vFrete: "Custo de transporte. Pode ser rateado no custo médio do produto no WMS."
+      vNF: "Valor total financeiro. Deve bater com o valor da fatura/boleto."
+
+  transporte_e_volumes (transp):
+    modFrete: "0=CIF (Emitente paga); 1=FOB (Destinatário paga). Define quem é responsável pelo frete."
+    transporta: "Dados da transportadora para registro na portaria."
+    vol:
+      qVol: "Quantidade de volumes (caixas, pallets) no caminhão."
+      esp: "Espécie (Ex: Pallet, Sacaria)."
+      pesoL: "Peso Líquido total para cálculo de carga de piso no armazém."
+      pesoB: "Peso Bruto total para pesagem de balança rodoviária."
+
+  informacoes_adicionais (infAdic):
+    infCpl: "Campo livre. Frequentemente contém o número do Pedido de Compra (PO) para vinculação automática no WMS."

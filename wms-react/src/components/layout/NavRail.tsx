@@ -9,10 +9,13 @@ interface NavRailProps {
 
 const NavRail: React.FC<NavRailProps> = ({ activePage, onPageChange }) => {
   const items: { id: PageID; icon: string; label: string }[] = [
+    { id: 'receiving', icon: '📥', label: 'RECEB.' },
     { id: 'depot', icon: '🏭', label: 'DEPOT' },
+    { id: 'quality', icon: '🛡️', label: 'QUALID.' },
     { id: 'depots', icon: '🏢', label: 'DEPÓS.' },
     { id: 'products', icon: '📦', label: 'PROD' },
     { id: 'floorplan', icon: '🗺', label: 'PLANTA' },
+    { id: 'logistics-v2', icon: '🚀', label: 'EXPERT' },
     { id: 'history', icon: '📋', label: 'HIST' },
   ];
 

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VisualWMS - Inventory Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script></head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3 sticky top-0 z-40">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">inventory_2</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">VisualWMS</h2>
+</div>
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-500 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 focus:border-none h-full placeholder:text-slate-500 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search products, SKUs..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold leading-normal border-b-2 border-primary py-1" href="#">Inventory</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Map Editor</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Reports</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex gap-3">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-primary/10 p-0.5 rounded-full ring-2 ring-primary/20">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9" data-alt="Profile picture of a warehouse manager" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB7vbEmPMQ664b0SU0JtAhr3ih_WvRiR0xP2ctSUD0taVV44wHbmzPtOshNjvgonQzGNobr4R2cWjQJqURJ4jlzhqZ-ORlbvpc8UPgX5FXwis--kNHlinqTb3hZ5Z1akL7DvrHbrJ_tNAksIJBzPzWeLmUal_-MU-Mxd1PLoxOUwifVqSYf-J74P-aeYqqYXH6bM50Q8ntPGEhfsbQjdZxBHvLLRtc7n_HYCzMN7DsJXD89RyNzYThcbX2S4p8U5HvOnAxpXcjJYCI");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 px-10 py-8">
+<div class="flex flex-wrap justify-between items-center gap-3 mb-8">
+<div class="flex flex-col gap-1">
+<h1 class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Inventory Management</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Monitor stock levels, manage product metadata, and optimize warehouse storage.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-sm font-semibold transition-all hover:bg-slate-50">
+<span class="material-symbols-outlined text-lg">file_download</span>
+<span>Export CSV</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/25 transition-all hover:bg-primary/90">
+<span class="material-symbols-outlined text-lg">add</span>
+<span>Add New Product</span>
+</button>
+</div>
+</div>
+<!-- Filters -->
+<div class="flex flex-wrap gap-3 mb-6 items-center">
+<button class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-primary text-white px-4">
+<span class="text-xs font-semibold">All Categories</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+<button class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4">
+<span class="text-slate-600 dark:text-slate-300 text-xs font-semibold">In Stock</span>
+<span class="material-symbols-outlined text-slate-400 text-sm">expand_more</span>
+</button>
+<button class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-orange-100 dark:bg-orange-900/30 border border-orange-200 dark:border-orange-800/50 px-4">
+<span class="text-orange-700 dark:text-orange-400 text-xs font-semibold">Low Stock</span>
+<span class="material-symbols-outlined text-orange-400 text-sm">expand_more</span>
+</button>
+<button class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4">
+<span class="text-slate-600 dark:text-slate-300 text-xs font-semibold">Warehouse Zone</span>
+<span class="material-symbols-outlined text-slate-400 text-sm">expand_more</span>
+</button>
+<div class="ml-auto flex gap-2">
+<button class="h-9 w-9 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+<span class="material-symbols-outlined text-slate-500">grid_view</span>
+</button>
+<button class="h-9 w-9 flex items-center justify-center rounded-lg border border-primary bg-primary/10 text-primary">
+<span class="material-symbols-outlined">list</span>
+</button>
+</div>
+</div>
+<!-- Table Content -->
+<div class="@container">
+<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider">Product</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider">SKU</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider">Category</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-center">Stock Level</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider">UoM</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider">Location</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500">conveyor_belt</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-slate-900 dark:text-white">Bosch GSB 13 RE</span>
+<span class="text-xs text-slate-500">Power Tools</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm font-mono text-slate-600 dark:text-slate-400">SKU-001-EL</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Tools</span>
+</td>
+<td class="px-6 py-4 text-center">
+<div class="flex flex-col items-center gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold uppercase bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
+<span class="size-1.5 rounded-full bg-green-500"></span> In Stock
+                                                </span>
+<span class="text-xs font-medium text-slate-500">142 Units</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Pcs</td>
+<td class="px-6 py-4 text-sm font-medium text-primary">A-102-04</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 text-slate-400 hover:text-red-500"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500">hardware</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-slate-900 dark:text-white">Safety Helmet XL</span>
+<span class="text-xs text-slate-500">PPE Equipment</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm font-mono text-slate-600 dark:text-slate-400">SKU-089-PP</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Safety</span>
+</td>
+<td class="px-6 py-4 text-center">
+<div class="flex flex-col items-center gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold uppercase bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400">
+<span class="size-1.5 rounded-full bg-orange-500 animate-pulse"></span> Low Stock
+                                                </span>
+<span class="text-xs font-medium text-slate-500">12 Units</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Pcs</td>
+<td class="px-6 py-4 text-sm font-medium text-primary">B-044-12</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 text-slate-400 hover:text-red-500"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500">settings_input_component</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-slate-900 dark:text-white">Industrial Relay X-2</span>
+<span class="text-xs text-slate-500">Electronics</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm font-mono text-slate-600 dark:text-slate-400">SKU-442-ER</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Electronics</span>
+</td>
+<td class="px-6 py-4 text-center">
+<div class="flex flex-col items-center gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold uppercase bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400">
+<span class="size-1.5 rounded-full bg-red-500"></span> Out of Stock
+                                                </span>
+<span class="text-xs font-medium text-slate-500">0 Units</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Pack</td>
+<td class="px-6 py-4 text-sm font-medium text-slate-400">—</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 text-slate-400 hover:text-red-500"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<span class="text-sm text-slate-500">Showing 1 to 10 of 248 entries</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-700 text-sm disabled:opacity-50">Previous</button>
+<button class="px-3 py-1 rounded-lg bg-primary text-white text-sm font-bold">1</button>
+<button class="px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-700 text-sm hover:bg-slate-50">2</button>
+<button class="px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-700 text-sm hover:bg-slate-50">3</button>
+<button class="px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-700 text-sm hover:bg-slate-50">Next</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Detail Sidebar (Slide-over effect) -->
+<div class="fixed inset-y-0 right-0 w-[480px] bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-200 dark:border-slate-800 z-50 flex flex-col">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Product Details</h3>
+</div>
+<button class="text-slate-400 hover:text-slate-600"><span class="material-symbols-outlined">close</span></button>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-8">
+<!-- Basic Info -->
+<section>
+<h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Basic Information</h4>
+<div class="grid gap-4">
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1">Product Name</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary" type="text" value="Bosch GSB 13 RE Professional"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1">SKU</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm" type="text" value="SKU-001-EL"/>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1">EAN/Barcode</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm" type="text" value="3165140371902"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Physical Specs -->
+<section>
+<h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Physical Specifications</h4>
+<div class="grid gap-4">
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1">Weight (kg)</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm" type="number" value="1.8"/>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1">Volume (m³)</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm" type="number" value="0.012"/>
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1">Dimensions (L x W x H) cm</label>
+<div class="flex gap-2">
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm text-center" placeholder="L" type="number" value="30"/>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm text-center" placeholder="W" type="number" value="20"/>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm text-center" placeholder="H" type="number" value="10"/>
+</div>
+</div>
+</div>
+</section>
+<!-- WMS Specifics -->
+<section class="p-4 bg-primary/5 rounded-xl border border-primary/10">
+<h4 class="text-xs font-bold uppercase tracking-widest text-primary mb-4">WMS Configuration</h4>
+<div class="grid gap-4">
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1">Max Stacking</label>
+<div class="relative">
+<input class="w-full rounded-lg border-primary/20 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm" type="number" value="8"/>
+<span class="absolute right-3 top-2 text-[10px] font-bold text-slate-400">Levels</span>
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1">Storage Class</label>
+<select class="w-full rounded-lg border-primary/20 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
+<option>Ambient</option>
+<option>Cold Storage</option>
+<option>Hazardous</option>
+<option>Fragile</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1">Picking Priority</label>
+<div class="flex gap-2">
+<button class="flex-1 py-1 rounded-lg border border-primary bg-primary text-white text-xs font-bold">High (A)</button>
+<button class="flex-1 py-1 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 text-xs">Medium (B)</button>
+<button class="flex-1 py-1 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 text-xs">Low (C)</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Stock Info -->
+<section>
+<h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Stock Parameters</h4>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1">Minimum Stock</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm" type="number" value="20"/>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1">Reorder Point</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm" type="number" value="35"/>
+</div>
+</div>
+</section><!-- Stock Turnover Section -->
+<section class="pt-4">
+<h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Stock Turnover (Giro de Estoque)</h4>
+<!-- Turnover KPIs -->
+<div class="grid grid-cols-2 gap-3 mb-6">
+<div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
+<p class="text-[10px] font-bold text-slate-500 uppercase mb-1">Avg. Days in Inv.</p>
+<p class="text-xl font-bold text-slate-900 dark:text-white">42 <span class="text-xs font-normal text-slate-500">Days</span></p>
+</div>
+<div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
+<p class="text-[10px] font-bold text-slate-500 uppercase mb-1">Turnover Ratio</p>
+<p class="text-xl font-bold text-primary">8.6x</p>
+</div>
+</div>
+<!-- Turnover Chart -->
+<div class="bg-white dark:bg-slate-800/50 p-2 rounded-xl border border-slate-100 dark:border-slate-700">
+<p class="text-[10px] font-bold text-slate-400 uppercase mb-2 px-1">6-Month Turnover Rate</p>
+<div class="h-40 w-full">
+<canvas id="turnoverChart"></canvas>
+</div>
+</div>
+</section>
+</div>
+<div class="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20 flex gap-3">
+<button class="flex-1 rounded-lg h-11 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold transition-all hover:bg-slate-100">Cancel</button>
+<button class="flex-1 rounded-lg h-11 bg-primary text-white font-bold shadow-lg shadow-primary/25 hover:bg-primary/90">Save Changes</button>
+</div>
+</div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('turnoverChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Turnover Rate',
+                    data: [1.2, 1.5, 1.1, 1.8, 2.1, 1.9],
+                    borderColor: '#137fec',
+                    backgroundColor: 'rgba(19, 127, 236, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#137fec'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: true }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 10 }, color: '#94a3b8' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                        ticks: { font: { size: 10 }, color: '#94a3b8' }
+                    }
+                }
+            }
+        });
+    });
+</script></body></html>

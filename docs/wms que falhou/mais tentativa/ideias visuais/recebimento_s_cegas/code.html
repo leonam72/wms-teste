@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VisualWMS - Blind Receiving</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="relative flex h-auto min-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 lg:px-10">
+<div class="flex items-center gap-4">
+<div class="flex items-center justify-center p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined text-2xl">package_2</span>
+</div>
+<div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight">Blind Receiving</h2>
+<p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Inbound Checklist</p>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+<label class="hidden md:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 dark:bg-slate-800">
+<div class="text-slate-400 flex items-center justify-center pl-4">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 text-sm placeholder:text-slate-400" placeholder="Search SKU or Barcode" value=""/>
+</div>
+</label>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-xl">barcode_scanner</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar Nav -->
+<aside class="hidden lg:flex w-64 flex-col justify-between border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+<div class="flex flex-col gap-4">
+<div class="px-3 py-2">
+<h1 class="text-slate-900 dark:text-slate-100 text-base font-bold">VisualWMS</h1>
+<p class="text-slate-500 text-sm font-normal">Operator: John Doe</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">download</span>
+<span class="text-sm font-bold">Receiving</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">inventory_2</span>
+<span class="text-sm font-medium">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">local_shipping</span>
+<span class="text-sm font-medium">Shipping</span>
+</a>
+</nav>
+</div>
+<div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
+<div class="flex items-center gap-2 mb-2">
+<span class="size-2 rounded-full bg-emerald-500"></span>
+<span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">System Status</span>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400">Dock 04 Active</p>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto p-4 lg:p-8">
+<div class="max-w-5xl mx-auto flex flex-col gap-6">
+<!-- Header Section -->
+<div class="flex flex-wrap items-end justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h2 class="text-slate-900 dark:text-slate-100 text-3xl font-bold tracking-tight">Current Checklist</h2>
+<div class="flex items-center gap-3 text-slate-500 text-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">assignment</span> PO-99283-X</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">dock</span> Dock: 04</span>
+<span class="flex items-center gap-1 text-primary font-medium"><span class="material-symbols-outlined text-sm">calendar_today</span> Oct 24, 2023</span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-2 rounded-lg font-bold text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 transition-colors">
+                                    Save Draft
+                                </button>
+<button class="bg-primary text-white px-6 py-2 rounded-lg font-bold text-sm shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity">
+                                    Finish Count
+                                </button>
+</div>
+</div>
+<!-- Status Tabs -->
+<div class="border-b border-slate-200 dark:border-slate-800">
+<div class="flex gap-8">
+<button class="pb-4 border-b-2 border-primary text-slate-900 dark:text-white text-sm font-bold flex items-center gap-2">
+                                    To Check <span class="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full text-xs">12</span>
+</button>
+<button class="pb-4 border-b-2 border-transparent text-slate-500 text-sm font-bold hover:text-slate-700 transition-colors flex items-center gap-2">
+                                    In Progress <span class="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full text-xs">4</span>
+</button>
+<button class="pb-4 border-b-2 border-transparent text-slate-500 text-sm font-bold hover:text-slate-700 transition-colors flex items-center gap-2">
+                                    Completed <span class="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full text-xs">28</span>
+</button>
+</div>
+</div>
+<!-- Blind Receiving Item List -->
+<div class="flex flex-col gap-4">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Item Card - Focused -->
+<div class="bg-white dark:bg-slate-900 border-2 border-primary rounded-xl p-5 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">inventory</span>
+</div>
+<span class="bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">In Progress</span>
+</div>
+<h3 class="text-slate-900 dark:text-white font-bold text-base leading-tight">Ergonomic Office Chair - Blue</h3>
+<p class="text-slate-500 text-sm mb-4">SKU: WH-8829-B1</p>
+<div class="space-y-4">
+<div>
+<label class="block text-xs font-bold text-slate-500 uppercase mb-1">Quantity Received</label>
+<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg text-lg font-bold focus:ring-primary focus:border-primary px-4 py-2" placeholder="0" type="number"/>
+<p class="mt-1 text-[10px] text-slate-400 italic text-right">* Blind count mode active</p>
+</div>
+<div class="pt-2">
+<label class="block text-xs font-bold text-slate-500 uppercase mb-2">Damage Documentation</label>
+<div class="grid grid-cols-3 gap-2">
+<div class="aspect-square bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-slate-400">add_a_photo</span>
+</div>
+<div class="aspect-square bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="Close up of a cardboard box with a small dent on the corner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvDj1l7TAyvm5t9C-_2VGK8qpZgl-1gjCsXYBzNeI3NgIv8EqBDCW6obZ7mTYQnCKygX_cpNx3lbi4qVKeRW5sMQT28i1eIflhtTGLA0JkAWjFNTkp4Szc6L-1R0cwU_AlAIfH0Nq2GYXqFP8xA-oJgnOBKpOKiinO4wWN5t1PwqLycN_LJXbuk6Ipo9R-Wj-OY-PLfmeBflgYPBSjQJ7U-VkCFD7tI0P2BvwlVnuvDwwDq-uDTws5h4G_sCBDIQ1_doRCYr4LJNI"/>
+<button class="absolute top-1 right-1 bg-rose-500 text-white p-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-xs">close</span>
+</button>
+</div>
+<div class="aspect-square bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="Torn cardboard box edge showing internal packaging" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcEljLg8ijdP8DaDRw6IHfLEc3PPxX7y2L2BhD_ogA0pM1logsNXZMvVIGY6NeOCK4wrXtWtEYkGPX6kyhuE59olO6PxD0Gf3z0rJ2kWMGfqhr-zmM1e9Ir4uVBSMVs4876UABB2xW9JijIc-1ypIGL_8uIOhkDF88hFZY7AFIA1FA2vNv7szozUJwoqI4hrvjd9wU-Y9mkzi404VzfhyECJbLZv103TesaXFudtY07cv7yBTrnqpo_Cfw8OQGlKKhOkwkIxz9miM"/>
+<button class="absolute top-1 right-1 bg-rose-500 text-white p-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-xs">close</span>
+</button>
+</div>
+</div>
+</div>
+<button class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-2 rounded-lg text-sm hover:opacity-90 transition-opacity">
+                                            Confirm Item Count
+                                        </button>
+</div>
+</div>
+<!-- Item Card - Pending -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm opacity-90">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-400">
+<span class="material-symbols-outlined">inventory</span>
+</div>
+<span class="bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Not Checked</span>
+</div>
+<h3 class="text-slate-900 dark:text-white font-bold text-base leading-tight">Wireless Keyboard MK-450</h3>
+<p class="text-slate-500 text-sm mb-6">SKU: WH-1120-X</p>
+<button class="w-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg text-sm hover:bg-primary hover:text-white transition-all">
+                                        Start Count
+                                    </button>
+</div>
+<!-- Item Card - Completed -->
+<div class="bg-slate-50 dark:bg-slate-900/50 border border-emerald-200 dark:border-emerald-900/30 rounded-xl p-5 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg text-emerald-600">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<span class="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Completed</span>
+</div>
+<h3 class="text-slate-900 dark:text-white font-bold text-base leading-tight">LED Monitor 27" Curved</h3>
+<p class="text-slate-500 text-sm mb-4">SKU: WH-7731-M</p>
+<div class="flex justify-between items-center text-sm font-medium p-2 bg-emerald-50 dark:bg-emerald-900/10 rounded-lg">
+<span class="text-emerald-700 dark:text-emerald-400">Total Counted:</span>
+<span class="text-emerald-900 dark:text-emerald-300 font-bold">120 Units</span>
+</div>
+<button class="w-full mt-4 text-slate-400 text-xs font-bold hover:text-primary transition-colors underline decoration-dotted">
+                                        Edit Count
+                                    </button>
+</div>
+<!-- Item Card - Pending 2 -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm opacity-90">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-400">
+<span class="material-symbols-outlined">inventory</span>
+</div>
+<span class="bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Not Checked</span>
+</div>
+<h3 class="text-slate-900 dark:text-white font-bold text-base leading-tight">Smart Desk Lamp Pro</h3>
+<p class="text-slate-500 text-sm mb-6">SKU: WH-0092-L</p>
+<button class="w-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg text-sm hover:bg-primary hover:text-white transition-all">
+                                        Start Count
+                                    </button>
+</div>
+<!-- Item Card - Pending 3 -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm opacity-90">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-400">
+<span class="material-symbols-outlined">inventory</span>
+</div>
+<span class="bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Not Checked</span>
+</div>
+<h3 class="text-slate-900 dark:text-white font-bold text-base leading-tight">USB-C Hub 10-in-1</h3>
+<p class="text-slate-500 text-sm mb-6">SKU: WH-4552-H</p>
+<button class="w-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg text-sm hover:bg-primary hover:text-white transition-all">
+                                        Start Count
+                                    </button>
+</div>
+<!-- Empty State / Scan Trigger -->
+<div class="bg-slate-50 dark:bg-slate-800/30 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-5 flex flex-col items-center justify-center text-center group cursor-pointer hover:border-primary transition-colors">
+<div class="p-3 bg-white dark:bg-slate-800 rounded-full shadow-sm mb-3 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary">qr_code_scanner</span>
+</div>
+<p class="text-slate-900 dark:text-white font-bold text-sm">Scan New Item</p>
+<p class="text-slate-500 text-xs">Or click to add manually</p>
+</div>
+</div>
+</div>
+<!-- Damage Documentation Refined Section (Summary) -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Shipment Documentation</h3>
+<p class="text-sm text-slate-500">Document any overall shipment damages or container issues.</p>
+</div>
+<button class="flex items-center gap-2 text-primary text-sm font-bold">
+<span class="material-symbols-outlined text-lg">add_a_photo</span> Add General Photo
+                                </button>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+<div class="aspect-square bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden relative group border border-slate-200 dark:border-slate-700">
+<img class="w-full h-full object-cover" data-alt="Stacked pallet showing minor damage to plastic wrap" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOQd875vOJfPYkCdhVSWLX65aCMeSNZ9VyTsI69BWp4Yxs6zKB0ZV4dxVmnpofl1dXNU0ptKEx_ISUThtPdPlRdnXLv6QV4tZM8IDoRNvBsI0v5l3rP3GjjTIOk0tZ5-goPe5o5sSjoBEUaVF1ZBcAC4SMCjztW141n9WOC6ysggP5hxi9zmguvztHvyIVz7SngIT1lAgo17wtDE_Uh83vy1DffJymO6ANkAaxy4cfpXo3abpvnYk1DLmfNxMZB8zejCGJKGcEcmM"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2">
+<span class="text-[10px] text-white font-bold uppercase mb-1">Pallet 01</span>
+<button class="bg-white text-slate-900 p-1 rounded-full"><span class="material-symbols-outlined text-sm">visibility</span></button>
+</div>
+</div>
+<div class="aspect-square bg-slate-100 dark:bg-slate-800 rounded-lg flex flex-col items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-400 hover:text-primary hover:border-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined">add</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Global Footer Status -->
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-6 py-3 flex justify-between items-center text-xs">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="font-bold text-slate-400 uppercase tracking-tighter">Progress:</span>
+<div class="w-32 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 65%"></div>
+</div>
+<span class="font-bold text-slate-900 dark:text-white">65%</span>
+</div>
+<div class="h-4 w-px bg-slate-200 dark:border-slate-800"></div>
+<div class="flex items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined text-sm">cloud_done</span>
+<span>Autosaved 2 mins ago</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-slate-500">
+<span>Help Center</span>
+<span class="material-symbols-outlined text-sm">help</span>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

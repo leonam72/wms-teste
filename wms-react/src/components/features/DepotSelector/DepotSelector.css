@@ -1,0 +1,62 @@
+.depot-selector-bar {
+  background: #0056b3;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  flex: 0 0 auto;
+}
+
+.depot-tabs {
+  display: flex;
+  gap: 2px;
+  height: 100%;
+  align-items: flex-end;
+}
+
+.depot-tab {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px 4px 0 0;
+}
+
+.depot-tab:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.depot-tab.active {
+  background: var(--bg);
+  color: #0056b3;
+}
+
+.active-indicator {
+  font-size: 10px;
+}
+
+.add-depot-btn {
+  background: none;
+  border: 1px dashed rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 4px 12px;
+  margin-left: 10px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  align-self: center;
+}
+
+.add-depot-btn:hover {
+  border-color: #fff;
+  color: #fff;
+}

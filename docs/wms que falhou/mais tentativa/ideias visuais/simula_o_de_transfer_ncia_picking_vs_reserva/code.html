@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .warehouse-grid {
+            background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .pulse-warning {
+            box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.4);
+            animation: pulse-yellow 2s infinite;
+        }
+        @keyframes pulse-yellow {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(234, 179, 8, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(234, 179, 8, 0); }
+        }
+    </style>
+<title>WMS - Zone Transfer Simulation</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-3 bg-white dark:bg-slate-900">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">WMS Dashboard</h2>
+</div>
+<nav class="flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Inventory</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Orders</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#">Simulation</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<label class="flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full overflow-hidden border border-slate-200 dark:border-slate-700">
+<div class="text-slate-400 flex bg-white dark:bg-slate-800 items-center justify-center pl-4">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 px-4 py-0 focus:ring-0 text-sm" placeholder="Search Bin or SKU..." value=""/>
+</div>
+</label>
+<div class="flex gap-2">
+<button class="size-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-primary/20 rounded-full size-10 flex items-center justify-center text-primary font-bold">JD</div>
+</div>
+</div>
+</header>
+<main class="flex flex-1 overflow-hidden">
+<!-- Sidebar Sidebar Panel -->
+<aside class="w-80 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col p-6 gap-6">
+<div>
+<h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">Transfer Details</h3>
+<div class="bg-primary/5 border border-primary/20 rounded-xl p-4">
+<div class="flex items-center gap-3 mb-4">
+<div class="size-10 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">swap_horiz</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 font-medium">Active Task</p>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Pallet PLT-5520</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex flex-col gap-1">
+<span class="text-[10px] uppercase text-slate-500 font-bold">From (Reserve)</span>
+<div class="flex items-center justify-between bg-white dark:bg-slate-800 p-2 rounded border border-slate-200 dark:border-slate-700">
+<span class="text-sm font-mono font-bold text-primary">B-04-12-03</span>
+<span class="text-xs text-slate-500">Level 4</span>
+</div>
+</div>
+<div class="flex justify-center -my-2">
+<span class="material-symbols-outlined text-primary rotate-90">arrow_forward</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[10px] uppercase text-slate-500 font-bold">To (Picking)</span>
+<div class="flex items-center justify-between bg-white dark:bg-slate-800 p-2 rounded border border-slate-200 dark:border-slate-700">
+<span class="text-sm font-mono font-bold text-primary">A-12-01-01</span>
+<span class="text-xs text-slate-500">Level 0</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 space-y-2">
+<div class="flex justify-between text-xs">
+<span class="text-slate-500">SKU:</span>
+<span class="font-medium">SKU-9920-BL</span>
+</div>
+<div class="flex justify-between text-xs">
+<span class="text-slate-500">Quantity:</span>
+<span class="font-medium">48 Units / 1 PLT</span>
+</div>
+<div class="flex justify-between text-xs">
+<span class="text-slate-500">Stacking Limit:</span>
+<span class="text-green-600 font-medium flex items-center gap-1">
+                                    Valid <span class="material-symbols-outlined text-[14px]">check_circle</span>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 mt-auto">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined">done_all</span>
+                        Confirm Transfer
+                    </button>
+<button class="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold py-3 rounded-lg flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined">settings_suggest</span>
+                        Auto-Replenish
+                    </button>
+<div class="flex gap-2">
+<button class="flex-1 bg-slate-100 dark:bg-slate-800 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined">undo</span>
+</button>
+<button class="flex-1 bg-slate-100 dark:bg-slate-800 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined">redo</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Visual Map Section -->
+<section class="flex-1 flex flex-col bg-slate-50 dark:bg-background-dark relative">
+<!-- Map Header / Breadcrumbs -->
+<div class="px-8 py-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
+<div class="flex items-center gap-2 text-sm">
+<span class="text-slate-500">Warehouse</span>
+<span class="material-symbols-outlined text-xs text-slate-400">chevron_right</span>
+<span class="font-semibold text-slate-900 dark:text-white">Zone Transfer Simulation</span>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-blue-500"></div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Picking Zone</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-purple-500"></div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">Reserve Zone</span>
+</div>
+</div>
+</div>
+<!-- 2D Interactive Map -->
+<div class="flex-1 p-8 warehouse-grid relative overflow-hidden">
+<div class="max-w-5xl mx-auto h-full flex flex-col gap-12 justify-center">
+<!-- Reserve Zone (Background/Top) -->
+<div class="grid grid-cols-8 gap-4 opacity-80">
+<div class="col-span-8 flex justify-between items-center mb-2">
+<span class="text-xs font-bold text-purple-600 uppercase tracking-widest bg-purple-100 px-2 py-0.5 rounded">Reserve Zone - High Racks (L4-L6)</span>
+</div>
+<!-- Rows of High Shelves -->
+<div class="h-20 bg-purple-100 dark:bg-purple-900/30 border-2 border-dashed border-purple-300 dark:border-purple-700 rounded-lg flex items-center justify-around px-4">
+<div class="w-8 h-12 bg-purple-400 rounded-sm"></div>
+<div class="w-8 h-12 bg-purple-400 rounded-sm relative">
+<!-- Source Bin B-04 -->
+<div class="absolute -inset-1 border-2 border-primary rounded-sm animate-pulse"></div>
+<div class="w-full h-full bg-primary/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xs">inventory</span>
+</div>
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] bg-primary text-white px-1 rounded whitespace-nowrap">B-04</div>
+</div>
+<div class="w-8 h-12 bg-purple-400 rounded-sm"></div>
+<div class="w-8 h-12 bg-purple-400 rounded-sm"></div>
+<div class="w-8 h-12 bg-purple-400 rounded-sm"></div>
+<div class="w-8 h-12 bg-purple-200 dark:bg-purple-800 rounded-sm"></div>
+</div>
+<div class="h-20 bg-purple-100 dark:bg-purple-900/30 border-2 border-dashed border-purple-300 dark:border-purple-700 rounded-lg flex items-center justify-around px-4">
+<div class="w-8 h-12 bg-purple-400 rounded-sm"></div>
+<div class="w-8 h-12 bg-purple-400 rounded-sm"></div>
+<div class="w-8 h-12 bg-purple-200 dark:bg-purple-800 rounded-sm"></div>
+<div class="w-8 h-12 bg-purple-400 rounded-sm"></div>
+<div class="w-8 h-12 bg-purple-400 rounded-sm"></div>
+<div class="w-8 h-12 bg-purple-400 rounded-sm"></div>
+</div>
+</div>
+<!-- Movement Path Visualization -->
+<div class="relative h-24">
+<svg class="w-full h-full absolute top-0 left-0" viewbox="0 0 800 100">
+<path d="M140,0 Q140,50 400,50 T650,100" fill="none" stroke="#137fec" stroke-dasharray="8,8" stroke-width="3"></path>
+<circle cx="140" cy="0" fill="#137fec" r="5"></circle>
+<circle cx="650" cy="100" fill="#137fec" r="5"></circle>
+</svg>
+<!-- Animated Pallet Icon -->
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-800 shadow-xl border border-primary p-2 rounded-lg flex items-center gap-3">
+<div class="bg-primary/10 p-1.5 rounded text-primary">
+<span class="material-symbols-outlined">forklift</span>
+</div>
+<div>
+<p class="text-[10px] font-bold text-slate-500 uppercase leading-none">Moving</p>
+<p class="text-xs font-bold text-slate-900 dark:text-white">PLT-5520</p>
+</div>
+</div>
+</div>
+<!-- Picking Zone (Foreground/Bottom) -->
+<div class="grid grid-cols-8 gap-4">
+<div class="col-span-8 flex justify-between items-center mb-2">
+<span class="text-xs font-bold text-blue-600 uppercase tracking-widest bg-blue-100 px-2 py-0.5 rounded">Picking Zone - Floor Level (L0-L1)</span>
+</div>
+<!-- Rows of Picking Bins -->
+<div class="h-24 bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800 rounded-lg flex items-center justify-around px-4">
+<div class="w-10 h-16 bg-blue-300 rounded relative">
+<div class="absolute inset-x-0 bottom-0 h-4/5 bg-blue-500 rounded-b"></div>
+</div>
+<div class="w-10 h-16 bg-blue-300 rounded relative">
+<div class="absolute inset-x-0 bottom-0 h-2/5 bg-blue-500 rounded-b"></div>
+</div>
+<div class="w-10 h-16 bg-blue-300 rounded relative">
+<!-- Target Bin A-12 (Low Stock Pulse) -->
+<div class="absolute -inset-2 rounded-lg pulse-warning bg-yellow-400/20 pointer-events-none"></div>
+<div class="absolute inset-x-0 bottom-0 h-1/5 bg-yellow-500 rounded-b"></div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] bg-yellow-500 text-white px-1 rounded font-bold">LOW STOCK</div>
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-blue-600 font-bold whitespace-nowrap">A-12</div>
+</div>
+<div class="w-10 h-16 bg-blue-300 rounded relative">
+<div class="absolute inset-x-0 bottom-0 h-3/5 bg-blue-500 rounded-b"></div>
+</div>
+</div>
+<div class="h-24 bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800 rounded-lg flex items-center justify-around px-4">
+<div class="w-10 h-16 bg-blue-300 rounded relative">
+<div class="absolute inset-x-0 bottom-0 h-5/5 bg-blue-500 rounded-b"></div>
+</div>
+<div class="w-10 h-16 bg-blue-300 rounded relative">
+<!-- Another alert -->
+<div class="absolute -inset-1 rounded border border-yellow-400"></div>
+<div class="absolute inset-x-0 bottom-0 h-1/5 bg-yellow-500 rounded-b"></div>
+</div>
+<div class="w-10 h-16 bg-blue-300 rounded relative">
+<div class="absolute inset-x-0 bottom-0 h-4/5 bg-blue-500 rounded-b"></div>
+</div>
+<div class="w-10 h-16 bg-blue-300 rounded relative">
+<div class="absolute inset-x-0 bottom-0 h-3/5 bg-blue-500 rounded-b"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Map Controls -->
+<div class="absolute bottom-8 right-8 flex flex-col gap-2">
+<button class="bg-white dark:bg-slate-800 size-10 flex items-center justify-center rounded-t-lg shadow-lg border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="bg-white dark:bg-slate-800 size-10 flex items-center justify-center rounded-b-lg shadow-lg border-x border-b border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="mt-2 bg-white dark:bg-slate-800 size-10 flex items-center justify-center rounded-lg shadow-lg border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+</div>
+<!-- Simulation Progress Bar -->
+<div class="p-6 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-3xl mx-auto">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-medium">Transfer in Progress</span>
+<span class="text-sm font-bold text-primary">65%</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full w-[65%]"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+</div>
+<div class="fixed bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-slate-900 text-white text-xs rounded-full flex items-center gap-3 shadow-2xl z-50">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-green-500 animate-pulse"></span>
+<span>Simulation Live</span>
+</div>
+<div class="w-px h-4 bg-slate-700"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>ETA: 01:45s</span>
+</div>
+</div>
+</body></html>

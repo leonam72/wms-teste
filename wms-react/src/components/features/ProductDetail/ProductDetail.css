@@ -1,0 +1,102 @@
+.product-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 15px;
+}
+
+.pd-sku {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.pd-header h2 {
+  font-size: 20px;
+  color: var(--text);
+  margin: 0;
+}
+
+.pd-status-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 2px;
+  background: var(--surface2);
+}
+
+.pd-status-badge.expired { color: var(--danger); border: 1px solid var(--danger); }
+.pd-status-badge.warn    { color: var(--warn);   border: 1px solid var(--warn); }
+.pd-status-badge.ok      { color: var(--accent3); border: 1px solid var(--accent3); }
+
+.pd-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.pd-info-item label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.pd-val {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.pd-expiries {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pd-expiries label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  font-weight: 700;
+}
+
+.pd-expiry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pd-expiry-row {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text2);
+}
+
+.pd-expiry-row.expired { border-left: 4px solid var(--danger); }
+.pd-expiry-row.warn    { border-left: 4px solid var(--warn); }
+
+.pd-actions {
+  display: flex;
+  gap: 10px;
+  border-top: 1px dashed var(--border);
+  padding-top: 15px;
+  justify-content: flex-end;
+}

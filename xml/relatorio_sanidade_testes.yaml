@@ -1,0 +1,36 @@
+relatorio_sanidade_e_sabotagem:
+  amostra_total: 2400
+  diretorio: "/home/leonamramosfoli/wms-teste/docs/xml/samples/"
+
+  variacoes_normais_de_processo:
+    - tipo: "Misto de Rastreabilidade"
+      quantidade: "~1200 arquivos"
+      objetivo: "Validar se o WMS consegue processar tanto notas com tags <rastro> (Lote/Validade) quanto notas simplificadas."
+    - tipo: "Diferenca Emissao vs Entrada"
+      detalhe: "Data de Entrada (CSV) é 1 a 3 dias posterior à dhEmi do XML."
+      objetivo: "Testar se o FIFO usa o 'momento do bipe' e não apenas a data que o fornecedor escreveu na nota."
+
+  erros_propositais_para_teste_de_sanidade:
+    - arquivo: "nfe_entrada_500.xml"
+      erro: "CHAVE_DV_INVALIDO"
+      detalhe: "O último dígito da Chave de Acesso no atributo Id da tag <infNFe> foi alterado."
+      comportamento_esperado: "O sistema deve rejeitar o arquivo por erro de Dígito Verificador (Módulo 11)."
+
+    - arquivo: "nfe_entrada_1000.xml"
+      erro: "VALOR_TOTAL_DIVERGENTE"
+      detalhe: "O valor da tag <vProd> foi alterado para 999999.99, mas o valor unitário e quantidade permanecem baixos."
+      comportamento_esperado: "O sistema deve detectar que vProd != (qCom * vUnCom) e travar o recebimento."
+
+    - arquivo: "nfe_entrada_1500.xml"
+      erro: "DATA_FUTURA"
+      detalhe: "A data <dhEmi> foi alterada para 01/01/2027."
+      comportamento_esperado: "O sistema deve impedir a entrada de uma nota emitida no futuro (erro de período fiscal)."
+
+    - arquivo: "nfe_entrada_2000.xml"
+      erro: "LOTE_VENCIDO"
+      detalhe: "Injeção de tag <rastro> com <dVal> em 01/01/2020 (vencida)."
+      comportamento_esperado: "Alerta crítico no WMS impedindo que o lote seja colocado em área de picking disponível."
+
+  gabarito_de_conferencia:
+    csv_referencia: "cronograma_recebimento.csv"
+    uso: "Use este arquivo para validar se o seu banco de dados registrou as datas de entrada simuladas corretamente."
