@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useWMSStore } from '../../../store/useWMSStore';
-import { Product } from '../../../types';
+import type { Product } from '../../../types';
+import { getProductExpiryStatus } from '../../../utils/expiry';
 import './ProductTable.css';
 
 interface ProductTableProps {
@@ -11,7 +12,6 @@ const ProductTable: React.FC<ProductTableProps> = ({ searchTerm }) => {
   const activeDepotId = useWMSStore((state) => state.activeDepotId);
   const productsAll = useWMSStore((state) => state.productsAll[activeDepotId] || {});
 
-  // Otimiza a lista de produtos (globaliza a busca entre todas as gavetas)
   const flattenedProducts = useMemo(() => {
     const list: (Product & { location: string })[] = [];
     Object.entries(productsAll).forEach(([location, products]) => {
@@ -26,6 +26,16 @@ const ProductTable: React.FC<ProductTableProps> = ({ searchTerm }) => {
     });
     return list;
   }, [productsAll, searchTerm]);
+
+  const getStatusIcon = (expiries: string[]) => {
+    const status = getProductExpiryStatus(expiries);
+    switch (status) {
+      case 'expired': return <span className="status-dot expired" title="Vencido">🔴</span>;
+      case 'warn':    return <span className="status-dot warn" title="A vencer">🟡</span>;
+      case 'ok':      return <span className="status-dot ok" title="OK">🟢</span>;
+      default:        return <span className="status-dot none" title="Sem validade">⚪</span>;
+    }
+  };
 
   return (
     <table className="ptable">
@@ -45,8 +55,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ searchTerm }) => {
               <td className="td-name" title={p.name}>{p.name}</td>
               <td className="td-qty">{p.qty}</td>
               <td className="td-status">
-                {/* Lógica de status simplificada para o React */}
-                {p.expiries.length > 0 ? '🟢' : '⚪'}
+                {getStatusIcon(p.expiries)}
               </td>
             </tr>
           ))

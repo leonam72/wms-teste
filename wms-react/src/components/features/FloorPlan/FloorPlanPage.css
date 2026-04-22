@@ -1,0 +1,74 @@
+.floorplan-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.fp-toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.fp-toolbar .sep {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  margin: 0 4px;
+}
+
+.fp-container {
+  flex: 1;
+  background: #e5e8ed; /* Fundo um pouco mais escuro para o grid */
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: auto;
+  min-height: 0;
+  /* Simula um grid de engenharia */
+  background-image: 
+    linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.fp-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2000px;
+  height: 2000px;
+}
+
+.fp-obj {
+  position: absolute;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  transition: box-shadow 0.2s;
+}
+
+.fp-obj:hover {
+  box-shadow: 0 0 10px rgba(0, 102, 204, 0.2);
+  border-color: var(--accent);
+}
+
+.fp-obj.shelf {
+  border-color: var(--accent);
+  background: #ffffff;
+}
+
+.fp-obj.area {
+  border-style: dashed;
+}
+
+.fp-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text2);
+  text-align: center;
+  pointer-events: none;
+}

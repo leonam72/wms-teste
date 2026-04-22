@@ -1,13 +1,14 @@
 import React from 'react';
-import { Shelf } from '../../../types';
+import type { Shelf } from '../../../types';
 import Drawer from './Drawer';
 import './ShelfGrid.css';
 
 interface ShelfBlockProps {
   shelf: Shelf;
+  onDrawerClick: (drawerKey: string) => void;
 }
 
-const ShelfBlock: React.FC<ShelfBlockProps> = ({ shelf }) => {
+const ShelfBlock: React.FC<ShelfBlockProps> = ({ shelf, onDrawerClick }) => {
   // Gera os andares do maior para o menor (ex: 6, 5, 4...)
   const floorNumbers = Array.from({ length: shelf.floors }, (_, i) => shelf.floors - i);
 
@@ -28,6 +29,7 @@ const ShelfBlock: React.FC<ShelfBlockProps> = ({ shelf }) => {
                   shelfId={shelf.id}
                   floor={floorNum}
                   drawer={drawerNum}
+                  onClick={onDrawerClick}
                 />
               ))}
             </div>

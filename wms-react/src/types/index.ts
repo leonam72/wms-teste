@@ -34,11 +34,25 @@ export interface Depot {
   notes?: string;
 }
 
-export interface HistoryItem {
+export type HistoryItem = {
   ts: string; // ISO Date string
   icon: string;
   action: string;
   detail: string;
+}
+
+export type PageID = 'depot' | 'depots' | 'products' | 'floorplan' | 'history';
+
+export interface FPObject {
+  id: string;
+  type: 'shelf' | 'wall' | 'area' | 'text';
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  label?: string;
+  color?: string;
+  rotation?: number;
 }
 
 export interface AppState {
@@ -47,4 +61,7 @@ export interface AppState {
   shelvesAll: Record<string, Shelf[]>;
   productsAll: Record<string, Record<string, Product[]>>;
   appHistory: HistoryItem[];
+  // FloorPlan State
+  fpObjects: Record<string, FPObject[]>;
+  fpZoom: number;
 }

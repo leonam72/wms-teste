@@ -1,7 +1,6 @@
 import React from 'react';
+import type { PageID } from '../../types';
 import './NavRail.css';
-
-export type PageID = 'depot' | 'depots' | 'products' | 'floorplan' | 'history';
 
 interface NavRailProps {
   activePage: PageID;

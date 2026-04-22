@@ -154,3 +154,11 @@
   align-self: center;
   margin: auto;
 }
+
+/* Status Colors for Drawers and Text */
+.drawer.status-expired { border-color: var(--danger); background: #ff000010; }
+.drawer.status-warn    { border-color: var(--warn);   background: #ffaa0010; }
+
+.drawer-prod-code.status-expired { color: var(--danger); font-weight: 900; }
+.drawer-prod-code.status-warn    { color: var(--warn);   font-weight: 900; }
+.drawer-prod-code.status-ok      { color: var(--accent3); }

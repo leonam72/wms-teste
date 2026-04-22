@@ -1,4 +1,4 @@
-import { Product } from '../types';
+import type { Product } from '../types';
 
 export const initialProducts: Record<string, Record<string, Product[]>> = {
   dep1: {

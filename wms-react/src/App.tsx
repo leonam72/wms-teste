@@ -1,24 +1,45 @@
 import React, { useState } from 'react';
 import Header from './components/layout/Header';
-import NavRail, { PageID } from './components/layout/NavRail';
+import NavRail from './components/layout/NavRail';
+import type { PageID, Product } from './types';
 import Sidebar from './components/layout/Sidebar';
 import ShelfGrid from './components/features/ShelfGrid/ShelfGrid';
+import HistoryPage from './components/features/History/HistoryPage';
+import FloorPlanPage from './components/features/FloorPlan/FloorPlanPage';
+import Modal from './components/ui/Modal';
+import ProductForm from './components/features/ProductForm/ProductForm';
+import { useWMSStore } from './store/useWMSStore';
 import './App.css';
 
 const App: React.FC = () => {
   const [activePage, setActivePage] = useState<PageID>('depot');
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [targetDrawer, setTargetDrawer] = useState<string | null>(null);
 
-  const handleAddProduct = () => {
-    console.log('Open Add Product Modal');
+  const addProductToDrawer = useWMSStore(state => state.addProductToDrawer);
+  const logAction = useWMSStore(state => state.logAction);
+
+  const handleOpenAddProduct = (drawerKey?: string) => {
+    setTargetDrawer(drawerKey || null);
+    setIsAddModalOpen(true);
   };
 
-  const handleOpenSettings = () => {
-    console.log('Open Settings Modal');
+  const handleSaveProduct = (product: Product) => {
+    // Se não houver drawer alvo, o produto fica 'solto' (em branco) ou podemos exigir um
+    const drawerKey = targetDrawer || 'RECEBIMENTO'; 
+    addProductToDrawer(drawerKey, product);
+    logAction('➕', `Entrada: ${product.code} - ${product.name}`, `Adicionado em ${drawerKey} (${product.qty} ${product.unit})`);
+    
+    setIsAddModalOpen(false);
+    setTargetDrawer(null);
   };
 
   return (
     <div className="app-container">
-      <Header onAddProduct={handleAddProduct} onOpenSettings={handleOpenSettings} />
+      <Header 
+        onAddProduct={() => handleOpenAddProduct()} 
+        onOpenSettings={() => console.log('Open Settings')} 
+      />
       
       <div className="main-layout">
         <NavRail activePage={activePage} onPageChange={setActivePage} />
@@ -31,10 +52,10 @@ const App: React.FC = () => {
               <div className="page">
                 <div className="workspace-header">
                   <div className="ws-title">
-                    <strong>DEPÓSITO</strong> — Vista Geral
+                    <strong>DEPÓSITO</strong> {' - '} Vista Geral
                   </div>
                 </div>
-                <ShelfGrid />
+                <ShelfGrid onDrawerClick={handleOpenAddProduct} />
               </div>
             )}
             
@@ -42,26 +63,38 @@ const App: React.FC = () => {
               <div className="page">
                 <div className="workspace-header">
                   <div className="ws-title">
-                    <strong>PRODUTOS</strong> — Visão Geral
+                    <strong>PRODUTOS</strong> {' - '} Visão Geral
                   </div>
                 </div>
                 <div className="placeholder-msg">Página de produtos em construção...</div>
               </div>
             )}
 
+            {activePage === 'floorplan' && (
+              <div className="page" style={{ height: '100%' }}>
+                <FloorPlanPage />
+              </div>
+            )}
+
             {activePage === 'history' && (
-              <div className="page">
-                <div className="workspace-header">
-                  <div className="ws-title">
-                    <strong>HISTÓRICO</strong> — Movimentações
-                  </div>
-                </div>
-                <div className="placeholder-msg">Histórico em construção...</div>
+              <div className="page" style={{ height: '100%' }}>
+                <HistoryPage />
               </div>
             )}
           </div>
         </main>
       </div>
+
+      <Modal 
+        isOpen={isAddModalOpen} 
+        onClose={() => setIsAddModalOpen(false)} 
+        title={targetDrawer ? `ADICIONAR PRODUTO NA GAVETA ${targetDrawer}` : "ADICIONAR NOVO PRODUTO"}
+      >
+        <ProductForm 
+          onSave={handleSaveProduct} 
+          onCancel={() => setIsAddModalOpen(false)} 
+        />
+      </Modal>
     </div>
   );
 };
