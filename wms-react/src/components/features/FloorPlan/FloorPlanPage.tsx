@@ -1,11 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Rnd } from 'react-rnd';
 import { useWMSStore } from '../../../store/useWMSStore';
 import ShelfMatrixPreview from './ShelfMatrixPreview';
-import { FPObject } from '../../../types';
-import './FloorPlanPage.css';
 
-const EMPTY_FPOBJECTS: FPObject[] = [];
+const EMPTY_FPOBJECTS: any[] = [];
 
 const FloorPlanPage: React.FC = () => {
   const activeDepotId = useWMSStore((state) => state.activeDepotId);
@@ -26,7 +24,7 @@ const FloorPlanPage: React.FC = () => {
   const lastSelected = selectedObjects[selectedObjects.length - 1];
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.button !== 0) return; // Only left click
+    if (e.button !== 0) return;
     if (e.target !== canvasRef.current && !(e.target as HTMLElement).classList.contains('fp-canvas')) return;
 
     isDraggingLasso.current = true;

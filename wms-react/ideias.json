@@ -76,7 +76,9 @@
     { "feature": "React: Receiving (Blind Count)", "file": "src/components/features/Receiving/ReceivingPage.tsx", "logic": "Discrepancy validation and delta reporting" },
     { "feature": "React: Global State (Locks)", "file": "src/store/useWMSStore.ts", "logic": "Centralized SSoT with Drawer Locks and expanded logging" },
     { "feature": "React: NFe XML Integration", "file": "src/components/features/Receiving/ReceivingPage.tsx", "logic": "Upload and parsing of XML to populate expected quantities" },
-    { "feature": "React: Export Power", "file": "src/components/features/Audit/AuditLogPage.tsx", "logic": "Download CSV for Audit logs" }
+    { "feature": "React: Export Power", "file": "src/components/features/Audit/AuditLogPage.tsx", "logic": "Download CSV for Audit logs" },
+    { "feature": "React: Modo Dark Logístico", "file": "src/index.css, src/components/layout/Header.tsx", "logic": "Toggle dark CSS theme dynamically" },
+    { "feature": "React: Heatmap Ocupação", "file": "src/components/features/ShelfGrid/Drawer.tsx", "logic": "Chromatic visualization of drawer capacity usage" }
   ],
   "roadmap_expert": [
     "Heatmap Ocupação (Base: StockmoveService.cs)",
