@@ -74,7 +74,9 @@
     { "feature": "React: Logistics Docks (Timers)", "file": "src/components/features/V2/LogisticsControlV2.tsx", "logic": "Real-time active operation monitoring" },
     { "feature": "React: Quality Dashboard (FEFO)", "file": "src/components/features/Quality/QualityDashboard.tsx", "logic": "Visual warning for expired/expiring lots" },
     { "feature": "React: Receiving (Blind Count)", "file": "src/components/features/Receiving/ReceivingPage.tsx", "logic": "Discrepancy validation and delta reporting" },
-    { "feature": "React: Global State (Locks)", "file": "src/store/useWMSStore.ts", "logic": "Centralized SSoT with Drawer Locks and expanded logging" }
+    { "feature": "React: Global State (Locks)", "file": "src/store/useWMSStore.ts", "logic": "Centralized SSoT with Drawer Locks and expanded logging" },
+    { "feature": "React: NFe XML Integration", "file": "src/components/features/Receiving/ReceivingPage.tsx", "logic": "Upload and parsing of XML to populate expected quantities" },
+    { "feature": "React: Export Power", "file": "src/components/features/Audit/AuditLogPage.tsx", "logic": "Download CSV for Audit logs" }
   ],
   "roadmap_expert": [
     "Heatmap Ocupação (Base: StockmoveService.cs)",
