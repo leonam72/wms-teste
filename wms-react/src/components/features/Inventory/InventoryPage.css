@@ -80,3 +80,4 @@
 .status-dot-sm.expired { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
 .status-dot-sm.warn    { background: var(--warn); }
 .status-dot-sm.ok      { background: var(--accent3); }
+

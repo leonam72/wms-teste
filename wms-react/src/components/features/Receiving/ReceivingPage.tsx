@@ -1,116 +1,106 @@
-import React, { useState } from 'react';
-import { parseNFeXML } from '../../../services/nfeService';
-import type { ParsedNFeItem } from '../../../services/nfeService';
-import { useWMSStore } from '../../../store/useWMSStore';
+import React, { useState, useMemo } from 'react';
 import './ReceivingPage.css';
 
+interface ReceivingItem {
+  sku: string;
+  name: string;
+  expected: number;
+  counted: number;
+}
+
 const ReceivingPage: React.FC = () => {
-  const [parsedItems, setParsedItems] = useState<ParsedNFeItem[]>([]);
-  const [fileName, setFileName] = useState<string | null>(null);
-  
-  const activeDepotId = useWMSStore(state => state.activeDepotId);
-  const addProductToDrawer = useWMSStore(state => state.addProductToDrawer);
-  const logAction = useWMSStore(state => state.logAction);
+  const [items, setItems] = useState<ReceivingItem[]>([
+    { sku: 'SKU-9082', name: 'Parafuso Sextavado M8x40', expected: 500, counted: 485 },
+    { sku: 'SKU-1124', name: 'Arruela de Pressão 8mm', expected: 120, counted: 125 },
+    { sku: 'SKU-4432', name: 'Porca Autotravante M8', expected: 300, counted: 300 },
+    { sku: 'SKU-7721', name: 'Pino Elástico 5x30', expected: 100, counted: 92 },
+  ]);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setFileName(file.name);
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const xmlString = event.target?.result as string;
-      try {
-        const items = parseNFeXML(xmlString);
-        setParsedItems(items);
-      } catch (err) {
-        alert('Erro ao processar o arquivo XML da NFe.');
-        setParsedItems([]);
-      }
+  const stats = useMemo(() => {
+    const totalDivergences = items.filter(i => i.expected !== i.counted).length;
+    return {
+      totalItems: items.length,
+      divergences: totalDivergences,
+      accuracy: ((items.length - totalDivergences) / items.length * 100).toFixed(1)
     };
-    reader.readAsText(file);
-  };
-
-  const handleReceiveAll = () => {
-    if (parsedItems.length === 0) return;
-
-    // Coloca todos os itens na doca de entrada (RECEBIMENTO)
-    // Num sistema complexo, haveria um slotting inteligente aqui
-    parsedItems.forEach(item => {
-      addProductToDrawer('RECEBIMENTO', {
-        code: item.code,
-        name: item.name,
-        qty: item.qty,
-        unit: item.unit as any,
-        kg: item.kg,
-        entry: new Date().toISOString().split('T')[0],
-        expiries: item.expiry ? [item.expiry] : []
-      });
-    });
-
-    logAction('📥', `Entrada em Massa (NFe)`, `${parsedItems.length} SKUs adicionados na Doca via NFe.`);
-    alert('Produtos recebidos com sucesso na Doca de Recebimento!');
-    setParsedItems([]);
-    setFileName(null);
-  };
+  }, [items]);
 
   return (
     <div className="receiving-page">
-      <div className="workspace-header">
-        <div className="ws-title">
-          <strong>RECEBIMENTO</strong> {' - '} Importação de NF-e (XML)
+      <div className="receiving-header">
+        <div className="header-info">
+          <h1>Validação de Conferência (Recebimento)</h1>
+          <p>Lote #REC-2023-0892 - Status: Aguardando Validação</p>
+        </div>
+        <div className="header-actions">
+          <button className="btn">Imprimir Divergências</button>
+          <button className="btn btn-accent">Concluir Recebimento</button>
         </div>
       </div>
 
-      <div className="nfe-upload-zone">
-        <p>Faça upload do arquivo XML da Nota Fiscal para dar entrada automática no sistema.</p>
-        <input 
-          type="file" 
-          accept=".xml" 
-          id="nfe-upload" 
-          style={{ display: 'none' }} 
-          onChange={handleFileUpload} 
-        />
-        <label htmlFor="nfe-upload" className="btn btn-accent">
-          {fileName ? 'TROCAR ARQUIVO XML' : 'SELECIONAR XML DA NFe'}
-        </label>
-        {fileName && <span className="nfe-file-name">{fileName}</span>}
+      <div className="receiving-stats">
+        <div className="r-stat">
+          <span className="r-lab">Total de SKUs</span>
+          <span className="r-val">{stats.totalItems}</span>
+        </div>
+        <div className={`r-stat ${stats.divergences > 0 ? 'alert' : ''}`}>
+          <span className="r-lab">Divergências</span>
+          <span className="r-val">{stats.divergences}</span>
+        </div>
+        <div className="r-stat">
+          <span className="r-lab">Acuracidade</span>
+          <span className="r-val">{stats.accuracy}%</span>
+        </div>
       </div>
 
-      {parsedItems.length > 0 && (
-        <div className="nfe-results">
-          <div className="nfe-results-header">
-            <h3>{parsedItems.length} SKUs identificados na Nota</h3>
-            <button className="btn btn-accent" onClick={handleReceiveAll}>
-              RECEBER TUDO (ENVIAR PARA DOCA)
-            </button>
-          </div>
-          <table className="inventory-table">
-            <thead>
-              <tr>
-                <th>CÓDIGO (SKU)</th>
-                <th>DESCRIÇÃO DO PRODUTO</th>
-                <th>QTD</th>
-                <th>UN</th>
-                <th>PESO/VL UNIT</th>
-                <th>VALIDADE</th>
-              </tr>
-            </thead>
-            <tbody>
-              {parsedItems.map((item, i) => (
-                <tr key={`${item.code}-${i}`}>
-                  <td className="sku-cell">{item.code}</td>
-                  <td>{item.name}</td>
-                  <td className="qty-cell">{item.qty}</td>
-                  <td>{item.unit}</td>
-                  <td>{item.kg}</td>
-                  <td>{item.expiry ? new Date(item.expiry).toLocaleDateString('pt-BR') : 'N/D'}</td>
+      <div className="divergence-table-container">
+        <table className="receiving-table">
+          <thead>
+            <tr>
+              <th>SKU / Produto</th>
+              <th>Qtd. Esperada (NF)</th>
+              <th>Qtd. Contada (Cega)</th>
+              <th>Diferença (Delta)</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item, idx) => {
+              const delta = item.counted - item.expected;
+              const status = delta === 0 ? 'ok' : delta < 0 ? 'falta' : 'sobra';
+              return (
+                <tr key={idx} className={status}>
+                  <td>
+                    <div className="sku-cell">
+                      <strong>{item.sku}</strong>
+                      <span>{item.name}</span>
+                    </div>
+                  </td>
+                  <td>{item.expected}</td>
+                  <td className="bold">{item.counted}</td>
+                  <td>
+                    <span className={`delta-val ${status}`}>
+                      {delta > 0 ? `+${delta}` : delta}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={`receiving-badge ${status}`}>{status.toUpperCase()}</span>
+                  </td>
+                  <td>
+                    <button className="btn-small">Recontar</button>
+                  </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="receiving-footer-actions">
+        <button className="btn btn-big btn-outline">Solicitar Recontagem Total</button>
+        <button className="btn btn-big btn-accent">Aprovar e Liberar para Putaway</button>
+      </div>
     </div>
   );
 };

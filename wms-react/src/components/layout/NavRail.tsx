@@ -16,6 +16,8 @@ const NavRail: React.FC<NavRailProps> = ({ activePage, onPageChange }) => {
     { id: 'products', icon: '📦', label: 'PROD' },
     { id: 'floorplan', icon: '🗺', label: 'PLANTA' },
     { id: 'logistics-v2', icon: '🚀', label: 'EXPERT' },
+    { id: 'audit', icon: '🛡️', label: 'AUDIT' },
+    { id: 'debug', icon: '🛠️', label: 'DEBUG' },
     { id: 'history', icon: '📋', label: 'HIST' },
   ];
 

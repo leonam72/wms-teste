@@ -20,6 +20,8 @@ import ReceivingPage from './components/features/Receiving/ReceivingPage';
 import QualityDashboard from './components/features/Quality/QualityDashboard';
 import SettingsPage from './components/features/Settings/SettingsPage';
 import LogisticsControlV2 from './components/features/V2/LogisticsControlV2';
+import AuditLogPage from './components/features/Audit/AuditLogPage';
+import DebugProductView from './components/features/Debug/DebugProductView';
 import { useWMSStore } from './store/useWMSStore';
 import { useToasts } from './hooks/useToasts';
 import { getProductExpiryStatus } from './utils/expiry';
@@ -210,6 +212,12 @@ const App: React.FC = () => {
             )}
             {activePage === 'logistics-v2' && (
               <div className="page" style={{ height: '100%' }}><LogisticsControlV2 /></div>
+            )}
+            {activePage === 'audit' && (
+              <div className="page" style={{ height: '100%' }}><AuditLogPage /></div>
+            )}
+            {activePage === 'debug' && (
+              <div className="page" style={{ height: '100%' }}><DebugProductView /></div>
             )}
           </div>
         </main>

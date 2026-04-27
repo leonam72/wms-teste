@@ -52,10 +52,26 @@ export const daysUntil = (dateStr: string): number => {
   return Math.ceil((exp.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 };
 
+export type QualityStatus = 'ok' | 'blocked' | 'quarantine' | 'expired';
+
 /**
- * Finds the nearest expiry date in a list.
+ * Calculates the overall quality status based on expiry and storage location.
+ * Ref: quality_service.py L8 - L20
  */
-export const getNearestExpiry = (expiries: string[]): string | null => {
-  if (!expiries || expiries.length === 0) return null;
-  return [...expiries].sort((a, b) => new Date(a).getTime() - new Date(b).getTime())[0];
+export const calculateQualityStatus = (expiries: string[], shelfType?: string): QualityStatus => {
+  const expiryStatus = getProductExpiryStatus(expiries);
+  
+  if (expiryStatus === 'expired') return 'expired';
+  if (shelfType === 'quarantine') return 'quarantine';
+  if (shelfType === 'blocked') return 'blocked';
+  
+  return 'ok';
+};
+
+/**
+ * Determines if an item is available for picking or movement.
+ */
+export const isItemOperable = (expiries: string[], shelfType?: string): boolean => {
+  const status = calculateQualityStatus(expiries, shelfType);
+  return status === 'ok';
 };

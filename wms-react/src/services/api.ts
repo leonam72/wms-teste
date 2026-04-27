@@ -27,4 +27,14 @@ export const updateFloorPlanPos = async (data: { id: string, x: number, y: numbe
   return response.data;
 };
 
+export const updateProductDetails = async (code: string, data: { name?: string }) => {
+  const response = await api.patch(`/products/${code}`, data);
+  return response.data;
+};
+
+export const logAuditAction = async (data: { action: string, detail: string, productCode?: string, qty?: number }) => {
+  const response = await api.post('/audit', data);
+  return response.data;
+};
+
 export default api;

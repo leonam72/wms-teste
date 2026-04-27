@@ -74,3 +74,4 @@ Este documento mapeia o estado em memória (Zustand/Legacy JS) para um esquema d
 ---
 **Nota Arquitetural:** 
 No legado (HTML monolítico), os lotes de validade (`expiries`) eram um array de strings dentro do produto. No banco relacional, a tabela `inventory` resolve isso tratando cada data de validade/lote diferente como uma linha única na gaveta, permitindo rastreabilidade perfeita e cumprimento de normas fiscais (FIFO/FEFO).
+

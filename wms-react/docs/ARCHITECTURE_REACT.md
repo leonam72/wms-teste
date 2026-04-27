@@ -31,3 +31,4 @@ Este documento serve como a fonte da verdade sobre a arquitetura da versão Reac
 - **Sempre verifique o `useWMSStore`:** Se precisar alterar como um produto é salvo, modifique a `interface Product` e depois as `WMSActions` no store.
 - **Cores Padrão:** Para alertas, use `.status-expired` (vermelho/danger) e `.status-warn` (amarelo/warn).
 - **Ícones:** Não adicione bibliotecas de ícones pesadas (FontAwesome, etc). O projeto usa emojis padronizados (📦, 🏭, 🔴) ou SVGs simples para manter a performance máxima.
+

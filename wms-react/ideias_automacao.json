@@ -1,0 +1,16 @@
+{
+  "pasta": "Automacao",
+  "extractions": [
+    {
+      "feature": "n8n Orchestration",
+      "file": "docker-compose.yml",
+      "logic": "Service definition for n8n in production mode with persistent storage and environment configurations for Brazil timezone."
+    },
+    {
+      "feature": "WhatsApp Integration",
+      "file": "n8n-nodes-whatsable/dist/nodes/WhatsAble/WhatsAble.node.js",
+      "logic": "Integration node for sending and scheduling WhatsApp messages using external APIs (WhatsAble service) with support for human/AI collaboration."
+    }
+  ]
+}
+

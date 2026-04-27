@@ -1,137 +1,110 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './LogisticsControlV2.css';
-import { useWMSStore } from '../../../store/useWMSStore';
+
+interface DockOperation {
+  id: string;
+  dock: string;
+  type: 'Inbound' | 'Outbound';
+  status: 'Ativo' | 'Aguardando' | 'Finalizado';
+  carrier: string;
+  startTime: number; // timestamp
+}
 
 const LogisticsControlV2: React.FC = () => {
-  const activeDepotId = useWMSStore(state => state.activeDepotId);
-  const shelves = useWMSStore(state => state.shelvesAll[activeDepotId] || []);
+  const [operations, setOperations] = useState<DockOperation[]>([
+    { id: '1', dock: 'Doca 01', type: 'Inbound', status: 'Ativo', carrier: 'Express Logística S.A.', startTime: Date.now() - 3600000 },
+    { id: '2', dock: 'Doca 02', type: 'Outbound', status: 'Ativo', carrier: 'TransNorte BR', startTime: Date.now() - 1200000 },
+    { id: '3', dock: 'Doca 03', type: 'Inbound', status: 'Aguardando', carrier: 'Vargas Transp.', startTime: 0 },
+  ]);
 
-  // KPIs de Analytics - Ref: analytics_e_produtividade/code.html L120
-  const kpis = [
-    { label: 'Tempo Médio Tarefa', value: '12.5 min', trend: '-5%', up: false },
-    { label: 'Eficiência Geral', value: '94.2%', trend: '+2.1%', up: true },
-    { label: 'Tarefas Concluídas', value: '1.280', trend: '+12%', up: true },
-    { label: 'Volume Movimentado', value: '12.4t', trend: 'Meta: 15t', up: null },
-  ];
+  const [now, setNow] = useState(Date.now());
 
-  // Sugestões de Slotting - Ref: gerenciamento_de_produtos_visualwms/code.html L258
-  const slottingSuggestions = [
-    { sku: 'P001', action: 'Mover para F1', reason: 'Prioridade Alta (A)', type: 'fast' },
-    { sku: 'E011', action: 'Consolidar em B2', reason: 'Otimização de Espaço', type: 'normal' },
-    { sku: 'M001', action: 'Subir para F6', reason: 'Baixo Giro (C)', type: 'slow' }
-  ];
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (ms: number) => {
+    const totalSeconds = Math.floor(ms / 1000);
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
 
   return (
-    <div className="logistics-v2-container">
-      <div className="workspace-header">
-        <div className="ws-title"><strong>WMS PRO EXPERT</strong> — Cockpit de Alta Performance</div>
-        <div className="v2-time-badge">
-          <span className="material-symbols-outlined">timer</span>
-          Turno: 06:42:15
+    <div className="logistics-v2-page">
+      <div className="v2-header">
+        <div className="v2-title">
+          <h1>Logística de Docas</h1>
+          <p>Monitoramento em tempo real de entrada e saída (Inbound/Outbound).</p>
+        </div>
+        <div className="v2-status-pill">
+          <span className="online-indicator"></span>
+          SISTEMA ONLINE
         </div>
       </div>
 
-      {/* KPI Cards Grid */}
-      <div className="v2-kpi-grid">
-        {kpis.map((kpi, idx) => (
-          <div key={idx} className="v2-kpi-card">
-            <span className="kpi-label">{kpi.label}</span>
-            <div className="kpi-value-row">
-              <span className="kpi-value">{kpi.value}</span>
-              {kpi.trend && (
-                <span className={`kpi-trend ${kpi.up === true ? 'up' : kpi.up === false ? 'down' : ''}`}>
-                  {kpi.trend}
-                </span>
+      <div className="v2-tabs">
+        <button className="v2-tab active">INBOUND</button>
+        <button className="v2-tab">OUTBOUND</button>
+        <button className="v2-tab">AGENDAMENTOS</button>
+      </div>
+
+      <div className="docks-grid">
+        {operations.map((op) => (
+          <div key={op.id} className={`dock-card ${op.status.toLowerCase()}`}>
+            <div className="dock-label">{op.dock}</div>
+            <div className="dock-content">
+              <div className="dock-info">
+                <h3>{op.type === 'Inbound' ? '📦 Descarregamento' : '🚚 Carregamento'}</h3>
+                <p className="carrier">{op.carrier}</p>
+                <div className={`status-badge ${op.status.toLowerCase()}`}>{op.status}</div>
+              </div>
+              {op.status === 'Ativo' && (
+                <div className="dock-timer">
+                  <span className="timer-icon">🕒</span>
+                  <span className="timer-value">{formatTime(now - op.startTime)}</span>
+                </div>
+              )}
+            </div>
+            <div className="dock-actions">
+              <button className="btn-v2 btn-outline">Ver Detalhes</button>
+              {op.status === 'Ativo' ? (
+                <button className="btn-v2 btn-danger">Finalizar</button>
+              ) : (
+                <button className="btn-v2 btn-primary">Iniciar</button>
               )}
             </div>
           </div>
         ))}
       </div>
 
-      <div className="v2-main-grid">
-        {/* Heatmap Card - Ref: editor_de_planta_baixa_inteligente/code.html L34 */}
-        <div className="v2-card heatmap-card">
-          <div className="card-header">
-            <h3>📊 Mapa de Calor (Ocupação)</h3>
-            <span className="v2-badge">LIVE</span>
-          </div>
-          <div className="heatmap-preview">
-            {shelves.map(s => {
-              const occupancy = Math.random() * 100;
-              return (
-                <div key={s.id} className="heatmap-bar">
-                  <span className="bar-label">{s.id}</span>
-                  <div className="bar-outer">
-                    <div 
-                      className="bar-inner" 
-                      style={{ 
-                        width: `${occupancy}%`, 
-                        backgroundColor: occupancy > 80 ? '#ef4444' : occupancy > 50 ? '#f59e0b' : '#137fec' 
-                      }}
-                    />
-                  </div>
-                  <span className="bar-pct">{Math.round(occupancy)}%</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Slotting Advisor (IA) */}
-        <div className="v2-card">
-          <div className="card-header">
-            <h3>🧠 Slotting Advisor (IA)</h3>
-          </div>
-          <div className="v2-list">
-            {slottingSuggestions.map((s, i) => (
-              <div key={i} className={`v2-list-item ${s.type}`}>
-                <div className="item-main">
-                  <strong>{s.sku}</strong>: {s.action}
-                </div>
-                <span className="v2-tag">{s.reason}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Dock Management - Ref: gestao_de_docas/code.html L140 */}
-        <div className="v2-card">
-          <div className="card-header">
-            <h3>🚛 Monitoramento de Docas</h3>
-            <span className="status-dot green"></span>
-          </div>
-          <div className="dock-item active">
-            <div className="dock-info">
-              <span className="dock-id">DOCA 01</span>
-              <span className="dock-op">Descarregamento</span>
+      <div className="queue-section">
+        <h2>Fila de Espera</h2>
+        <div className="queue-list">
+          <div className="queue-item">
+            <span className="queue-pos">#1</span>
+            <div className="queue-info">
+              <strong>Swift Cargo</strong>
+              <span>Placa: ABC-1234</span>
             </div>
-            <div className="dock-timer">00:42:15</div>
+            <div className="queue-time">Esp: 45 min</div>
+            <button className="btn-v2 btn-small">Chamar</button>
           </div>
-          <div className="dock-item idle">
-            <span className="dock-id">DOCA 02</span>
-            <span className="dock-status">DISPONÍVEL</span>
-          </div>
-        </div>
-
-        {/* Picking Roadmap - Ref: visualwms_movimentação_avançada/code.html L106 */}
-        <div className="v2-card">
-          <div className="card-header">
-            <h3>🚀 Rota de Picking Otimizada (A*)</h3>
-          </div>
-          <div className="roadmap-preview">
-            <div className="path-node start">DOCA</div>
-            <div className="path-arrow">↓</div>
-            <div className="path-node accent">SETOR A (P001)</div>
-            <div className="path-arrow">↓</div>
-            <div className="path-node accent">SETOR C (E011)</div>
-            <div className="path-arrow">↓</div>
-            <div className="path-node end">EXPEDIÇÃO</div>
+          <div className="queue-item">
+            <span className="queue-pos">#2</span>
+            <div className="queue-info">
+              <strong>LogiTrans</strong>
+              <span>Placa: XYZ-9090</span>
+            </div>
+            <div className="queue-time">Esp: 12 min</div>
+            <button className="btn-v2 btn-small">Chamar</button>
           </div>
         </div>
       </div>
     </div>
   );
-};
 };
 
 export default LogisticsControlV2;

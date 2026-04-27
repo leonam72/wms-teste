@@ -1,0 +1,99 @@
+.debug-view-container {
+  padding: 1rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: var(--bg);
+}
+
+.theme-toggle-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.theme-toggle-btn:hover { transform: scale(1.05); }
+
+.debug-stats-grid {
+  display: flex;
+  gap: 1rem;
+}
+
+.stat-pill {
+  padding: 0.4rem 1rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #666;
+}
+
+.stat-pill.success { color: #10b981; border-color: #10b981; background: #ecfdf5; }
+.stat-pill.warn { color: #f59e0b; border-color: #f59e0b; background: #fffbeb; }
+
+.debug-table-wrapper {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.debug-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.debug-table th {
+  background: #f8fafc;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 800;
+  border-bottom: 2px solid var(--border);
+}
+
+.debug-table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.code-cell { font-family: 'IBM Plex Mono', monospace; font-weight: 700; color: var(--accent); }
+
+.editable-cell {
+  background: #fff;
+  border: 1px dashed transparent;
+  cursor: text;
+  padding: 4px;
+}
+
+.editable-cell:focus {
+  outline: 2px solid var(--accent);
+  border-style: solid;
+  border-radius: 4px;
+}
+
+.btn-action {
+  font-size: 0.65rem;
+  padding: 4px 8px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-action:hover { background: #e2e8f0; }
+
+/* Themes Implementation */
+body[data-theme="ocean"] { --accent: #0891b2; --bg: #ecfeff; }
+body[data-theme="forest"] { --accent: #059669; --bg: #ecfdf5; }
+body[data-theme="sunset"] { --accent: #ea580c; --bg: #fff7ed; }
+body[data-theme="dark"] { --accent: #3b82f6; --bg: #0f172a; --text: #f1f5f9; --border: #334155; }
+

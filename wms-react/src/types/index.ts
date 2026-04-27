@@ -39,9 +39,14 @@ export type HistoryItem = {
   icon: string;
   action: string;
   detail: string;
+  user?: string;
+  sku?: string;
+  from?: string;
+  to?: string;
+  device?: string;
 }
 
-export type PageID = 'depot' | 'depots' | 'products' | 'floorplan' | 'history' | 'receiving' | 'quality' | 'logistics-v2';
+export type PageID = 'depot' | 'depots' | 'products' | 'floorplan' | 'history' | 'receiving' | 'quality' | 'logistics-v2' | 'audit' | 'debug';
 
 export type FilterType = 'occupied' | 'empty' | 'expired' | 'expiring' | 'multi' | 'selected' | 'low_stock' | 'no_expiry' | null;
 
@@ -55,6 +60,7 @@ export interface FPObject {
   label?: string;
   color?: string;
   rotation?: number;
+  selected?: boolean;
 }
 
 export interface AppState {
@@ -66,6 +72,7 @@ export interface AppState {
   // FloorPlan State
   fpObjects: Record<string, FPObject[]>;
   fpZoom: number;
+  drawerLocks: Record<string, boolean>;
   // Move Mode State
   moveContext: {
     fromKey: string;

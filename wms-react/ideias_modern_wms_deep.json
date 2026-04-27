@@ -1,0 +1,31 @@
+{
+  "pasta": "ModernWMS",
+  "extractions": [
+    {
+      "feature": "Warehouse Working Process Engine",
+      "file": "/home/leonamramosfoli/Projetos/Web/ModernWMS/backend/ModernWMS.WMS/Services/Stockprocess/StockprocessService.cs",
+      "logic": "The service handles complex stock processing status transitions, likely involving atomic updates to task states (e.g., from 'pending' to 'processing' to 'completed') and integration with inventory movement services."
+    },
+    {
+      "feature": "Warehouse Floor Plan Visualizer (Unity-based)",
+      "file": "/home/leonamramosfoli/Projetos/Web/ModernWMS/frontend/src/view/vwms/VWms.vue",
+      "logic": "Integrates a Unity-based 3D warehouse visualization within a Vue component, utilizing external Unity WebGL loaders for real-time inventory spatial data representation."
+    },
+    {
+      "feature": "Dynamic Stock Adjustments",
+      "file": "/home/leonamramosfoli/Projetos/Web/ModernWMS/backend/ModernWMS.WMS/Services/Stockadjust/StockadjustService.cs",
+      "logic": "Implements validation logic for stock discrepancy resolution, ensuring that adjustments are tracked with reason codes and linked back to the originating inventory license plates."
+    },
+    {
+      "feature": "Custom Data Table Rule Engine",
+      "file": "/home/leonamramosfoli/Projetos/Web/ModernWMS/frontend/src/utils/dataVerification/tableRule.ts",
+      "logic": "Centralized rule-based validation engine for dynamic table column rendering and data input verification, enforcing constraints across various WMS modules like ASN (Advance Shipping Notice) and Stock Operations."
+    },
+    {
+      "feature": "Warehouse Task Management",
+      "file": "/home/leonamramosfoli/Projetos/Web/ModernWMS/backend/ModernWMS.WMS/Services/Stockmove/StockmoveService.cs",
+      "logic": "Encapsulates the core business logic for warehouse internal transfers, including route path validation and inventory location constraints logic."
+    }
+  ]
+}
+

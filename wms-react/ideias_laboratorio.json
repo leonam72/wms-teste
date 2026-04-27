@@ -1,0 +1,26 @@
+{
+  "pasta": "Laboratorio",
+  "extractions": [
+    {
+      "feature": "Core Backend API",
+      "file": "/home/leonamramosfoli/Laboratorio/wms-controle-prateleiras/backend/app/main.py",
+      "logic": "API principal construída com FastAPI para gerenciamento do WMS."
+    },
+    {
+      "feature": "Entidades de Domínio",
+      "file": "/home/leonamramosfoli/Laboratorio/wms-controle-prateleiras/backend/app/models.py",
+      "logic": "Definição de modelos de dados (prateleiras, itens, estoque) para persistência."
+    },
+    {
+      "feature": "UI Frontend Base",
+      "file": "/home/leonamramosfoli/Laboratorio/wms-controle-prateleiras/index.html",
+      "logic": "Estrutura básica de interface visual do sistema WMS."
+    },
+    {
+      "feature": "Estilização UI",
+      "file": "/home/leonamramosfoli/Laboratorio/wms-controle-prateleiras/css/base.css",
+      "logic": "Folha de estilos base para a interface visual das prateleiras e componentes."
+    }
+  ]
+}
+
