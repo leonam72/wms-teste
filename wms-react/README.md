@@ -1,5 +1,21 @@
 # React + TypeScript + Vite
 
+## Como Executar (How to Run)
+
+Para rodar este projeto em ambiente de desenvolvimento, siga os passos abaixo:
+
+1.  Instale as dependências:
+    ```bash
+    npm install
+    ```
+2.  Inicie o servidor de desenvolvimento:
+    ```bash
+    npm run dev
+    ```
+3.  Acesse a aplicação no navegador em `http://localhost:5173`.
+
+---
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
