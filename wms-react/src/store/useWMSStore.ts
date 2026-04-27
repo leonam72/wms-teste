@@ -88,7 +88,8 @@ export interface AppState {
 }
 
 interface WMSActions {
-  setActiveDepot: (id: string) => void;
+  setActiveDepot: (id: string) => Promise<void>;
+  fetchDepots: () => Promise<void>;
   addDepot: (depot: Depot) => void;
   removeDepot: (id: string) => void;
   updateDepot: (id: string, depot: Partial<Depot>) => void;
@@ -175,7 +176,23 @@ export const useWMSStore = create<AppState & WMSActions>((set, get) => ({
     });
   },
 
-  setActiveDepot: (id) => set({ activeDepotId: id }),
+  fetchDepots: async () => {
+    try {
+        const { getDepots } = await import('../services/api');
+        const depots = await getDepots();
+        set({ depots });
+        if (depots.length > 0 && !get().activeDepotId) {
+            get().setActiveDepot(depots[0].id);
+        }
+    } catch (err) {
+        console.error("Erro ao carregar lista de depósitos");
+    }
+  },
+
+  setActiveDepot: async (id) => {
+    set({ activeDepotId: id });
+    await get().refreshState();
+  },
 
   addDepot: (depot) => set((state) => ({ 
     depots: [...state.depots, depot],

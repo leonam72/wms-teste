@@ -22,6 +22,7 @@ import SettingsPage from './components/features/Settings/SettingsPage';
 import LogisticsControlV2 from './components/features/V2/LogisticsControlV2';
 import AuditLogPage from './components/features/Audit/AuditLogPage';
 import DebugProductView from './components/features/Debug/DebugProductView';
+import DepotSelector from './components/features/DepotSelector/DepotSelector';
 import { useWMSStore } from './store/useWMSStore';
 import { useToasts } from './hooks/useToasts';
 import { getProductExpiryStatus } from './utils/expiry';
@@ -47,25 +48,24 @@ const App: React.FC = () => {
   const productsAllMap = useWMSStore(state => state.productsAll);
   const moveContext = useWMSStore(state => state.moveContext);
   
-  const setMoveContext = useWMSStore(state => state.setMoveContext);
   const setFullState = useWMSStore(state => state.setFullState);
+  const refreshState = useWMSStore(state => state.refreshState);
   const executeTransfer = useWMSStore(state => state.executeTransfer);
   const addProductToDrawer = useWMSStore(state => state.addProductToDrawer);
   const removeProductFromDrawer = useWMSStore(state => state.removeProductFromDrawer);
   const logAction = useWMSStore(state => state.logAction);
 
+  const fetchDepots = useWMSStore(state => state.fetchDepots);
+
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await getWMSState(activeDepotId);
-        if (data) setFullState(data);
-      } catch (err) {
-        // Silencia erro de rede para manter a UI estável no modo offline
-        console.log("WMS operando em modo local (Servidor offline)");
-      }
-    };
-    loadData();
-  }, [activeDepotId, setFullState]);
+    fetchDepots();
+  }, [fetchDepots]);
+
+  useEffect(() => {
+    if (activeDepotId) {
+        refreshState();
+    }
+  }, [activeDepotId, refreshState]);
 
   const productsAll = useMemo(() => {
     return productsAllMap[activeDepotId] || EMPTY_PRODUCTS;
@@ -151,6 +151,8 @@ const App: React.FC = () => {
         onAddProduct={() => handleOpenAddProduct()} 
         onOpenSettings={() => setActivePage('depots')} 
       />
+
+      <DepotSelector />
       
       <div className="main-layout">
         <NavRail activePage={activePage} onPageChange={setActivePage} />

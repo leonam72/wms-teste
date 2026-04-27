@@ -5,6 +5,11 @@ const api = axios.create({
   baseURL: 'http://localhost:3001/api'
 });
 
+export const getDepots = async () => {
+  const response = await api.get('/depots');
+  return response.data;
+};
+
 export const getWMSState = async (depotId: string) => {
   const response = await api.get(`/state/${depotId}`);
   return response.data;

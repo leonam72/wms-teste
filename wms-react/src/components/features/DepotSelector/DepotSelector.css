@@ -1,63 +1,66 @@
 .depot-selector-bar {
-  background: #0056b3;
-  padding: 0 20px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 24px;
   display: flex;
   align-items: center;
-  height: 40px;
-  flex: 0 0 auto;
 }
 
 .depot-tabs {
   display: flex;
-  gap: 2px;
-  height: 100%;
-  align-items: flex-end;
+  gap: 12px;
+  align-items: center;
+  flex: 1;
 }
 
 .depot-tab {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  color: #fff;
-  font-family: 'IBM Plex Mono', monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 6px 16px;
+  border-radius: 6px;
   font-size: 11px;
-  font-weight: 600;
-  padding: 8px 16px;
+  font-weight: 800;
+  color: var(--text2);
   cursor: pointer;
-  transition: all .15s;
+  text-transform: uppercase;
+  transition: all 0.2s;
   display: flex;
   align-items: center;
   gap: 8px;
-  border-radius: 4px 4px 0 0;
 }
 
 .depot-tab:hover {
-  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .depot-tab.active {
-  background: var(--bg);
-  color: #0056b3;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
 }
 
 .active-indicator {
   font-size: 10px;
+  opacity: 0.8;
 }
 
 .add-depot-btn {
+  margin-left: auto;
   background: none;
-  border: 1px dashed rgba(255, 255, 255, 0.5);
-  color: rgba(255, 255, 255, 0.8);
-  font-family: 'IBM Plex Mono', monospace;
+  border: 1px dashed var(--border);
+  color: var(--text2);
+  padding: 6px 12px;
+  border-radius: 6px;
   font-size: 10px;
-  padding: 4px 12px;
-  margin-left: 10px;
-  margin-bottom: 6px;
+  font-weight: 800;
   cursor: pointer;
-  align-self: center;
 }
 
 .add-depot-btn:hover {
-  border-color: #fff;
-  color: #fff;
+  border-color: var(--accent3);
+  color: var(--accent3);
 }
 
+body.dark .depot-selector-bar { background: #1e293b; }
+body.dark .depot-tab { background: #334155; }
