@@ -1,0 +1,87 @@
+.expiry-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-height: 80vh;
+}
+
+.expiry-modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.expiry-modal-header p {
+  color: var(--text2);
+  margin: 4px 0 0;
+  font-size: 13px;
+}
+
+.expiry-table-container {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.expiry-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.expiry-table th {
+  background: var(--surface2);
+  padding: 12px;
+  text-align: left;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: var(--text2);
+}
+
+.expiry-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.clickable-row {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.clickable-row:hover {
+  background: var(--highlight);
+}
+
+.sku-cell {
+  font-weight: 800;
+  color: var(--accent);
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.addr-cell {
+  font-weight: 700;
+  color: var(--text2);
+}
+
+.exp-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.exp-badge.expired { background: #fee2e2; color: #dc2626; }
+.exp-badge.warn { background: #fef3c7; color: #92400e; }
+
+.date-cell {
+  color: var(--text2);
+  font-weight: 600;
+}
+
+.expiry-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}

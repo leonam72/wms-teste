@@ -23,6 +23,7 @@ import LogisticsControlV2 from './components/features/V2/LogisticsControlV2';
 import AuditLogPage from './components/features/Audit/AuditLogPage';
 import DebugProductView from './components/features/Debug/DebugProductView';
 import DepotSelector from './components/features/DepotSelector/DepotSelector';
+import ExpiryModal from './components/features/Quality/ExpiryModal';
 import { useWMSStore } from './store/useWMSStore';
 import { useToasts } from './hooks/useToasts';
 import { getProductExpiryStatus } from './utils/expiry';
@@ -39,6 +40,8 @@ const App: React.FC = () => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isDrawerModalOpen, setIsDrawerModalOpen] = useState(false);
   const [isBulkModalOpen, setIsBulkModalOpen] = useState(false);
+  const [isExpiryModalOpen, setIsExpiryModalOpen] = useState(false);
+  const [expiryFilter, setExpiryFilter] = useState<'expired' | 'expiring'>('expired');
   const [selectedProduct, setSelectedProduct] = useState<{product: Product, location: string} | null>(null);
   const [targetDrawer, setTargetDrawer] = useState<string | null>(null);
 
@@ -82,6 +85,13 @@ const App: React.FC = () => {
     });
     return count;
   }, [productsAll]);
+
+  const handleNavigateToDrawer = (drawerKey: string) => {
+    setIsExpiryModalOpen(false);
+    setActivePage('depot');
+    setAddressSearch(drawerKey);
+    addToast(`Focado em ${drawerKey} para resolução`, 'info');
+  };
 
   const handleDrawerClick = (drawerKey: string) => {
     if (moveContext) {
@@ -160,8 +170,8 @@ const App: React.FC = () => {
         
         <main className="workspace">
           {totalExpired > 0 && (
-            <div className="critical-alert-banner">
-              ⛔ {totalExpired} produto(s) com validade VENCIDA — resolva no grid
+            <div className="critical-alert-banner clickable" onClick={() => { setExpiryFilter('expired'); setIsExpiryModalOpen(true); }}>
+              ⛔ {totalExpired} produto(s) com validade VENCIDA — clique para detalhar e resolver
             </div>
           )}
           <div className="workspace-content">
@@ -253,6 +263,14 @@ const App: React.FC = () => {
             onMove={handleStartMove}
           />
         )}
+      </Modal>
+
+      <Modal isOpen={isExpiryModalOpen} onClose={() => setIsExpiryModalOpen(false)} title="DETALHES DE VALIDADE">
+         <ExpiryModal 
+            filter={expiryFilter} 
+            onClose={() => setIsExpiryModalOpen(false)} 
+            onNavigate={handleNavigateToDrawer}
+         />
       </Modal>
 
       <ToastContainer toasts={toasts} onRemove={removeToast} />

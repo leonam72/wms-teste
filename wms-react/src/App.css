@@ -78,6 +78,16 @@
   animation: slideDown 0.3s ease-out;
 }
 
+.critical-alert-banner.clickable {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.critical-alert-banner.clickable:hover {
+  background: #b91c1c;
+  padding-bottom: 12px;
+}
+
 @keyframes slideDown {
   from { transform: translateY(-100%); }
   to { transform: translateY(0); }
@@ -105,4 +115,3 @@
   background: var(--surface);
   box-shadow: 0 0 10px rgba(0, 102, 204, 0.1);
 }
-
