@@ -1,15 +1,30 @@
 // wms-react/src/types/index.ts
 
+export const TYPES_VERSION = '1.0.0';
+
+export interface IFloorPlanObject {
+  id: string;
+  type: 'shelf' | 'wall' | 'area' | 'text';
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  label?: string;
+  color?: string;
+  rotation?: number;
+  selected?: boolean;
+}
+
 export type Unit = 'un' | 'cx' | 'kg' | 'lt' | 'mt' | 'pc' | 'pr';
 
 export interface Product {
   code: string;
   name: string;
   kg: number;
-  entry: string; // ISO Date string
+  entry: string;
   lot?: string;
-  expiries: string[]; // Array of ISO Date strings
-  location?: string; // e.g. "A1.G2"
+  expiries: string[];
+  location?: string;
   qty: number;
   unit: Unit;
   category?: string;
@@ -18,7 +33,7 @@ export interface Product {
 }
 
 export interface Shelf {
-  id: string; // e.g. "A"
+  id: string;
   floors: number;
   drawers: number;
   maxKg: number;
@@ -35,7 +50,7 @@ export interface Depot {
 }
 
 export type HistoryItem = {
-  ts: string; // ISO Date string
+  ts: string;
   icon: string;
   action: string;
   detail: string;
@@ -50,30 +65,15 @@ export type PageID = 'depot' | 'depots' | 'products' | 'floorplan' | 'history' |
 
 export type FilterType = 'occupied' | 'empty' | 'expired' | 'expiring' | 'multi' | 'selected' | 'low_stock' | 'no_expiry' | null;
 
-export interface FPObject {
-  id: string;
-  type: 'shelf' | 'wall' | 'area' | 'text';
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-  label?: string;
-  color?: string;
-  rotation?: number;
-  selected?: boolean;
-}
-
 export interface AppState {
   depots: Depot[];
   activeDepotId: string;
   shelvesAll: Record<string, Shelf[]>;
   productsAll: Record<string, Record<string, Product[]>>;
   appHistory: HistoryItem[];
-  // FloorPlan State
-  fpObjects: Record<string, FPObject[]>;
+  fpObjects: Record<string, IFloorPlanObject[]>;
   fpZoom: number;
   drawerLocks: Record<string, boolean>;
-  // Move Mode State
   moveContext: {
     fromKey: string;
     product: Product;

@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
+import { parseNFeXML } from '../../../services/nfeService';
 import './ReceivingPage.css';
 
 interface ReceivingItem {
@@ -16,14 +17,46 @@ const ReceivingPage: React.FC = () => {
     { sku: 'SKU-7721', name: 'Pino Elástico 5x30', expected: 100, counted: 92 },
   ]);
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const stats = useMemo(() => {
     const totalDivergences = items.filter(i => i.expected !== i.counted).length;
     return {
       totalItems: items.length,
       divergences: totalDivergences,
-      accuracy: ((items.length - totalDivergences) / items.length * 100).toFixed(1)
+      accuracy: items.length > 0 ? ((items.length - totalDivergences) / items.length * 100).toFixed(1) : '100.0'
     };
   }, [items]);
+
+  const handleXMLUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const xml = event.target?.result as string;
+        const parsedItems = parseNFeXML(xml);
+        
+        if (parsedItems.length > 0) {
+          const newItems = parsedItems.map(p => ({
+            sku: p.code,
+            name: p.name,
+            expected: p.qty,
+            counted: 0 // Inicia zerado para contagem cega
+          }));
+          setItems(newItems);
+        } else {
+          alert('Nenhum produto encontrado no XML.');
+        }
+      } catch (err) {
+        console.error('Erro ao processar XML da NF-e:', err);
+        alert('Erro ao processar o arquivo XML. Formato inválido.');
+      }
+    };
+    reader.readAsText(file);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
 
   return (
     <div className="receiving-page">
@@ -33,6 +66,14 @@ const ReceivingPage: React.FC = () => {
           <p>Lote #REC-2023-0892 - Status: Aguardando Validação</p>
         </div>
         <div className="header-actions">
+          <input 
+            type="file" 
+            accept=".xml" 
+            style={{ display: 'none' }} 
+            ref={fileInputRef}
+            onChange={handleXMLUpload}
+          />
+          <button className="btn" onClick={() => fileInputRef.current?.click()}>Importar XML NF-e</button>
           <button className="btn">Imprimir Divergências</button>
           <button className="btn btn-accent">Concluir Recebimento</button>
         </div>
