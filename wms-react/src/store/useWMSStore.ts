@@ -90,6 +90,7 @@ interface WMSActions {
   addProductToDrawer: (drawerKey: string, product: Product) => void;
   removeProductFromDrawer: (drawerKey: string, productCode: string, qty: number) => void;
   updateFPObject: (depotId: string, id: string, data: Partial<IFloorPlanObject>) => void;
+  addFPObject: (depotId: string, obj: IFloorPlanObject) => void;
   setFpZoom: (zoom: number) => void;
   setObjectSelection: (depotId: string, ids: string[], selected: boolean) => void;
   clearSelection: (depotId: string) => void;
@@ -299,6 +300,11 @@ export const useWMSStore = create<AppState & WMSActions>((set, get) => ({
   updateFPObject: (depotId, id, data) => set((state) => {
     const objs = state.fpObjects[depotId] || [];
     return { fpObjects: { ...state.fpObjects, [depotId]: objs.map(o => o.id === id ? { ...o, ...data } : o) } };
+  }),
+
+  addFPObject: (depotId, obj) => set((state) => {
+    const objs = state.fpObjects[depotId] || [];
+    return { fpObjects: { ...state.fpObjects, [depotId]: [...objs, obj] } };
   }),
 
   setFpZoom: (zoom) => set({ fpZoom: Math.max(0.1, Math.min(zoom, 5)) }),
