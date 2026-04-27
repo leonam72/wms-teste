@@ -10,9 +10,9 @@ export const getWMSState = async (depotId: string) => {
   return response.data;
 };
 
-export const addProduct = async (data: { 
+export const syncInventoryAdd = async (data: { 
   depotId: string, 
-  shelfId: string, 
+  shelfCode: string, 
   floor: number, 
   drawer: number, 
   product: Product, 
@@ -22,8 +22,19 @@ export const addProduct = async (data: {
   return response.data;
 };
 
-export const updateFloorPlanPos = async (data: { id: string, x: number, y: number, width: number, height: number }) => {
-  const response = await api.put('/floorplan/update', data);
+export const syncInventoryTransfer = async (data: {
+    depotId: string,
+    productCode: string,
+    qty: number,
+    fromLoc: string,
+    toLoc: string
+}) => {
+    const response = await api.post('/inventory/transfer', data);
+    return response.data;
+};
+
+export const syncFloorPlan = async (depotId: string, objects: any[]) => {
+  const response = await api.post('/floorplan/sync', { depotId, objects });
   return response.data;
 };
 

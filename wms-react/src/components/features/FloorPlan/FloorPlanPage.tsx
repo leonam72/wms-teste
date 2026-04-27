@@ -91,6 +91,13 @@ const FloorPlanPage: React.FC = () => {
     setLasso(null);
   };
 
+  const syncCurrentFloorPlan = useWMSStore((state) => state.syncCurrentFloorPlan);
+
+  const handleSave = async () => {
+    await syncCurrentFloorPlan();
+    alert('Layout sincronizado com o banco de dados SQL!');
+  };
+
   return (
     <div className="floorplan-page">
       <div className="workspace-header">
@@ -99,7 +106,7 @@ const FloorPlanPage: React.FC = () => {
         </div>
         <div className="flex gap-2">
            <button className="btn" onClick={() => deleteSelectedObjects(activeDepotId)}>EXCLUIR</button>
-           <button className="btn btn-accent">SALVAR LAYOUT</button>
+           <button className="btn btn-accent" onClick={handleSave}>SALVAR LAYOUT</button>
         </div>
       </div>
 
