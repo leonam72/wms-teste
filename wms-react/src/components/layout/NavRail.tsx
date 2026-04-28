@@ -11,15 +11,16 @@ const NavRail: React.FC<NavRailProps> = ({ activePage, onPageChange }) => {
   const navItems: { id: PageID, icon: string, label: string }[] = [
     { id: 'home', icon: '🏠', label: 'HOME' },
     { id: 'receiving', icon: '📥', label: 'RECEB.' },
+    { id: 'picking', icon: '🛒', label: 'PICKING' },
     { id: 'depot', icon: '🏭', label: 'DEPOT' },
     { id: 'quality', icon: '🛡️', label: 'QUALID.' },
+    { id: 'slotting', icon: '🧠', label: 'SLOTTING' },
     { id: 'depots', icon: '🏢', label: 'DEPÓS.' },
     { id: 'products', icon: '📦', label: 'PROD' },
     { id: 'floorplan', icon: '🗺', label: 'PLANTA' },
     { id: 'logistics-v2', icon: '🚀', label: 'EXPERT' },
     { id: 'audit', icon: '🛡️', label: 'AUDIT' },
     { id: 'debug', icon: '🛠️', label: 'DEBUG' },
-    { id: 'history', icon: '📋', label: 'HIST' },
   ];
 
   return (

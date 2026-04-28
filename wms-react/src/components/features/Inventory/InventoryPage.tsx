@@ -4,12 +4,11 @@ import { getProductExpiryStatus } from '../../../utils/expiry';
 import './InventoryPage.css';
 
 const EMPTY_PRODUCTS = {};
-const EMPTY_SHELVES: any[] = [];
-const EMPTY_FPOBJECTS: any[] = [];
 
 const InventoryPage: React.FC = () => {
   const activeDepotId = useWMSStore(state => state.activeDepotId);
   const productsAll = useWMSStore(state => state.productsAll[activeDepotId] || EMPTY_PRODUCTS);
+  const updateProductInfo = useWMSStore(state => state.updateProductInfo);
   const [localSearch, setLocalSearch] = useState('');
 
   const flattenedProducts = useMemo(() => {
@@ -27,6 +26,12 @@ const InventoryPage: React.FC = () => {
     return list;
   }, [productsAll, localSearch]);
 
+  const handleNameChange = (code: string, newName: string) => {
+    if (newName.trim()) {
+        updateProductInfo(code, newName);
+    }
+  };
+
   return (
     <div className="inventory-page">
       <div className="workspace-header">
@@ -41,6 +46,7 @@ const InventoryPage: React.FC = () => {
             value={localSearch}
             onChange={(e) => setLocalSearch(e.target.value)}
           />
+          <button className="btn">Exportar Tudo (XLSX)</button>
         </div>
       </div>
 
@@ -49,7 +55,7 @@ const InventoryPage: React.FC = () => {
           <thead>
             <tr>
               <th>SKU</th>
-              <th>NOME DO PRODUTO</th>
+              <th>NOME DO PRODUTO (EDITÁVEL)</th>
               <th>LOCALIZAÇÃO</th>
               <th>QTD</th>
               <th>UN</th>
@@ -62,7 +68,16 @@ const InventoryPage: React.FC = () => {
               flattenedProducts.map((p, i) => (
                 <tr key={`${p.code}-${i}`}>
                   <td className="sku-cell">{p.code}</td>
-                  <td>{p.name}</td>
+                  <td 
+                    contentEditable 
+                    suppressContentEditableWarning
+                    onBlur={(e) => handleNameChange(p.code, e.currentTarget.innerText)}
+                    onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
+                    className="editable-cell"
+                    title="Clique para editar o nome"
+                  >
+                    {p.name}
+                  </td>
                   <td className="loc-cell">{p.location}</td>
                   <td className="qty-cell">{p.qty}</td>
                   <td>{p.unit.toUpperCase()}</td>

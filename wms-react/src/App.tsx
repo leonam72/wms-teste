@@ -17,7 +17,9 @@ import BulkShelfModal from './components/features/ShelfGrid/BulkShelfModal';
 import ProductForm from './components/features/ProductForm/ProductForm';
 import InventoryPage from './components/features/Inventory/InventoryPage';
 import ReceivingPage from './components/features/Receiving/ReceivingPage';
+import PickingPage from './components/features/Picking/PickingPage';
 import QualityDashboard from './components/features/Quality/QualityDashboard';
+import SlottingAdvisorPage from './components/features/Slotting/SlottingAdvisorPage';
 import SettingsPage from './components/features/Settings/SettingsPage';
 import LogisticsControlV2 from './components/features/V2/LogisticsControlV2';
 import AuditLogPage from './components/features/Audit/AuditLogPage';
@@ -207,6 +209,11 @@ const App: React.FC = () => {
                 <QualityDashboard />
               </div>
             )}
+            {activePage === 'slotting' && (
+              <div className="page" style={{ height: '100%' }}>
+                <SlottingAdvisorPage />
+              </div>
+            )}
             {activePage === 'products' && (
               <div className="page" style={{ height: '100%' }}>
                 <InventoryPage />
@@ -225,6 +232,9 @@ const App: React.FC = () => {
             )}
             {activePage === 'receiving' && (
               <div className="page" style={{ height: '100%' }}><ReceivingPage /></div>
+            )}
+            {activePage === 'picking' && (
+              <div className="page" style={{ height: '100%' }}><PickingPage /></div>
             )}
             {activePage === 'logistics-v2' && (
               <div className="page" style={{ height: '100%' }}><LogisticsControlV2 /></div>

@@ -4,6 +4,11 @@
   height: 100%;
 }
 
+.inventory-actions {
+  display: flex;
+  gap: 12px;
+}
+
 .inventory-search {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -13,6 +18,7 @@
   width: 250px;
   color: var(--text);
   outline: none;
+  border-radius: 6px;
 }
 
 .inventory-search:focus {
@@ -24,6 +30,7 @@
   background: var(--surface);
   border: 1px solid var(--border);
   overflow: auto;
+  border-radius: 8px;
 }
 
 .inventory-table {
@@ -57,6 +64,26 @@
   font-weight: 700;
 }
 
+.editable-cell {
+  cursor: text;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.editable-cell:hover {
+  background: var(--highlight);
+  border-color: var(--accent);
+}
+
+.editable-cell:focus {
+  background: white;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+  outline: none;
+}
+
 .loc-cell {
   font-family: 'IBM Plex Mono', monospace;
   font-weight: 600;
@@ -80,4 +107,3 @@
 .status-dot-sm.expired { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
 .status-dot-sm.warn    { background: var(--warn); }
 .status-dot-sm.ok      { background: var(--accent3); }
-

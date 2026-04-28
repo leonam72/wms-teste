@@ -15,6 +15,11 @@ export const getWMSState = async (depotId: string) => {
   return response.data;
 };
 
+export const updateDepotDetails = async (id: string, data: any) => {
+  const response = await api.patch(`/depots/${id}`, data);
+  return response.data;
+};
+
 export const syncInventoryAdd = async (data: { 
   depotId: string, 
   shelfCode: string, 

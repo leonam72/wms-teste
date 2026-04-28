@@ -61,7 +61,7 @@ export type HistoryItem = {
   device?: string;
 }
 
-export type PageID = 'home' | 'depot' | 'depots' | 'products' | 'floorplan' | 'history' | 'receiving' | 'quality' | 'logistics-v2' | 'audit' | 'debug';
+export type PageID = 'home' | 'depot' | 'depots' | 'products' | 'floorplan' | 'history' | 'receiving' | 'quality' | 'slotting' | 'picking' | 'logistics-v2' | 'audit' | 'debug';
 
 export type FilterType = 'occupied' | 'empty' | 'expired' | 'expiring' | 'multi' | 'selected' | 'low_stock' | 'no_expiry' | null;
 

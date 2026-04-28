@@ -1,0 +1,174 @@
+.slotting-page {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: var(--bg);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.slotting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 16px;
+}
+
+.slotting-header h1 { font-size: 24px; font-weight: 800; }
+.slotting-header p { color: var(--text2); font-size: 13px; }
+
+.slotting-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.slotting-tabs button {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  font-weight: 800;
+  font-size: 11px;
+  color: var(--text2);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.slotting-tabs button.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.slotting-content { margin-top: 12px; }
+
+.ai-stat-card {
+  background: var(--accent);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.ai-stat-card .icon { font-size: 32px; }
+.ai-stat-card h3 { font-size: 18px; margin: 0; }
+.ai-stat-card p { opacity: 0.8; font-size: 12px; }
+
+.suggestions-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.suggestion-card-v2 {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.card-top { display: flex; justify-content: space-between; align-items: center; }
+
+.sku-badge { 
+  font-family: 'IBM Plex Mono', monospace; 
+  font-weight: 800; 
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.reason-badge {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.move-path {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface2);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.loc { display: flex; flex-direction: column; }
+.loc span { font-size: 9px; font-weight: 800; color: var(--text2); }
+.loc strong { font-size: 15px; font-weight: 900; }
+
+.arrow { font-size: 20px; color: var(--accent); opacity: 0.5; }
+
+.impact-box {
+  background: #ecfdf5;
+  color: #065f46;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.btn-full { width: 100%; margin-top: 8px; padding: 12px; }
+
+/* PUTAWAY STYLES */
+.putaway-container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 24px;
+}
+
+.map-grid-mock {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.map-cell {
+  aspect-ratio: 1;
+  background: #f1f5f9;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-cell.highlight {
+  background: rgba(19, 127, 236, 0.1);
+  border: 2px solid var(--accent);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.recommendation-box {
+  background: #137fec15;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px dashed var(--accent);
+  margin: 16px 0;
+}
+
+.rec-label { font-size: 10px; font-weight: 800; color: var(--accent); }
+.rec-val { font-size: 24px; font-weight: 900; color: var(--accent); margin: 4px 0; }
+.recommendation-box p { font-size: 11px; color: var(--text2); }
+
+.btn-success { background: #10b981; color: white; border: none; }
+.btn-success:hover { background: #059669; }

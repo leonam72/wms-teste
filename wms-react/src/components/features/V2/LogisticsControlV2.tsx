@@ -1,23 +1,35 @@
 import React, { useState, useEffect } from 'react';
+import { useWMSStore } from '../../../store/useWMSStore';
 import './LogisticsControlV2.css';
 
-interface DockOperation {
+interface Dock {
   id: string;
-  dock: string;
-  type: 'Inbound' | 'Outbound';
-  status: 'Ativo' | 'Aguardando' | 'Finalizado';
-  carrier: string;
-  startTime: number; // timestamp
+  code: string;
+  type: string;
+  status: string;
+  carrier?: string;
+  startTime?: number;
 }
 
 const LogisticsControlV2: React.FC = () => {
-  const [operations, setOperations] = useState<DockOperation[]>([
-    { id: '1', dock: 'Doca 01', type: 'Inbound', status: 'Ativo', carrier: 'Express Logística S.A.', startTime: Date.now() - 3600000 },
-    { id: '2', dock: 'Doca 02', type: 'Outbound', status: 'Ativo', carrier: 'TransNorte BR', startTime: Date.now() - 1200000 },
-    { id: '3', dock: 'Doca 03', type: 'Inbound', status: 'Aguardando', carrier: 'Vargas Transp.', startTime: 0 },
-  ]);
-
+  const activeDepotId = useWMSStore(state => state.activeDepotId);
+  const [docks, setDocks] = useState<Dock[]>([]);
   const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    const fetchDocks = async () => {
+      try {
+        const response = await fetch(`http://localhost:3001/api/state/${activeDepotId}`);
+        const data = await response.json();
+        if (data.depot?.docks) {
+            setDocks(data.depot.docks);
+        }
+      } catch (err) {
+        console.error("Erro ao carregar docas reais");
+      }
+    };
+    fetchDocks();
+  }, [activeDepotId]);
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -36,72 +48,34 @@ const LogisticsControlV2: React.FC = () => {
     <div className="logistics-v2-page">
       <div className="v2-header">
         <div className="v2-title">
-          <h1>Logística de Docas</h1>
-          <p>Monitoramento em tempo real de entrada e saída (Inbound/Outbound).</p>
+          <h1>Logística de Docas (SQL Real)</h1>
+          <p>Monitoramento ativo das unidades de carga.</p>
         </div>
         <div className="v2-status-pill">
           <span className="online-indicator"></span>
-          SISTEMA ONLINE
+          BACKEND SQL ONLINE
         </div>
       </div>
 
-      <div className="v2-tabs">
-        <button className="v2-tab active">INBOUND</button>
-        <button className="v2-tab">OUTBOUND</button>
-        <button className="v2-tab">AGENDAMENTOS</button>
-      </div>
-
       <div className="docks-grid">
-        {operations.map((op) => (
-          <div key={op.id} className={`dock-card ${op.status.toLowerCase()}`}>
-            <div className="dock-label">{op.dock}</div>
+        {docks.map((dock) => (
+          <div key={dock.id} className={`dock-card ${dock.status.toLowerCase()}`}>
+            <div className="dock-label">{dock.code}</div>
             <div className="dock-content">
               <div className="dock-info">
-                <h3>{op.type === 'Inbound' ? '📦 Descarregamento' : '🚚 Carregamento'}</h3>
-                <p className="carrier">{op.carrier}</p>
-                <div className={`status-badge ${op.status.toLowerCase()}`}>{op.status}</div>
+                <h3>{dock.type === 'Inbound' ? '📦 Descarga' : '🚚 Carga'}</h3>
+                <p className="carrier">{dock.carrier || 'Livre'}</p>
+                <div className={`status-badge ${dock.status.toLowerCase()}`}>{dock.status}</div>
               </div>
-              {op.status === 'Ativo' && (
+              {dock.status === 'Ativo' && dock.startTime && (
                 <div className="dock-timer">
                   <span className="timer-icon">🕒</span>
-                  <span className="timer-value">{formatTime(now - op.startTime)}</span>
+                  <span className="timer-value">{formatTime(now - dock.startTime)}</span>
                 </div>
-              )}
-            </div>
-            <div className="dock-actions">
-              <button className="btn-v2 btn-outline">Ver Detalhes</button>
-              {op.status === 'Ativo' ? (
-                <button className="btn-v2 btn-danger">Finalizar</button>
-              ) : (
-                <button className="btn-v2 btn-primary">Iniciar</button>
               )}
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="queue-section">
-        <h2>Fila de Espera</h2>
-        <div className="queue-list">
-          <div className="queue-item">
-            <span className="queue-pos">#1</span>
-            <div className="queue-info">
-              <strong>Swift Cargo</strong>
-              <span>Placa: ABC-1234</span>
-            </div>
-            <div className="queue-time">Esp: 45 min</div>
-            <button className="btn-v2 btn-small">Chamar</button>
-          </div>
-          <div className="queue-item">
-            <span className="queue-pos">#2</span>
-            <div className="queue-info">
-              <strong>LogiTrans</strong>
-              <span>Placa: XYZ-9090</span>
-            </div>
-            <div className="queue-time">Esp: 12 min</div>
-            <button className="btn-v2 btn-small">Chamar</button>
-          </div>
-        </div>
       </div>
     </div>
   );

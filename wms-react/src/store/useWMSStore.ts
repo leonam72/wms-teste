@@ -213,9 +213,17 @@ export const useWMSStore = create<AppState & WMSActions>((set, get) => ({
     };
   }),
 
-  updateDepot: (id, data) => set((state) => ({
-    depots: state.depots.map(d => d.id === id ? { ...d, ...data } : d)
-  })),
+  updateDepot: async (id, data) => {
+    try {
+        const { updateDepotDetails } = await import('../services/api');
+        await updateDepotDetails(id, data);
+        set((state) => ({
+            depots: state.depots.map(d => d.id === id ? { ...d, ...data } : d)
+        }));
+    } catch (err) {
+        console.error("Erro ao sincronizar depósito no SQL");
+    }
+  },
 
   addShelf: (depotId, shelf) => set((state) => ({
     shelvesAll: { ...state.shelvesAll, [depotId]: [...(state.shelvesAll[depotId] || []), shelf] }
