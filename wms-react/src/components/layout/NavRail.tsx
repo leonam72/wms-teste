@@ -8,7 +8,8 @@ interface NavRailProps {
 }
 
 const NavRail: React.FC<NavRailProps> = ({ activePage, onPageChange }) => {
-  const items: { id: PageID; icon: string; label: string }[] = [
+  const navItems: { id: PageID, icon: string, label: string }[] = [
+    { id: 'home', icon: '🏠', label: 'HOME' },
     { id: 'receiving', icon: '📥', label: 'RECEB.' },
     { id: 'depot', icon: '🏭', label: 'DEPOT' },
     { id: 'quality', icon: '🛡️', label: 'QUALID.' },
@@ -23,7 +24,7 @@ const NavRail: React.FC<NavRailProps> = ({ activePage, onPageChange }) => {
 
   return (
     <nav className="nav-rail">
-      {items.map((item) => (
+      {navItems.map((item) => (
         <React.Fragment key={item.id}>
           {item.id === 'floorplan' && <div className="nav-sep" />}
           <button

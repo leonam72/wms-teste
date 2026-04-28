@@ -3,7 +3,7 @@ import Header from './components/layout/Header';
 import NavRail from './components/layout/NavRail';
 import type { FilterType, PageID, Product } from './types';
 import Sidebar from './components/layout/Sidebar';
-import StatsDashboard from './components/features/Dashboard/StatsDashboard';
+import HomePage from './components/features/Home/HomePage';
 import ShelfGrid from './components/features/ShelfGrid/ShelfGrid';
 import HistoryPage from './components/features/History/HistoryPage';
 import FloorPlanPage from './components/features/FloorPlan/FloorPlanPage';
@@ -33,7 +33,7 @@ import './App.css';
 const EMPTY_PRODUCTS = {};
 
 const App: React.FC = () => {
-  const [activePage, setActivePage] = useState<PageID>('depot');
+  const [activePage, setActivePage] = useState<PageID>('home');
   const [activeFilter, setActiveFilter] = useState<FilterType>(null);
   const [addressSearch, setAddressSearch] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -175,6 +175,11 @@ const App: React.FC = () => {
             </div>
           )}
           <div className="workspace-content">
+            {activePage === 'home' && (
+              <div className="page" style={{ height: '100%' }}>
+                <HomePage />
+              </div>
+            )}
             {activePage === 'depot' && (
               <div className="page">
                 <div className="workspace-header">
@@ -189,7 +194,6 @@ const App: React.FC = () => {
                     />
                   </div>
                 </div>
-                <StatsDashboard />
                 <QuickFilters activeFilter={activeFilter} onFilterChange={setActiveFilter} />
                 <ShelfGrid 
                   onDrawerClick={handleDrawerClick} 
