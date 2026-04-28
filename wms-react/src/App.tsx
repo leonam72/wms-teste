@@ -28,8 +28,6 @@ import DepotSelector from './components/features/DepotSelector/DepotSelector';
 import ExpiryModal from './components/features/Quality/ExpiryModal';
 import { useWMSStore } from './store/useWMSStore';
 import { useToasts } from './hooks/useToasts';
-import { getProductExpiryStatus } from './utils/expiry';
-import { getWMSState } from './services/api';
 import './App.css';
 
 const EMPTY_PRODUCTS = {};
@@ -52,15 +50,16 @@ const App: React.FC = () => {
   const activeDepotId = useWMSStore(state => state.activeDepotId);
   const productsAllMap = useWMSStore(state => state.productsAll);
   const moveContext = useWMSStore(state => state.moveContext);
+  const depots = useWMSStore(state => state.depots);
   
   const setFullState = useWMSStore(state => state.setFullState);
   const refreshState = useWMSStore(state => state.refreshState);
+  const fetchDepots = useWMSStore(state => state.fetchDepots);
   const executeTransfer = useWMSStore(state => state.executeTransfer);
   const addProductToDrawer = useWMSStore(state => state.addProductToDrawer);
   const removeProductFromDrawer = useWMSStore(state => state.removeProductFromDrawer);
   const logAction = useWMSStore(state => state.logAction);
-
-  const fetchDepots = useWMSStore(state => state.fetchDepots);
+  const setMoveContext = useWMSStore(state => state.setMoveContext);
 
   useEffect(() => {
     fetchDepots();
@@ -78,15 +77,13 @@ const App: React.FC = () => {
 
   const totalExpired = useMemo(() => {
     let count = 0;
-    Object.values(productsAll).forEach(drawer => {
-      if (Array.isArray(drawer)) {
-        drawer.forEach(p => {
-          if (getProductExpiryStatus(p.expiries) === 'expired') count++;
-        });
-      }
+    Object.values(productsAllMap).forEach(depotProds => {
+      Object.values(depotProds).forEach(items => {
+        if (items.some(p => p.expiries.some(e => new Date(e) < new Date()))) count++;
+      });
     });
     return count;
-  }, [productsAll]);
+  }, [productsAllMap]);
 
   const handleNavigateToDrawer = (drawerKey: string) => {
     setIsExpiryModalOpen(false);
@@ -100,26 +97,14 @@ const App: React.FC = () => {
       const success = executeTransfer(moveContext.fromKey, drawerKey, moveContext.product.code, moveContext.product.qty);
       if (success) {
         setMoveContext(null);
-        addToast(`Transferido: ${moveContext.product.code} para ${drawerKey}`, 'success');
+        addToast('Transferência concluída!', 'success');
       } else {
-        addToast('Falha na movimentação. Verifique o saldo.', 'error');
+        addToast('Falha na transferência. Verifique validade/peso.', 'error');
       }
-      return;
+    } else {
+      setTargetDrawer(drawerKey);
+      setIsDrawerModalOpen(true);
     }
-    setTargetDrawer(drawerKey);
-    setIsDrawerModalOpen(true);
-  };
-
-  const handleStartMove = () => {
-    if (!selectedProduct) return;
-    setMoveContext({ fromKey: selectedProduct.location, product: selectedProduct.product });
-    setIsDetailModalOpen(false);
-    addToast('Modo Movimentação: Clique no destino.', 'info');
-  };
-
-  const handleOpenAddProduct = (drawerKey?: string) => {
-    setTargetDrawer(drawerKey || null);
-    setIsAddModalOpen(true);
   };
 
   const handleOpenProductDetail = (product: Product, location: string) => {
@@ -127,26 +112,35 @@ const App: React.FC = () => {
     setIsDetailModalOpen(true);
   };
 
-  const handleSaveProduct = (product: Product) => {
+  const handleStartMove = (product: Product, location: string) => {
+    setMoveContext({ fromKey: location, product });
+    setIsDetailModalOpen(false);
+    addToast('Selecione o destino no grid', 'info');
+  };
+
+  const handleOpenAddProduct = (drawerKey: string | null = null) => {
+    setTargetDrawer(drawerKey);
+    setIsAddModalOpen(true);
+  };
+
+  const handleSaveProduct = async (product: Product) => {
     const drawerKey = targetDrawer || 'RECEBIMENTO'; 
-    addProductToDrawer(drawerKey, product);
-    logAction('➕', `Entrada: ${product.code} - ${product.name}`, `Adicionado em ${drawerKey} (${product.qty} ${product.unit})`);
+    await addProductToDrawer(drawerKey, product);
     setIsAddModalOpen(false);
     setTargetDrawer(null);
     addToast(`${product.name} salvo com sucesso!`, 'success');
   };
 
-  const handleRemoveProduct = (qty: number) => {
+  const handleRemoveProduct = async (qty: number) => {
     if (!selectedProduct) return;
     const { product, location } = selectedProduct;
-    removeProductFromDrawer(location, product.code, qty);
-    logAction('📤', `Saída: ${product.code} - ${product.name}`, `Retirado ${qty} de ${location}`);
-    addToast(`Retirado ${qty} ${product.unit} de ${product.code}`, 'warning');
+    await removeProductFromDrawer(location, product.code, qty);
     
     if (qty >= product.qty) {
       setIsDetailModalOpen(false);
       setSelectedProduct(null);
     }
+    addToast(`Operação concluída em ${product.code}`, 'warning');
   };
 
   return (
@@ -185,7 +179,7 @@ const App: React.FC = () => {
             {activePage === 'depot' && (
               <div className="page">
                 <div className="workspace-header">
-                  <div className="ws-title"><strong>DEPÓSITO</strong> {' - '} Vista Geral</div>
+                  <div className="ws-title"><strong>DEPÓSITO</strong> {' - '} {depots.find(d => d.id === activeDepotId)?.name || 'Vista Geral'}</div>
                   <div className="address-search-container">
                     <input 
                       type="text" 
@@ -250,21 +244,29 @@ const App: React.FC = () => {
       </div>
 
       <Modal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} title="ADICIONAR PRODUTO">
-        <ProductForm onSave={handleSaveProduct} onCancel={() => setIsAddModalOpen(false)} />
-      </Modal>
-
-      <Modal isOpen={isBulkModalOpen} onClose={() => setIsBulkModalOpen(false)} title="CRIAR PRATELEIRAS EM LOTE">
-        <BulkShelfModal onClose={() => setIsBulkModalOpen(false)} />
+        <ProductForm 
+          onSave={handleSaveProduct} 
+          onCancel={() => setIsAddModalOpen(false)} 
+          targetDrawer={targetDrawer}
+        />
       </Modal>
 
       <Modal isOpen={isDrawerModalOpen} onClose={() => setIsDrawerModalOpen(false)} title={`GAVETA ${targetDrawer}`}>
         {targetDrawer && (
           <DrawerModal 
             drawerKey={targetDrawer} 
-            onClose={() => setIsDrawerModalOpen(false)} 
-            onAddClick={() => handleOpenAddProduct(targetDrawer)} 
+            onClose={() => setIsDrawerModalOpen(false)}
+            onAddProduct={() => {
+              setIsDrawerModalOpen(false);
+              handleOpenAddProduct(targetDrawer);
+            }}
+            onProductClick={handleOpenProductDetail}
           />
         )}
+      </Modal>
+
+      <Modal isOpen={isBulkModalOpen} onClose={() => setIsBulkModalOpen(false)} title="GERAR PRATELEIRAS EM MASSA">
+         <BulkShelfModal onClose={() => setIsBulkModalOpen(false)} />
       </Modal>
 
       <Modal isOpen={isDetailModalOpen} onClose={() => setIsDetailModalOpen(false)} title="DETALHES DO PRODUTO">

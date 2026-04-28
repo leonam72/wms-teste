@@ -194,12 +194,24 @@ export const useWMSStore = create<AppState & WMSActions>((set, get) => ({
     await get().refreshState();
   },
 
-  addDepot: (depot) => set((state) => ({ 
-    depots: [...state.depots, depot],
-    shelvesAll: { ...state.shelvesAll, [depot.id]: [] },
-    productsAll: { ...state.productsAll, [depot.id]: {} },
-    fpObjects: { ...state.fpObjects, [depot.id]: [] }
-  })),
+  addDepot: async (depot) => {
+    try {
+        const response = await fetch('http://localhost:3001/api/depots', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: depot.name })
+        });
+        const newDepot = await response.json();
+        set((state) => ({ 
+            depots: [...state.depots, newDepot],
+            shelvesAll: { ...state.shelvesAll, [newDepot.id]: [] },
+            productsAll: { ...state.productsAll, [newDepot.id]: {} },
+            fpObjects: { ...state.fpObjects, [newDepot.id]: [] }
+        }));
+    } catch (err) {
+        console.error("Erro ao criar depósito no SQL");
+    }
+  },
 
   removeDepot: (id) => set((state) => {
     const { [id]: _, ...remainingShelves } = state.shelvesAll;
