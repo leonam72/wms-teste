@@ -4,6 +4,7 @@ import './AuditLogPage.css';
 
 const AuditLogPage: React.FC = () => {
   const history = useWMSStore((state) => state.appHistory);
+  const refreshState = useWMSStore((state) => state.refreshState);
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredHistory = history.filter(h => 
@@ -44,7 +45,7 @@ const AuditLogPage: React.FC = () => {
         </div>
         <div className="header-actions">
           <button className="btn" onClick={handleExportCSV}>Exportar CSV</button>
-          <button className="btn btn-accent">Atualizar Logs</button>
+          <button className="btn btn-accent" onClick={refreshState}>Atualizar Logs</button>
         </div>
       </div>
 
@@ -53,7 +54,7 @@ const AuditLogPage: React.FC = () => {
           <span className="stat-icon">🔀</span>
           <div className="stat-data">
             <span className="stat-label">Movimentações Hoje</span>
-            <span className="stat-value">{history.filter(h => h.action.includes('Movimentação')).length}</span>
+            <span className="stat-value">{history.filter(h => h.action.includes('Movimentação') || h.action.includes('ENTRADA')).length}</span>
           </div>
         </div>
         <div className="stat-card">
@@ -85,6 +86,7 @@ const AuditLogPage: React.FC = () => {
           <label>Tipo de Ação</label>
           <select>
             <option>Todas as Ações</option>
+            <option>Entrada</option>
             <option>Movimentação</option>
             <option>Alteração de Layout</option>
             <option>Login</option>
@@ -117,7 +119,7 @@ const AuditLogPage: React.FC = () => {
                 </td>
                 <td>
                   <span className={`action-badge ${h.action.toLowerCase()}`}>
-                    {h.icon} {h.action}
+                    {h.icon || '📋'} {h.action}
                   </span>
                 </td>
                 <td className="mono">{h.sku || '-'}</td>

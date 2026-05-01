@@ -1,5 +1,7 @@
 import React, { useState, useMemo, useRef } from 'react';
+import { useWMSStore } from '../../../store/useWMSStore';
 import { parseNFeXML } from '../../../services/nfeService';
+import { useToasts } from '../../../hooks/useToasts';
 import './ReceivingPage.css';
 
 interface ReceivingItem {
@@ -18,6 +20,9 @@ const ReceivingPage: React.FC = () => {
   ]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { addToast } = useToasts();
+  const addProductToDrawer = useWMSStore(state => state.addProductToDrawer);
+  const logAction = useWMSStore(state => state.logAction);
 
   const stats = useMemo(() => {
     const totalDivergences = items.filter(i => i.expected !== i.counted).length;
@@ -43,19 +48,42 @@ const ReceivingPage: React.FC = () => {
             sku: p.code,
             name: p.name,
             expected: p.qty,
-            counted: 0 // Inicia zerado para contagem cega
+            counted: 0 
           }));
           setItems(newItems);
+          addToast(`${parsedItems.length} itens carregados do XML`, 'success');
         } else {
           alert('Nenhum produto encontrado no XML.');
         }
       } catch (err) {
-        console.error('Erro ao processar XML da NF-e:', err);
         alert('Erro ao processar o arquivo XML. Formato inválido.');
       }
     };
     reader.readAsText(file);
     if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const handleRecount = (sku: string) => {
+    setItems(items.map(i => i.sku === sku ? { ...i, counted: 0 } : i));
+    addToast(`Contagem reiniciada para ${sku}`, 'info');
+  };
+
+  const handleConclude = async () => {
+    if (confirm('Deseja concluir o recebimento e enviar para alocação?')) {
+        for (const item of items) {
+            await addProductToDrawer('RECEBIMENTO', {
+                code: item.sku,
+                name: item.name,
+                qty: item.counted,
+                unit: 'un',
+                kg: 1,
+                entry: new Date().toISOString(),
+                expiries: []
+            });
+        }
+        logAction('📥', 'Recebimento Concluído', `Lote processado no SQL.`);
+        alert('Produtos enviados para a fila de alocação (Slotting)!');
+    }
   };
 
   return (
@@ -74,8 +102,8 @@ const ReceivingPage: React.FC = () => {
             onChange={handleXMLUpload}
           />
           <button className="btn" onClick={() => fileInputRef.current?.click()}>Importar XML NF-e</button>
-          <button className="btn">Imprimir Divergências</button>
-          <button className="btn btn-accent">Concluir Recebimento</button>
+          <button className="btn" onClick={() => window.print()}>Imprimir Divergências</button>
+          <button className="btn btn-accent" onClick={handleConclude}>Concluir Recebimento</button>
         </div>
       </div>
 
@@ -129,7 +157,7 @@ const ReceivingPage: React.FC = () => {
                     <span className={`receiving-badge ${status}`}>{status.toUpperCase()}</span>
                   </td>
                   <td>
-                    <button className="btn-small">Recontar</button>
+                    <button className="btn-small" onClick={() => handleRecount(item.sku)}>Recontar</button>
                   </td>
                 </tr>
               );
@@ -139,8 +167,12 @@ const ReceivingPage: React.FC = () => {
       </div>
 
       <div className="receiving-footer-actions">
-        <button className="btn btn-big btn-outline">Solicitar Recontagem Total</button>
-        <button className="btn btn-big btn-accent">Aprovar e Liberar para Putaway</button>
+        <button className="btn btn-big btn-outline" onClick={() => setItems(items.map(i => ({...i, counted: 0})))}>
+            Solicitar Recontagem Total
+        </button>
+        <button className="btn btn-big btn-accent" onClick={handleConclude}>
+            Aprovar e Liberar para Putaway
+        </button>
       </div>
     </div>
   );

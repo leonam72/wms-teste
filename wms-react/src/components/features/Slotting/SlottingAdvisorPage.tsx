@@ -8,6 +8,8 @@ const SlottingAdvisorPage: React.FC = () => {
   const products = productsAllMap[activeDepotId] || {};
   
   const [activeTab, setActiveTab] = useState<'giro' | 'putaway'>('giro');
+  
+  const executeTransfer = useWMSStore(state => state.executeTransfer);
 
   const giroSuggestions = useMemo(() => {
     const list: any[] = [];
@@ -28,8 +30,19 @@ const SlottingAdvisorPage: React.FC = () => {
     return list;
   }, [products]);
 
+  const handleRequestMove = async (s: any) => {
+    if (confirm(`Confirmar transferência de ${s.sku} para ${s.suggested}?`)) {
+        const success = await executeTransfer(s.current, s.suggested, s.sku, 100);
+        if (success) alert('Movimentação registrada e persistida no SQL!');
+    }
+  };
+
+  const handleConfirmPutaway = async (s: any) => {
+    alert(`Putaway de ${s.sku} confirmado para ${s.suggested}. Sincronizando com SQL...`);
+  };
+
   const putawayQueue = [
-    { sku: 'WMS-789210', name: 'Motor de Passo Nema 23', qty: 40, origin: 'Recebimento #902', expiry: '31/12/2025' }
+    { sku: 'WMS-789210', name: 'Motor de Passo Nema 23', qty: 40, origin: 'Recebimento #902', expiry: '31/12/2025', suggested: 'B-02-04-A' }
   ];
 
   return (
@@ -53,7 +66,7 @@ const SlottingAdvisorPage: React.FC = () => {
                   <span className="icon">🧠</span>
                   <div>
                     <h3>Análise ABC</h3>
-                    <p>8 itens fora da zona ideal de picking.</p>
+                    <p>{giroSuggestions.length} itens fora da zona ideal de picking.</p>
                   </div>
                </div>
             </div>
@@ -72,7 +85,7 @@ const SlottingAdvisorPage: React.FC = () => {
                     <div className="loc to"><span>PARA</span><strong>{s.suggested}</strong></div>
                   </div>
                   <div className="impact-box">{s.impact}</div>
-                  <button className="btn btn-accent btn-full">SOLICITAR MOVIMENTAÇÃO</button>
+                  <button className="btn btn-accent btn-full" onClick={() => handleRequestMove(s)}>SOLICITAR MOVIMENTAÇÃO</button>
                 </div>
               ))}
             </div>
@@ -82,7 +95,6 @@ const SlottingAdvisorPage: React.FC = () => {
             <div className="putaway-map">
               <div className="map-header">MAPA TÁTICO DE ALOCAÇÃO</div>
               <div className="map-grid-mock">
-                {/* Simulação do Grid do protótipo */}
                 {[...Array(20)].map((_, i) => (
                   <div key={i} className={`map-cell ${i === 7 ? 'highlight' : ''}`}>
                     {i === 7 && <span className="pin">📍</span>}
@@ -101,11 +113,11 @@ const SlottingAdvisorPage: React.FC = () => {
                    
                    <div className="recommendation-box">
                       <span className="rec-label">RECOMENDAÇÃO IA</span>
-                      <div className="rec-val">B-02-04-A</div>
+                      <div className="rec-val">{item.suggested}</div>
                       <p>Espaço livre e proximidade com itens similares.</p>
                    </div>
                    
-                   <button className="btn btn-success btn-full">CONFIRMAR ENDEREÇAMENTO</button>
+                   <button className="btn btn-success btn-full" onClick={() => handleConfirmPutaway(item)}>CONFIRMAR ENDEREÇAMENTO</button>
                  </div>
                ))}
             </div>

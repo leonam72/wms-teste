@@ -10,6 +10,8 @@ const SettingsPage: React.FC = () => {
   
   const productsAll = useWMSStore(state => state.productsAll[activeDepotId] || {});
   const updateDepot = useWMSStore(state => state.updateDepot);
+  const deleteDepot = useWMSStore(state => state.deleteDepot);
+  const clearAudit = useWMSStore(state => state.clearAudit);
   const logAction = useWMSStore(state => state.logAction);
 
   const [editData, setEditData] = useState(activeDepot || { name: '', manager: '', phone: '', address: '' });
@@ -19,6 +21,20 @@ const SettingsPage: React.FC = () => {
         updateDepot(activeDepotId, editData);
         logAction('⚙️', 'Ajuste Config', `Dados do depósito ${activeDepotId} atualizados`);
         alert('Dados salvos com sucesso!');
+    }
+  };
+
+  const handleDeleteDepot = async () => {
+    if (confirm(`Tem certeza que deseja apagar o depósito "${activeDepot?.name}"? ESTA AÇÃO É IRREVERSÍVEL.`)) {
+        await deleteDepot(activeDepotId);
+        window.location.href = '/'; // Redireciona para resetar o estado
+    }
+  };
+
+  const handleClearAudit = async () => {
+    if (confirm('Deseja limpar TODO o histórico de auditoria do sistema?')) {
+        await clearAudit();
+        alert('Histórico removido.');
     }
   };
 
@@ -68,14 +84,14 @@ const SettingsPage: React.FC = () => {
           <p>Operações de exportação e manutenção de registros.</p>
           <div className="flex flex-col gap-4 mt-4">
             <button className="btn" onClick={handleExport}>EXPORTAR INVENTÁRIO (.CSV)</button>
-            <button className="btn btn-danger">APAGAR HISTÓRICO DE AUDITORIA</button>
+            <button className="btn btn-danger" onClick={handleClearAudit}>APAGAR HISTÓRICO DE AUDITORIA</button>
           </div>
         </section>
 
         <section className="settings-card danger">
           <h3>DESATIVAR UNIDADE</h3>
           <p>Remover permanentemente este depósito do sistema. Esta ação não pode ser desfeita.</p>
-          <button className="btn btn-danger">EXCLUIR DEPÓSITO DEFINITIVAMENTE</button>
+          <button className="btn btn-danger" onClick={handleDeleteDepot}>EXCLUIR DEPÓSITO DEFINITIVAMENTE</button>
         </section>
       </div>
     </div>

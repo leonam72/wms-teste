@@ -13,23 +13,40 @@ interface Dock {
 
 const LogisticsControlV2: React.FC = () => {
   const activeDepotId = useWMSStore(state => state.activeDepotId);
+  const updateDockStatus = useWMSStore(state => state.updateDockStatus);
   const [docks, setDocks] = useState<Dock[]>([]);
   const [now, setNow] = useState(Date.now());
 
-  useEffect(() => {
-    const fetchDocks = async () => {
-      try {
-        const response = await fetch(`http://localhost:3001/api/state/${activeDepotId}`);
-        const data = await response.json();
-        if (data.depot?.docks) {
-            setDocks(data.depot.docks);
-        }
-      } catch (err) {
-        console.error("Erro ao carregar docas reais");
+  const fetchDocks = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/state/${activeDepotId}`);
+      const data = await response.json();
+      if (data.depot?.docks) {
+          setDocks(data.depot.docks);
       }
-    };
+    } catch (err) {
+      console.error("Erro ao carregar docas reais");
+    }
+  };
+
+  useEffect(() => {
     fetchDocks();
   }, [activeDepotId]);
+
+  const handleStart = async (dockId: string) => {
+    const carrier = prompt('Nome da Transportadora:');
+    if (carrier) {
+        await updateDockStatus(dockId, 'Ativo', carrier, Date.now());
+        fetchDocks();
+    }
+  };
+
+  const handleFinish = async (dockId: string) => {
+    if (confirm('Deseja finalizar a operação e liberar a doca?')) {
+        await updateDockStatus(dockId, 'Livre', '', 0);
+        fetchDocks();
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -61,17 +78,12 @@ const LogisticsControlV2: React.FC = () => {
         {docks.map((dock) => (
           <div key={dock.id} className={`dock-card ${dock.status.toLowerCase()}`}>
             <div className="dock-label">{dock.code}</div>
-            <div className="dock-content">
-              <div className="dock-info">
-                <h3>{dock.type === 'Inbound' ? '📦 Descarga' : '🚚 Carga'}</h3>
-                <p className="carrier">{dock.carrier || 'Livre'}</p>
-                <div className={`status-badge ${dock.status.toLowerCase()}`}>{dock.status}</div>
-              </div>
-              {dock.status === 'Ativo' && dock.startTime && (
-                <div className="dock-timer">
-                  <span className="timer-icon">🕒</span>
-                  <span className="timer-value">{formatTime(now - dock.startTime)}</span>
-                </div>
+            <div className="dock-actions">
+              <button className="btn-v2 btn-outline">Ver Detalhes</button>
+              {dock.status === 'Ativo' ? (
+                <button className="btn-v2 btn-danger" onClick={() => handleFinish(dock.id)}>Finalizar</button>
+              ) : (
+                <button className="btn-v2 btn-primary" onClick={() => handleStart(dock.id)}>Iniciar</button>
               )}
             </div>
           </div>

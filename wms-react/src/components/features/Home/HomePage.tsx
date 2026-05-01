@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
           <p>Visão geral consolidada da sua operação logística.</p>
         </div>
         <div className="header-actions">
-           <button className="btn btn-accent">Relatório Global</button>
+           <button className="btn btn-accent" onClick={() => window.print()}>Relatório Global (PDF)</button>
         </div>
       </div>
 

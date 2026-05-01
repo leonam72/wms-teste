@@ -92,9 +92,12 @@ interface WMSActions {
   fetchDepots: () => Promise<void>;
   addDepot: (depot: Depot) => void;
   removeDepot: (id: string) => void;
-  updateDepot: (id: string, depot: Partial<Depot>) => void;
+  updateDepot: (id: string, depot: Partial<Depot>) => Promise<void>;
+  deleteDepot: (id: string) => Promise<void>;
   addShelf: (depotId: string, shelf: Shelf) => void;
   removeShelf: (depotId: string, shelfId: string) => void;
+  clearAudit: () => Promise<void>;
+  updateDockStatus: (id: string, status: string, carrier?: string, startTime?: number) => Promise<void>;
   addProductToDrawer: (drawerKey: string, product: Product) => Promise<void>;
   removeProductFromDrawer: (drawerKey: string, productCode: string, qty: number) => Promise<void>;
   updateFPObject: (depotId: string, id: string, data: Partial<IFloorPlanObject>) => void;
@@ -235,6 +238,32 @@ export const useWMSStore = create<AppState & WMSActions>((set, get) => ({
     } catch (err) {
         console.error("Erro ao sincronizar depósito no SQL");
     }
+  },
+
+  deleteDepot: async (id) => {
+    try {
+        await fetch(`http://localhost:3001/api/depots/${id}`, { method: 'DELETE' });
+        set((state) => ({ depots: state.depots.filter(d => d.id !== id) }));
+        if (get().activeDepotId === id) set({ activeDepotId: '' });
+    } catch (err) { console.error("Erro ao deletar depósito"); }
+  },
+
+  clearAudit: async () => {
+    try {
+        await fetch('http://localhost:3001/api/audit/clear', { method: 'DELETE' });
+        set({ appHistory: [] });
+    } catch (err) { console.error("Erro ao limpar auditoria"); }
+  },
+
+  updateDockStatus: async (id, status, carrier, startTime) => {
+    try {
+        await fetch('http://localhost:3001/api/docks/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, status, carrier, startTime })
+        });
+        await get().refreshState();
+    } catch (err) { console.error("Erro ao atualizar doca"); }
   },
 
   addShelf: (depotId, shelf) => set((state) => ({

@@ -6,6 +6,9 @@ import './QualityDashboard.css';
 const QualityDashboard: React.FC = () => {
   const productsAll = useWMSStore((state) => state.productsAll);
   const activeDepotId = useWMSStore((state) => state.activeDepotId);
+  const setDrawerLock = useWMSStore(state => state.setDrawerLock);
+  const logAction = useWMSStore(state => state.logAction);
+  
   const products = productsAll[activeDepotId] || {};
 
   const allItems = useMemo(() => {
@@ -40,6 +43,18 @@ const QualityDashboard: React.FC = () => {
       .sort((a, b) => a.days - b.days);
   }, [allItems]);
 
+  const handleFreeze = async () => {
+    if (stats.expired > 0) {
+        const expiredKeys = allItems.filter(i => i.status === 'expired').map(i => i.drawerKey);
+        const uniqueKeys = Array.from(new Set(expiredKeys));
+        for (const key of uniqueKeys) {
+            await setDrawerLock(key, true);
+        }
+        logAction('🔒', 'Bloqueio Massivo', `${uniqueKeys.length} gavetas congeladas por validade.`);
+        alert(`${uniqueKeys.length} gavetas bloqueadas com sucesso!`);
+    }
+  };
+
   return (
     <div className="quality-dashboard">
       <div className="quality-header">
@@ -48,8 +63,8 @@ const QualityDashboard: React.FC = () => {
           <p>Monitoramento preventivo de lotes (FEFO) e gestão de quarentena.</p>
         </div>
         <div className="header-actions">
-          <button className="btn">Relatório de Perdas</button>
-          <button className="btn btn-accent">Bloquear Lotes Vencidos</button>
+          <button className="btn" onClick={() => window.print()}>Relatório de Perdas</button>
+          <button className="btn btn-accent" onClick={handleFreeze}>Bloquear Lotes Vencidos</button>
         </div>
       </div>
 
@@ -88,8 +103,8 @@ const QualityDashboard: React.FC = () => {
                 </div>
               </div>
               <div className="card-actions">
-                <button className="btn-small">Mover para Descarte</button>
-                <button className="btn-small btn-outline">Auditar</button>
+                <button className="btn-small" onClick={() => alert('Movendo para área de quarentena...')}>Mover para Descarte</button>
+                <button className="btn-small btn-outline" onClick={() => alert(`Auditoria solicitada para ${item.code}`)}>Auditar</button>
               </div>
             </div>
           )) : (
