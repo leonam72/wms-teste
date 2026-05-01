@@ -134,7 +134,7 @@ export const useWMSStore = create<AppState & WMSActions>((set, get) => ({
           const data = await getWMSState(activeId);
           get().setFullState(data);
       } catch (err) {
-          console.error("Erro ao atualizar dados do banco SQL");
+          console.error("Erro ao atualizar dados do banco SQL", err);
       }
   },
 

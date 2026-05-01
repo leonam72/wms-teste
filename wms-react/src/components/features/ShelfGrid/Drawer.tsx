@@ -59,7 +59,7 @@ const Drawer: React.FC<DrawerProps> = ({ shelfId, floor, drawer, onClick, active
     isVisible = uniqueSkus.size >= 2;
   }
 
-  if (addressSearch && !key.includes(addressSearch)) {
+  if (addressSearch && !key.toLowerCase().includes(addressSearch.toLowerCase())) {
     isVisible = false;
   }
 
