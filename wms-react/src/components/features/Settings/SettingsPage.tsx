@@ -13,6 +13,7 @@ const SettingsPage: React.FC = () => {
   const deleteDepot = useWMSStore(state => state.deleteDepot);
   const clearAudit = useWMSStore(state => state.clearAudit);
   const logAction = useWMSStore(state => state.logAction);
+  const showDialog = useWMSStore(state => state.showDialog);
 
   const [editData, setEditData] = useState(activeDepot || { name: '', manager: '', phone: '', address: '' });
 
@@ -20,22 +21,40 @@ const SettingsPage: React.FC = () => {
     if (activeDepotId) {
         updateDepot(activeDepotId, editData);
         logAction('⚙️', 'Ajuste Config', `Dados do depósito ${activeDepotId} atualizados`);
-        alert('Dados salvos com sucesso!');
+        showDialog({
+          type: 'alert',
+          title: 'DADOS ATUALIZADOS',
+          message: 'As informações da unidade foram sincronizadas com o banco de dados SQL.'
+        });
     }
   };
 
   const handleDeleteDepot = async () => {
-    if (confirm(`Tem certeza que deseja apagar o depósito "${activeDepot?.name}"? ESTA AÇÃO É IRREVERSÍVEL.`)) {
+    showDialog({
+      type: 'confirm',
+      title: '⚠ EXCLUIR DEPÓSITO',
+      message: `Tem certeza que deseja apagar o depósito "${activeDepot?.name}"? TODOS os dados, prateleiras e estoque serão removidos permanentemente.`,
+      onConfirm: async () => {
         await deleteDepot(activeDepotId);
-        window.location.href = '/'; // Redireciona para resetar o estado
-    }
+        window.location.href = '/'; 
+      }
+    });
   };
 
   const handleClearAudit = async () => {
-    if (confirm('Deseja limpar TODO o histórico de auditoria do sistema?')) {
+    showDialog({
+      type: 'confirm',
+      title: 'LIMPAR AUDITORIA',
+      message: 'Deseja remover permanentemente TODO o histórico de auditoria do sistema? Esta ação é irreversível.',
+      onConfirm: async () => {
         await clearAudit();
-        alert('Histórico removido.');
-    }
+        showDialog({
+          type: 'alert',
+          title: 'LIMPEZA CONCLUÍDA',
+          message: 'O rastro de auditoria foi totalmente zerado.'
+        });
+      }
+    });
   };
 
   const handleExport = () => {

@@ -14,6 +14,7 @@ interface Dock {
 const LogisticsControlV2: React.FC = () => {
   const activeDepotId = useWMSStore(state => state.activeDepotId);
   const updateDockStatus = useWMSStore(state => state.updateDockStatus);
+  const showDialog = useWMSStore(state => state.showDialog);
   const [docks, setDocks] = useState<Dock[]>([]);
   const [now, setNow] = useState(Date.now());
 
@@ -34,18 +35,29 @@ const LogisticsControlV2: React.FC = () => {
   }, [activeDepotId]);
 
   const handleStart = async (dockId: string) => {
-    const carrier = prompt('Nome da Transportadora:');
-    if (carrier) {
-        await updateDockStatus(dockId, 'Ativo', carrier, Date.now());
-        fetchDocks();
-    }
+    showDialog({
+      type: 'prompt',
+      title: 'INICIAR OPERAÇÃO',
+      message: 'Informe o nome da transportadora para iniciar o descarregamento:',
+      onConfirm: async (carrier) => {
+        if (carrier) {
+          await updateDockStatus(dockId, 'Ativo', carrier, Date.now());
+          fetchDocks();
+        }
+      }
+    });
   };
 
   const handleFinish = async (dockId: string) => {
-    if (confirm('Deseja finalizar a operação e liberar a doca?')) {
+    showDialog({
+      type: 'confirm',
+      title: 'FINALIZAR DOCA',
+      message: 'Deseja finalizar a operação e liberar a doca para uma nova unidade?',
+      onConfirm: async () => {
         await updateDockStatus(dockId, 'Livre', '', 0);
         fetchDocks();
-    }
+      }
+    });
   };
 
   useEffect(() => {
@@ -78,6 +90,21 @@ const LogisticsControlV2: React.FC = () => {
         {docks.map((dock) => (
           <div key={dock.id} className={`dock-card ${dock.status.toLowerCase()}`}>
             <div className="dock-label">{dock.code}</div>
+            <div className="dock-content" style={{ display: 'flex', justifyContent: 'space-between', padding: '16px' }}>
+              <div className="dock-info">
+                <h3>{dock.type === 'Inbound' ? '📦 Descarga' : '🚚 Carga'}</h3>
+                <p className="carrier" style={{ fontSize: '13px', color: 'var(--text2)', margin: '4px 0 12px' }}>
+                  {dock.carrier || 'Unidade Livre'}
+                </p>
+                <div className={`status-badge ${dock.status.toLowerCase()}`}>{dock.status}</div>
+              </div>
+              {dock.status === 'Ativo' && dock.startTime && (
+                <div className="dock-timer">
+                  <span className="timer-icon">🕒</span>
+                  <span className="timer-value">{formatTime(now - dock.startTime)}</span>
+                </div>
+              )}
+            </div>
             <div className="dock-actions">
               <button className="btn-v2 btn-outline">Ver Detalhes</button>
               {dock.status === 'Ativo' ? (

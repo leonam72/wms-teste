@@ -26,6 +26,7 @@ import AuditLogPage from './components/features/Audit/AuditLogPage';
 import DebugProductView from './components/features/Debug/DebugProductView';
 import DepotSelector from './components/features/DepotSelector/DepotSelector';
 import ExpiryModal from './components/features/Quality/ExpiryModal';
+import GlobalDialog from './components/ui/GlobalDialog';
 import { useWMSStore } from './store/useWMSStore';
 import { useToasts } from './hooks/useToasts';
 import './App.css';
@@ -288,6 +289,8 @@ const App: React.FC = () => {
             onNavigate={handleNavigateToDrawer}
          />
       </Modal>
+
+      <GlobalDialog />
 
       <ToastContainer toasts={toasts} onRemove={removeToast} />
     </div>

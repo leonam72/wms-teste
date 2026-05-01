@@ -7,56 +7,60 @@ interface BulkShelfModalProps {
 }
 
 const BulkShelfModal: React.FC<BulkShelfModalProps> = ({ onClose }) => {
-  const activeDepotId = useWMSStore(state => state.activeDepotId);
-  const generateShelves = useWMSStore(state => state.generateShelves);
-  const logAction = useWMSStore(state => state.logAction);
+  const activeDepotId = useWMSStore((state) => state.activeDepotId);
+  const generateShelves = useWMSStore((state) => state.generateShelves);
+  const showDialog = useWMSStore(state => state.showDialog);
 
-  const [count, setCount] = useState(1);
-  const [prefix, setPrefix] = useState('A');
+  const [count, setCount] = useState(5);
+  const [prefix, setPrefix] = useState('D');
   const [floors, setFloors] = useState(6);
   const [drawers, setDrawers] = useState(4);
-  const [maxKg, setMaxKg] = useState(100);
+  const [maxKg, setMaxKg] = useState(500);
 
   const handleGenerate = () => {
-    if (!prefix || count < 1 || floors < 1 || drawers < 1 || maxKg < 1) {
-      alert('Preencha todos os campos com valores válidos.');
+    if (!prefix || count <= 0) {
+      showDialog({
+        type: 'alert',
+        title: 'CAMPOS INVÁLIDOS',
+        message: 'Por favor, preencha o prefixo e a quantidade de prateleiras para gerar o lote.'
+      });
       return;
     }
-
-    generateShelves(activeDepotId, count, prefix.toUpperCase(), floors, drawers, maxKg);
-    logAction('🏗️', 'Criação em Lote', `Criadas ${count} prateleiras a partir de ${prefix.toUpperCase()}`);
+    generateShelves(activeDepotId, count, prefix, floors, drawers, maxKg);
+    showDialog({
+        type: 'alert',
+        title: 'LOTE GERADO',
+        message: `${count} novas prateleiras foram inseridas no layout do depósito ${activeDepotId}.`
+    });
     onClose();
   };
 
   return (
     <div className="bulk-shelf-modal">
-      <div className="form-row">
+      <div className="form-grid">
         <div className="form-group">
-          <label>QTD. DE PRATELEIRAS</label>
-          <input type="number" min="1" value={count} onChange={(e) => setCount(parseInt(e.target.value))} />
+          <label>Quantidade de Prateleiras</label>
+          <input type="number" value={count} onChange={(e) => setCount(parseInt(e.target.value))} />
         </div>
         <div className="form-group">
-          <label>LETRA INICIAL</label>
+          <label>Letra Inicial (Prefixo)</label>
           <input type="text" maxLength={1} value={prefix} onChange={(e) => setPrefix(e.target.value.toUpperCase())} />
         </div>
-      </div>
-      
-      <div className="form-row">
         <div className="form-group">
-          <label>ANDARES POR PRAT.</label>
-          <input type="number" min="1" value={floors} onChange={(e) => setFloors(parseInt(e.target.value))} />
+          <label>Níveis (Andares)</label>
+          <input type="number" value={floors} onChange={(e) => setFloors(parseInt(e.target.value))} />
         </div>
         <div className="form-group">
-          <label>GAVETAS POR ANDAR</label>
-          <input type="number" min="1" value={drawers} onChange={(e) => setDrawers(parseInt(e.target.value))} />
+          <label>Gavetas por Nível</label>
+          <input type="number" value={drawers} onChange={(e) => setDrawers(parseInt(e.target.value))} />
         </div>
-        <div className="form-group">
-          <label>PESO MAX (KG)</label>
-          <input type="number" min="1" value={maxKg} onChange={(e) => setMaxKg(parseInt(e.target.value))} />
+        <div className="form-group full-width">
+          <label>Capacidade Máxima por Gaveta (kg)</label>
+          <input type="number" value={maxKg} onChange={(e) => setMaxKg(parseInt(e.target.value))} />
         </div>
       </div>
 
-      <div className="form-actions">
+      <div className="modal-actions" style={{ marginTop: '24px', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
         <button className="btn" onClick={onClose}>CANCELAR</button>
         <button className="btn btn-accent" onClick={handleGenerate}>GERAR EM LOTE</button>
       </div>

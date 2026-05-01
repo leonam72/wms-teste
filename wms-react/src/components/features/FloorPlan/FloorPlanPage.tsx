@@ -16,6 +16,8 @@ const FloorPlanPage: React.FC = () => {
   const setObjectSelection = useWMSStore((state) => state.setObjectSelection);
   const clearSelection = useWMSStore((state) => state.clearSelection);
   const deleteSelectedObjects = useWMSStore((state) => state.deleteSelectedObjects);
+  const syncCurrentFloorPlan = useWMSStore((state) => state.syncCurrentFloorPlan);
+  const showDialog = useWMSStore(state => state.showDialog);
 
   const [lasso, setLasso] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -24,6 +26,15 @@ const FloorPlanPage: React.FC = () => {
 
   const selectedObjects = objects.filter((o: any) => o.selected);
   const lastSelected = selectedObjects[selectedObjects.length - 1];
+
+  const handleSave = async () => {
+    await syncCurrentFloorPlan();
+    showDialog({
+      type: 'alert',
+      title: 'LAYOUT SALVO',
+      message: 'As coordenadas e dimensões dos elementos foram sincronizadas com o banco SQL.'
+    });
+  };
 
   const handleAddObject = (type: 'shelf' | 'wall' | 'area' | 'text') => {
     const id = `fp-${Date.now()}`;
@@ -89,13 +100,6 @@ const FloorPlanPage: React.FC = () => {
     }
     isDraggingLasso.current = false;
     setLasso(null);
-  };
-
-  const syncCurrentFloorPlan = useWMSStore((state) => state.syncCurrentFloorPlan);
-
-  const handleSave = async () => {
-    await syncCurrentFloorPlan();
-    alert('Layout sincronizado com o banco de dados SQL!');
   };
 
   return (

@@ -10,6 +10,7 @@ const SlottingAdvisorPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'giro' | 'putaway'>('giro');
   
   const executeTransfer = useWMSStore(state => state.executeTransfer);
+  const showDialog = useWMSStore(state => state.showDialog);
 
   const giroSuggestions = useMemo(() => {
     const list: any[] = [];
@@ -31,14 +32,29 @@ const SlottingAdvisorPage: React.FC = () => {
   }, [products]);
 
   const handleRequestMove = async (s: any) => {
-    if (confirm(`Confirmar transferência de ${s.sku} para ${s.suggested}?`)) {
+    showDialog({
+      type: 'confirm',
+      title: 'CONFIRMAR MOVIMENTAÇÃO',
+      message: `Deseja autorizar a IA a mover o produto ${s.sku} de ${s.current} para a zona de giro rápido em ${s.suggested}?`,
+      onConfirm: async () => {
         const success = await executeTransfer(s.current, s.suggested, s.sku, 100);
-        if (success) alert('Movimentação registrada e persistida no SQL!');
-    }
+        if (success) {
+          showDialog({
+            type: 'alert',
+            title: 'OPERACIONALIZADO',
+            message: 'A movimentação foi registrada e persistida no banco de dados SQL.'
+          });
+        }
+      }
+    });
   };
 
   const handleConfirmPutaway = async (s: any) => {
-    alert(`Putaway de ${s.sku} confirmado para ${s.suggested}. Sincronizando com SQL...`);
+    showDialog({
+      type: 'alert',
+      title: 'PUTAWAY CONFIRMADO',
+      message: `O endereçamento de ${s.sku} para ${s.suggested} foi registrado. Sincronizando com o banco SQL...`
+    });
   };
 
   const putawayQueue = [
@@ -109,7 +125,7 @@ const SlottingAdvisorPage: React.FC = () => {
                    <h3>Item em Espera</h3>
                    <div className="p-row"><span>SKU:</span> <strong>{item.sku}</strong></div>
                    <div className="p-row"><span>NOME:</span> <strong>{item.name}</strong></div>
-                   <div className="p-row"><span>QTD:</span> <strong>{item.qty} un</strong></div>
+                   <div className="p-row :"><span>QTD:</span> <strong>{item.qty} un</strong></div>
                    
                    <div className="recommendation-box">
                       <span className="rec-label">RECOMENDAÇÃO IA</span>

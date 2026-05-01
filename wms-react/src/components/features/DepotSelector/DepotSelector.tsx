@@ -7,19 +7,25 @@ const DepotSelector: React.FC = () => {
   const activeDepotId = useWMSStore(state => state.activeDepotId);
   const setActiveDepot = useWMSStore(state => state.setActiveDepot);
   const addDepot = useWMSStore(state => state.addDepot);
+  const showDialog = useWMSStore(state => state.showDialog);
 
   const handleAddDepot = () => {
-    const name = prompt('Nome do novo depósito:');
-    if (name) {
-      const id = 'dep-' + Math.random().toString(36).substr(2, 9);
-      addDepot({ id, name });
-    }
+    showDialog({
+      type: 'prompt',
+      title: 'NOVO DEPÓSITO',
+      message: 'Informe o nome da nova unidade logística:',
+      onConfirm: (name) => {
+        if (name) {
+          addDepot({ id: '', name, createdAt: Date.now() });
+        }
+      }
+    });
   };
 
   return (
     <div className="depot-selector-bar">
       <div className="depot-tabs">
-        {depots.map(depot => (
+        {depots.map((depot) => (
           <button
             key={depot.id}
             className={`depot-tab ${activeDepotId === depot.id ? 'active' : ''}`}

@@ -1,103 +1,100 @@
 import React, { useState } from 'react';
+import { useWMSStore } from '../../../store/useWMSStore';
 import type { Product, Unit } from '../../../types';
 import './ProductForm.css';
 
 interface ProductFormProps {
-  initialData?: Product;
   onSave: (product: Product) => void;
   onCancel: () => void;
+  targetDrawer: string | null;
 }
 
-const UNITS: Unit[] = ['un', 'cx', 'kg', 'lt', 'mt', 'pc', 'pr'];
-
-const ProductForm: React.FC<ProductFormProps> = ({ initialData, onSave, onCancel }) => {
-  const [formData, setFormData] = useState<Product>(initialData || {
-    code: '',
-    name: '',
-    kg: 0,
-    qty: 0,
-    unit: 'un',
-    entry: new Date().toISOString().split('T')[0],
-    expiries: []
-  });
-
+const ProductForm: React.FC<ProductFormProps> = ({ onSave, onCancel, targetDrawer }) => {
+  const showDialog = useWMSStore(state => state.showDialog);
+  const [sku, setSku] = useState('');
+  const [name, setName] = useState('');
+  const [qty, setQty] = useState(1);
+  const [unit, setUnit] = useState<Unit>('un');
+  const [kg, setKg] = useState(0.1);
+  const [expiries, setExpiries] = useState<string[]>([]);
   const [newExpiry, setNewExpiry] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: (name === 'kg' || name === 'qty') ? parseFloat(value) || 0 : value
-    }));
-  };
-
   const addExpiry = () => {
-    if (!newExpiry) return;
-    setFormData(prev => ({
-      ...prev,
-      expiries: [...prev.expiries, newExpiry].sort()
-    }));
-    setNewExpiry('');
+    if (newExpiry) {
+      setExpiries([...expiries, newExpiry]);
+      setNewExpiry('');
+    }
   };
 
-  const removeExpiry = (idx: number) => {
-    setFormData(prev => ({
-      ...prev,
-      expiries: prev.expiries.filter((_, i) => i !== idx)
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.code || !formData.name) {
-      alert('Código e Nome são obrigatórios.');
+    if (!sku || !name) {
+      showDialog({
+        type: 'alert',
+        title: 'CAMPOS OBRIGATÓRIOS',
+        message: 'Por favor, informe o Código (SKU) e o Nome do produto para continuar.'
+      });
       return;
     }
-    onSave(formData);
+
+    onSave({
+      code: sku,
+      name,
+      qty,
+      unit,
+      kg,
+      entry: new Date().toISOString(),
+      expiries
+    });
   };
 
   return (
-    <form className="product-form" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label>CÓDIGO (SKU)</label>
-        <input name="code" value={formData.code} onChange={handleChange} placeholder="ex: P001" required />
+    <form className="product-form" onSubmit={handleSave}>
+      <div className="form-info">
+        Alocando em: <strong>{targetDrawer || 'RECEBIMENTO'}</strong>
       </div>
 
-      <div className="form-group">
-        <label>NOME DO PRODUTO</label>
-        <input name="name" value={formData.name} onChange={handleChange} placeholder="ex: Parafuso Sextavado" required />
-      </div>
+      <div className="form-grid">
+        <div className="form-group">
+          <label>Código (SKU)</label>
+          <input value={sku} onChange={(e) => setSku(e.target.value.toUpperCase())} placeholder="Ex: P001" />
+        </div>
 
-      <div className="form-row">
         <div className="form-group">
-          <label>PESO UNIT (KG)</label>
-          <input type="number" step="0.001" name="kg" value={formData.kg} onChange={handleChange} />
+          <label>Nome do Produto</label>
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Ex: Parafuso M6" />
         </div>
+
         <div className="form-group">
-          <label>QUANTIDADE</label>
-          <input type="number" name="qty" value={formData.qty} onChange={handleChange} />
+          <label>Peso Unitário (kg)</label>
+          <input type="number" step="any" value={kg} onChange={(e) => setKg(parseFloat(e.target.value))} />
         </div>
+
         <div className="form-group">
-          <label>UNIDADE</label>
-          <select name="unit" value={formData.unit} onChange={handleChange}>
-            {UNITS.map(u => <option key={u} value={u}>{u.toUpperCase()}</option>)}
+          <label>Quantidade</label>
+          <input type="number" value={qty} onChange={(e) => setQty(parseInt(e.target.value))} />
+        </div>
+
+        <div className="form-group">
+          <label>Unidade</label>
+          <select value={unit} onChange={(e) => setUnit(e.target.value as Unit)}>
+            <option value="un">UN</option>
+            <option value="cx">CX</option>
+            <option value="kg">KG</option>
           </select>
         </div>
-      </div>
 
-      <div className="expiry-section">
-        <label>DATAS DE VALIDADE (LOTES)</label>
-        <div className="expiry-input-row">
-          <input type="date" value={newExpiry} onChange={(e) => setNewExpiry(e.target.value)} />
-          <button type="button" className="btn btn-accent" onClick={addExpiry}>+ ADD</button>
-        </div>
-        <div className="expiry-chips">
-          {formData.expiries.map((date, i) => (
-            <div key={i} className="expiry-chip">
-              {new Date(date).toLocaleDateString('pt-BR')}
-              <span className="remove" onClick={() => removeExpiry(i)}>&times;</span>
-            </div>
-          ))}
+        <div className="form-group full-width">
+          <label>Validades (Opcional)</label>
+          <div className="flex gap-2">
+            <input type="date" value={newExpiry} onChange={(e) => setNewExpiry(e.target.value)} />
+            <button type="button" className="btn btn-accent" onClick={addExpiry}>+ ADD</button>
+          </div>
+          <div className="expiry-list">
+            {expiries.map((ex, i) => (
+              <span key={i} className="expiry-chip">{ex}</span>
+            ))}
+          </div>
         </div>
       </div>
 

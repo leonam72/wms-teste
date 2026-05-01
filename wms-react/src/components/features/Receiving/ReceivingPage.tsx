@@ -23,6 +23,7 @@ const ReceivingPage: React.FC = () => {
   const { addToast } = useToasts();
   const addProductToDrawer = useWMSStore(state => state.addProductToDrawer);
   const logAction = useWMSStore(state => state.logAction);
+  const showDialog = useWMSStore(state => state.showDialog);
 
   const stats = useMemo(() => {
     const totalDivergences = items.filter(i => i.expected !== i.counted).length;
@@ -53,10 +54,18 @@ const ReceivingPage: React.FC = () => {
           setItems(newItems);
           addToast(`${parsedItems.length} itens carregados do XML`, 'success');
         } else {
-          alert('Nenhum produto encontrado no XML.');
+          showDialog({
+            type: 'alert',
+            title: 'XML SEM ITENS',
+            message: 'Nenhum produto foi localizado no arquivo XML enviado.'
+          });
         }
       } catch (err) {
-        alert('Erro ao processar o arquivo XML. Formato inválido.');
+        showDialog({
+          type: 'alert',
+          title: 'FALHA NO PROCESSAMENTO',
+          message: 'O formato do XML da NF-e é inválido ou está corrompido.'
+        });
       }
     };
     reader.readAsText(file);
@@ -69,21 +78,30 @@ const ReceivingPage: React.FC = () => {
   };
 
   const handleConclude = async () => {
-    if (confirm('Deseja concluir o recebimento e enviar para alocação?')) {
+    showDialog({
+      type: 'confirm',
+      title: 'CONCLUIR CONFERÊNCIA',
+      message: 'Deseja finalizar o recebimento deste lote e liberar para alocação?',
+      onConfirm: async () => {
         for (const item of items) {
-            await addProductToDrawer('RECEBIMENTO', {
-                code: item.sku,
-                name: item.name,
-                qty: item.counted,
-                unit: 'un',
-                kg: 1,
-                entry: new Date().toISOString(),
-                expiries: []
-            });
+          await addProductToDrawer('RECEBIMENTO', {
+            code: item.sku,
+            name: item.name,
+            qty: item.counted,
+            unit: 'un',
+            kg: 1,
+            entry: new Date().toISOString(),
+            expiries: []
+          });
         }
         logAction('📥', 'Recebimento Concluído', `Lote processado no SQL.`);
-        alert('Produtos enviados para a fila de alocação (Slotting)!');
-    }
+        showDialog({
+          type: 'alert',
+          title: 'OPERAÇÃO CONCLUÍDA',
+          message: 'O lote foi processado. Os produtos agora aguardam alocação na fila de Slotting.'
+        });
+      }
+    });
   };
 
   return (

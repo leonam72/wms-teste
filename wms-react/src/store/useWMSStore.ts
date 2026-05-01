@@ -72,6 +72,16 @@ export type HistoryItem = {
 
 export type FilterType = 'occupied' | 'empty' | 'expired' | 'expiring' | 'multi' | 'selected' | 'low_stock' | 'no_expiry' | null;
 
+export interface DialogState {
+  isOpen: boolean;
+  type: 'alert' | 'confirm' | 'prompt';
+  title: string;
+  message: string;
+  defaultValue?: string;
+  onConfirm?: (value?: string) => void;
+  onCancel?: () => void;
+}
+
 export interface AppState {
   depots: Depot[];
   activeDepotId: string;
@@ -85,6 +95,7 @@ export interface AppState {
     fromKey: string;
     product: Product;
   } | null;
+  dialog: DialogState;
 }
 
 interface WMSActions {
@@ -115,8 +126,11 @@ interface WMSActions {
   executeTransfer: (fromKey: string, toKey: string, productCode: string, qty: number) => Promise<boolean>;
   setDrawerLock: (drawerKey: string, locked: boolean) => void;
   generateShelves: (depotId: string, count: number, startPrefix: string, floors: number, drawers: number, maxKg: number) => void;
+  showDialog: (config: Omit<DialogState, 'isOpen'>) => void;
+  closeDialog: () => void;
 }
 
+// ... rest of the store implementation
 export const useWMSStore = create<AppState & WMSActions>((set, get) => ({
   depots: [],
   activeDepotId: 'dep1',
@@ -127,6 +141,15 @@ export const useWMSStore = create<AppState & WMSActions>((set, get) => ({
   fpZoom: 1,
   drawerLocks: {},
   moveContext: null,
+  dialog: {
+    isOpen: false,
+    type: 'alert',
+    title: '',
+    message: ''
+  },
+
+  showDialog: (config) => set({ dialog: { ...config, isOpen: true } }),
+  closeDialog: () => set((state) => ({ dialog: { ...state.dialog, isOpen: false } })),
 
   refreshState: async () => {
       const activeId = get().activeDepotId;
